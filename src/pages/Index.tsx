@@ -10,12 +10,17 @@ import {
   Landmark,
   HeartPulse,
   Eye,
+  Heart,
+  Flame,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/reports";
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import EmergencyBanner from "@/components/EmergencyContacts";
+import { directoryStats } from "@/data/tanzania_directory";
+import { facilityStats } from "@/data/health_facilities";
+import { fireStats } from "@/data/fire_stations";
 
 const categoryIcons: Record<ReportCategory, React.ReactNode> = {
   service_delivery: <Droplets className="w-4 h-4" />,
@@ -77,10 +82,10 @@ export default function Index() {
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { value: "2,847", label: "Ripoti Zilizotumwa", sub: "Reports Filed", icon: AlertTriangle },
-              { value: "156", label: "Viongozi", sub: "Officials Listed", icon: Users },
+              { value: String(directoryStats.totalOfficials), label: "Viongozi", sub: "Officials Listed", icon: Users },
+              { value: String(facilityStats.total), label: "Hospitali", sub: "Health Facilities", icon: Heart },
+              { value: String(fireStats.totalStations), label: "Vituo vya Zimamoto", sub: "Fire Stations", icon: Flame },
               { value: "78%", label: "Kiwango cha Majibu", sub: "Response Rate", icon: TrendingUp },
-              { value: "1,204", label: "Masuala Yaliyotatuliwa", sub: "Issues Resolved", icon: HeartPulse },
             ].map((stat) => (
               <div key={stat.sub} className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 text-accent mb-3">
