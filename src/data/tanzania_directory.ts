@@ -61,21 +61,23 @@ tanzaniaRegions.forEach((r) => {
 // ============================================================
 
 export type OfficialRole =
-  | "RC"        // Regional Commissioner
-  | "RAS"       // Regional Administrative Secretary
-  | "DC"        // District Commissioner
-  | "DED"       // District Executive Director
-  | "MP"        // Member of Parliament
-  | "RPC"       // Regional Police Commander
-  | "OCD"       // Officer Commanding District
-  | "Judge"     // Judge/Magistrate
-  | "Minister"  // Cabinet Minister
-  | "President" // President/VP/PM
-  | "Speaker"   // Speaker of Parliament
-  | "IGP"       // Inspector General of Police
-  | "CJ"        // Chief Justice
-  | "PCCB"      // Anti-Graft / TAKUKURU
-  | "Emergency"; // Emergency Services
+  | "RC"             // Regional Commissioner
+  | "RAS"            // Regional Administrative Secretary
+  | "DC"             // District Commissioner
+  | "DED"            // District Executive Director
+  | "MP"             // Member of Parliament
+  | "RPC"            // Regional Police Commander
+  | "OCD"            // Officer Commanding District
+  | "Judge"          // Judge/Magistrate
+  | "Minister"       // Cabinet Minister
+  | "DeputyMinister" // Deputy Minister
+  | "PS"             // Permanent Secretary
+  | "President"      // President/VP/PM
+  | "Speaker"        // Speaker of Parliament
+  | "IGP"            // Inspector General of Police
+  | "CJ"             // Chief Justice
+  | "PCCB"           // Anti-Graft / TAKUKURU
+  | "Emergency";     // Emergency Services
 
 export const roleLabels: Record<OfficialRole, string> = {
   RC: "Mkuu wa Mkoa",
@@ -87,6 +89,8 @@ export const roleLabels: Record<OfficialRole, string> = {
   OCD: "Kamanda wa Polisi Wilaya",
   Judge: "Jaji/Hakimu",
   Minister: "Waziri",
+  DeputyMinister: "Naibu Waziri",
+  PS: "Katibu Mkuu (PS)",
   President: "Rais/Makamu/Waziri Mkuu",
   Speaker: "Spika",
   IGP: "Inspekta Jenerali wa Polisi",
@@ -105,6 +109,8 @@ export const roleBadgeColors: Record<OfficialRole, string> = {
   OCD: "bg-destructive/10 text-destructive border-destructive/20",
   Judge: "bg-destructive/10 text-destructive border-destructive/20",
   Minister: "bg-primary/15 text-primary border-primary/25",
+  DeputyMinister: "bg-primary/10 text-primary border-primary/15",
+  PS: "bg-secondary text-foreground border-border",
   President: "bg-primary/15 text-primary border-primary/25",
   Speaker: "bg-gold/15 text-foreground border-gold/30",
   IGP: "bg-destructive/10 text-destructive border-destructive/20",
