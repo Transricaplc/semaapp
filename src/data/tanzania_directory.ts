@@ -1,3 +1,5 @@
+import { mpData, getMPsByRegion, getMPsByDistrict, type MPEntry } from "./mps_data";
+
 /**
  * Tanzania Administrative Divisions + Officials Directory
  * All 31 regions with their districts, plus mapped officials
@@ -422,11 +424,39 @@ const coreOfficials: Official[] = [
   { id: "judge-dodoma", name: "Jaji Mkazi wa Mahakama Kuu Dodoma", role: "Judge", roleTitle: "Jaji Mkazi - Mahakama Kuu", region: "Dodoma", district: "", constituency: "", party: "", phone: "", email: "hc.dodoma@judiciary.go.tz", office: "Mahakama Kuu, Dodoma", photoUrl: "", verified: false, source: "judiciary.go.tz", lastVerified: "2026-03-08" },
 ];
 
-// ── MERGE: core + generated police (no duplicates by ID) ──
+// ── GENERATE MP OFFICIALS FROM mps_data ──
+function generateMPOfficials(): Official[] {
+  return mpData.map((mp, i) => ({
+    id: `mp-${mp.constituency.toLowerCase().replace(/[^a-z0-9]/g, "-")}`,
+    name: mp.name,
+    role: "MP" as OfficialRole,
+    roleTitle: `Mbunge — ${mp.constituency}`,
+    region: mp.region,
+    district: mp.district,
+    constituency: mp.constituency,
+    party: mp.party,
+    phone: "",
+    email: `${mp.name.split(" ").pop()?.toLowerCase() || "mp"}@bunge.go.tz`,
+    office: `Bunge la Tanzania, Dodoma / Jimbo la ${mp.constituency}`,
+    photoUrl: "",
+    verified: false,
+    source: "bunge.go.tz / Wikipedia",
+    lastVerified: "2026-03-08",
+  }));
+}
+
+const generatedMPOfficials = generateMPOfficials();
+
+// ── MERGE: core + generated police + MPs (no duplicates by ID) ──
 const idSet = new Set(coreOfficials.map((o) => o.id));
 export const officials: Official[] = [
   ...coreOfficials,
   ...generatedPoliceOfficials.filter((o) => !idSet.has(o.id)),
+  ...generatedMPOfficials.filter((o) => {
+    if (idSet.has(o.id)) return false;
+    idSet.add(o.id);
+    return true;
+  }),
 ];
 
 // ============================================================
@@ -474,6 +504,16 @@ export function getYourOfficials(region: string, district?: string): Official[] 
     if (dc) result.push(dc);
   }
 
+  // MP(s) for the district
+  if (district) {
+    const mps = officials.filter((o) => o.region === region && o.district === district && o.role === "MP");
+    mps.forEach((mp) => result.push(mp));
+  } else {
+    // Show first 3 MPs for the region if no district selected
+    const regionMps = officials.filter((o) => o.region === region && o.role === "MP").slice(0, 3);
+    regionMps.forEach((mp) => result.push(mp));
+  }
+
   // RPC for the region
   const rpc = officials.find((o) => o.region === region && o.role === "RPC");
   if (rpc) result.push(rpc);
@@ -502,6 +542,9 @@ export function getYourOfficials(region: string, district?: string): Official[] 
 
   return result;
 }
+
+/** Re-export MP utilities */
+export { getMPsByRegion, getMPsByDistrict, mpData, type MPEntry } from "./mps_data";
 
 /** Get all national-level officials */
 export function getNationalOfficials(): Official[] {

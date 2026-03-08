@@ -1,4 +1,5 @@
 import serikaliData from "./serikali_data.json";
+import { mpData } from "./mps_data";
 
 // ============================================================
 // TYPE DEFINITIONS — Schema for the National Directory
@@ -37,7 +38,33 @@ export interface SerikaliMeta {
 // ============================================================
 
 export const serikaliMeta: SerikaliMeta = serikaliData._meta as unknown as SerikaliMeta;
-export const viongoziWote: Kiongozi[] = serikaliData.viongozi as unknown as Kiongozi[];
+
+// Convert MP data to Kiongozi format for the Bunge tab
+const mpViongozi: Kiongozi[] = mpData.map((mp) => ({
+  id: `mp-${mp.constituency.toLowerCase().replace(/[^a-z0-9]/g, "-")}`,
+  jina: mp.name,
+  wadhifa: `Mbunge — ${mp.constituency}`,
+  mhimili: "Legislature" as Mhimili,
+  ngazi: "Jimbo/Kata" as Ngazi,
+  mkoa: mp.region,
+  wilaya: mp.district,
+  jimbo: mp.constituency,
+  chama: mp.party,
+  simu: "",
+  barua_pepe: `${mp.name.split(" ").pop()?.toLowerCase() || "mp"}@bunge.go.tz`,
+  ofisi: `Bunge la Tanzania / Jimbo la ${mp.constituency}`,
+  picha_url: "",
+  chanzo: "bunge.go.tz / Wikipedia",
+  tarehe_uhakiki: "2026-03-08",
+}));
+
+// Merge static JSON data with generated MP data (dedup by ID)
+const jsonViongozi = serikaliData.viongozi as unknown as Kiongozi[];
+const existingIds = new Set(jsonViongozi.map((k) => k.id));
+export const viongoziWote: Kiongozi[] = [
+  ...jsonViongozi,
+  ...mpViongozi.filter((mp) => !existingIds.has(mp.id)),
+];
 
 // ============================================================
 // DERIVED LOOKUPS
