@@ -1,9 +1,6 @@
 import { useState, useMemo } from "react";
 import {
   Search,
-  Phone,
-  Mail,
-  FileText,
   User,
   MapPin,
   Landmark,
@@ -13,23 +10,24 @@ import {
   ChevronDown,
   X,
   Filter,
+  AlertTriangle,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link } from "react-router-dom";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   viongoziWote,
   mikoa,
   wilayaByMkoa,
   ngaziZote,
   ngaziLabels,
-  mhimiliLabels,
   serikaliMeta,
   type Kiongozi,
   type Mhimili,
   type Ngazi,
 } from "@/data/serikali";
+import KiongoziCard from "@/components/KiongoziCard";
+import ConstituencyFinder from "@/components/ConstituencyFinder";
 
 // ============================================================
 // TAB CONFIG
@@ -41,6 +39,26 @@ const tabs: { value: Mhimili; label: string; icon: React.ElementType }[] = [
   { value: "LocalGov", label: "Serikali za Mitaa", icon: MapPin },
   { value: "Judiciary", label: "Mahakama & Usalama", icon: Scale },
 ];
+
+// Data completeness audit
+const dataAudit: Record<Mhimili, { total: number; gaps: string[] }> = {
+  Executive: {
+    total: viongoziWote.filter((k) => k.mhimili === "Executive").length,
+    gaps: ["Mawaziri (Ministers)", "Naibu Mawaziri", "Makatibu Wakuu (PS)"],
+  },
+  Legislature: {
+    total: viongoziWote.filter((k) => k.mhimili === "Legislature").length,
+    gaps: ["Wabunge wote (All MPs)", "Wenyeviti wa Kamati"],
+  },
+  LocalGov: {
+    total: viongoziWote.filter((k) => k.mhimili === "LocalGov").length,
+    gaps: ["Wakurugenzi wa Halmashauri (DEDs)", "Madiwani wa Kata"],
+  },
+  Judiciary: {
+    total: viongoziWote.filter((k) => k.mhimili === "Judiciary").length,
+    gaps: ["Wakuu wa Polisi Mkoa (RPCs)", "Rejista za Mahakama"],
+  },
+};
 
 // ============================================================
 // MAIN PAGE
@@ -87,7 +105,6 @@ export default function SerikaliDirectory() {
     });
   }, [activeTab, search, selectedMkoa, selectedWilaya, selectedNgazi]);
 
-  // Group results by ngazi
   const grouped = useMemo(() => {
     const groups: Record<string, Kiongozi[]> = {};
     filtered.forEach((k) => {
@@ -99,6 +116,7 @@ export default function SerikaliDirectory() {
   }, [filtered]);
 
   const ngaziOrder: Ngazi[] = ["Kitaifa", "Mkoa", "Wilaya", "Jimbo/Kata"];
+  const currentAudit = dataAudit[activeTab];
 
   return (
     <div className="animate-fade-in">
@@ -116,7 +134,6 @@ export default function SerikaliDirectory() {
             Saka na wasiliana na viongozi wako — Tafuta kwa jina, mkoa, au wadhifa
           </p>
 
-          {/* Search — "Saka" Tool */}
           <div className="relative max-w-xl mx-auto">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
@@ -130,6 +147,9 @@ export default function SerikaliDirectory() {
       </section>
 
       <div className="container max-w-5xl py-6">
+        {/* Constituency Finder */}
+        <ConstituencyFinder />
+
         {/* Tabs */}
         <Tabs
           value={activeTab}
@@ -150,6 +170,21 @@ export default function SerikaliDirectory() {
             ))}
           </TabsList>
         </Tabs>
+
+        {/* Data completeness notice */}
+        {currentAudit.gaps.length > 0 && (
+          <div className="flex items-start gap-3 p-3 rounded-xl bg-gold/10 border border-gold/20 mb-4 text-sm">
+            <AlertTriangle className="w-4 h-4 text-gold mt-0.5 shrink-0" />
+            <div>
+              <span className="font-medium text-foreground">
+                Taarifa {currentAudit.total} zimepatikana.
+              </span>{" "}
+              <span className="text-muted-foreground">
+                Bado tunaongeza: {currentAudit.gaps.join(", ")}.
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Filters toolbar */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -174,15 +209,12 @@ export default function SerikaliDirectory() {
           </span>
         </div>
 
-        {/* Filter Panel — "Saka" Tool */}
+        {/* Filter Panel */}
         {showFilters && (
           <div className="glass-card rounded-xl p-4 md:p-5 mb-6 animate-fade-in">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {/* Chagua Mkoa */}
               <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
-                  Chagua Mkoa
-                </label>
+                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Chagua Mkoa</label>
                 <select
                   value={selectedMkoa}
                   onChange={(e) => handleMkoaChange(e.target.value)}
@@ -194,12 +226,8 @@ export default function SerikaliDirectory() {
                   ))}
                 </select>
               </div>
-
-              {/* Chagua Wilaya */}
               <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
-                  Chagua Wilaya
-                </label>
+                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Chagua Wilaya</label>
                 <select
                   value={selectedWilaya}
                   onChange={(e) => setSelectedWilaya(e.target.value)}
@@ -212,12 +240,8 @@ export default function SerikaliDirectory() {
                   ))}
                 </select>
               </div>
-
-              {/* Chagua Ngazi */}
               <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
-                  Chagua Ngazi
-                </label>
+                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Chagua Ngazi</label>
                 <select
                   value={selectedNgazi}
                   onChange={(e) => setSelectedNgazi(e.target.value)}
@@ -267,92 +291,6 @@ export default function SerikaliDirectory() {
             Taarifa: v{serikaliMeta.version} · Imesasishwa: {serikaliMeta.last_updated} · Chanzo: {serikaliMeta.source}
           </p>
         </div>
-      </div>
-    </div>
-  );
-}
-
-// ============================================================
-// KIONGOZI CARD COMPONENT
-// ============================================================
-
-function KiongoziCard({ kiongozi }: { kiongozi: Kiongozi }) {
-  const mhimiliColor = (m: Mhimili) => {
-    switch (m) {
-      case "Executive": return "bg-primary/10 text-primary border border-primary/20";
-      case "Legislature": return "bg-gold/15 text-foreground border border-gold/30";
-      case "LocalGov": return "bg-accent/15 text-accent border border-accent/25";
-      case "Judiciary": return "bg-destructive/10 text-destructive border border-destructive/20";
-      default: return "bg-secondary text-muted-foreground";
-    }
-  };
-
-  return (
-    <div className="glass-card rounded-xl p-4 md:p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-md transition-shadow">
-      {/* Avatar */}
-      <div className="w-14 h-14 rounded-xl gradient-navy flex items-center justify-center shrink-0">
-        {kiongozi.picha_url ? (
-          <img
-            src={kiongozi.picha_url}
-            alt={kiongozi.jina}
-            className="w-full h-full rounded-xl object-cover"
-          />
-        ) : (
-          <User className="w-7 h-7 text-primary-foreground" />
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-foreground">{kiongozi.jina}</h3>
-        <p className="text-sm text-muted-foreground">{kiongozi.wadhifa}</p>
-        <div className="flex flex-wrap items-center gap-2 mt-1.5">
-          {kiongozi.ofisi && (
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <MapPin className="w-3 h-3" />
-              {kiongozi.ofisi}
-            </span>
-          )}
-          {kiongozi.mkoa && (
-            <span className={`text-[11px] px-2 py-0.5 rounded-md font-medium ${mhimiliColor(kiongozi.mhimili)}`}>
-              {kiongozi.mkoa}
-            </span>
-          )}
-          {kiongozi.chama && (
-            <span className="text-[11px] px-2 py-0.5 rounded-md font-medium bg-secondary text-muted-foreground">
-              {kiongozi.chama}
-            </span>
-          )}
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="flex sm:flex-col gap-2 shrink-0">
-        {kiongozi.simu && (
-          <a
-            href={`tel:${kiongozi.simu}`}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg gradient-green text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            <Phone className="w-4 h-4" />
-            <span className="hidden sm:inline">Piga Simu</span>
-          </a>
-        )}
-        {kiongozi.barua_pepe && (
-          <a
-            href={`mailto:${kiongozi.barua_pepe}`}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-foreground text-sm font-medium hover:bg-secondary transition-colors"
-          >
-            <Mail className="w-4 h-4" />
-            <span className="hidden sm:inline">Barua Pepe</span>
-          </a>
-        )}
-        <Link
-          to="/report"
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gold/15 text-foreground border border-gold/30 text-sm font-medium hover:bg-gold/25 transition-colors"
-        >
-          <FileText className="w-4 h-4" />
-          <span className="hidden sm:inline">Tuma Ripoti</span>
-        </Link>
       </div>
     </div>
   );
