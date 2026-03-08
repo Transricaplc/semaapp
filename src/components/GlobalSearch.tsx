@@ -135,6 +135,29 @@ export default function GlobalSearch() {
                     ))}
                   </>
                 )}
+
+                {/* Agencies */}
+                {agencyResults.length > 0 && (
+                  <>
+                    <div className="px-4 py-1.5 bg-primary/5 text-[10px] font-medium text-primary flex items-center gap-1">
+                      <Building className="w-3 h-3" /> Taasisi za Serikali
+                    </div>
+                    {agencyResults.map((a) => (
+                      <div key={a.id} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors">
+                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <Building className="w-5 h-5 text-primary" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm text-foreground truncate">{a.acronym} — {a.agency}</p>
+                          <p className="text-xs text-muted-foreground truncate">{a.head} · {a.headTitle}</p>
+                        </div>
+                        {a.contacts.phone && (
+                          <a href={`tel:${a.contacts.phone}`} className="text-xs font-bold text-primary shrink-0">{a.contacts.phone}</a>
+                        )}
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
               <div className="p-3 border-t border-border/50 text-center">
                 <button

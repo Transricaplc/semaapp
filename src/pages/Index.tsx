@@ -85,8 +85,8 @@ export default function Index() {
             {[
               { value: String(directoryStats.totalOfficials), label: "Viongozi", sub: "Officials Listed", icon: Users },
               { value: String(facilityStats.total), label: "Hospitali", sub: "Health Facilities", icon: Heart },
-              { value: String(fireStats.totalStations), label: "Vituo vya Zimamoto", sub: "Fire Stations", icon: Flame },
-              { value: "78%", label: "Kiwango cha Majibu", sub: "Response Rate", icon: TrendingUp },
+              { value: String(agencyStats.totalAgencies), label: "Taasisi", sub: "Govt Agencies", icon: Landmark },
+              { value: String(fireStats.totalStations), label: "Zimamoto", sub: "Fire Stations", icon: Flame },
             ].map((stat) => (
               <div key={stat.sub} className="text-center">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-accent/10 text-accent mb-3">

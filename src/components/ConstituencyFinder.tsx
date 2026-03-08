@@ -237,6 +237,37 @@ export default function ConstituencyFinder() {
                   )}
                 </div>
               )}
+
+                  {/* Agency Zonal Offices */}
+                  {nearbyAgencies.length > 0 && (
+                    <div className="mt-3">
+                      <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
+                        <Building className="w-3 h-3 text-primary" />
+                        Taasisi za Serikali ({nearbyAgencies.length})
+                      </p>
+                      <div className="grid gap-2">
+                        {nearbyAgencies.map(({ agency, office }) => (
+                          <div key={`${agency.id}-${office.zone}`} className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/5 border border-primary/10">
+                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                              <Building className="w-4 h-4 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-foreground truncate">{agency.acronym} — {office.zone}</p>
+                              <p className="text-[10px] text-muted-foreground">{office.manager}</p>
+                            </div>
+                            {office.phone && (
+                              <a href={`tel:${office.phone}`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-bold hover:bg-primary/20 transition-colors shrink-0">
+                                <Phone className="w-3 h-3" />
+                                {office.phone}
+                              </a>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
