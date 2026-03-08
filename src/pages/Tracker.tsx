@@ -23,10 +23,10 @@ export default function Tracker() {
 
   return (
     <div className="animate-fade-in">
-      <section className="gradient-navy py-10">
+      <section className="bg-yb-charcoal py-10">
         <div className="container max-w-3xl text-center">
-          <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary-foreground mb-2">{t("tracker.title")}</h1>
-          <p className="text-primary-foreground/60 text-sm">{t("tracker.subtitle")}</p>
+          <h1 className="text-2xl md:text-3xl font-heading font-bold text-white mb-2">{t("tracker.title")}</h1>
+          <p className="text-yb-charcoal-muted text-sm">{t("tracker.subtitle")}</p>
         </div>
       </section>
 
@@ -36,8 +36,8 @@ export default function Tracker() {
             const count = mockReports.filter((r) => r.status === status).length;
             const config = statusConfig[status];
             return (
-              <div key={status} className="glass-card rounded-xl p-4 text-center">
-                <config.icon className="w-5 h-5 mx-auto mb-2 text-accent" />
+              <div key={status} className="yb-card p-4 text-center">
+                <config.icon className="w-5 h-5 mx-auto mb-2 text-primary" />
                 <div className="text-2xl font-heading font-bold text-foreground">{count}</div>
                 <div className="text-xs text-muted-foreground mt-0.5">{statusLabelsLocal[status]}</div>
               </div>
@@ -50,13 +50,13 @@ export default function Tracker() {
             const config = statusConfig[report.status];
             const currentIdx = statusSteps.indexOf(report.status);
             return (
-              <div key={report.id} className="glass-card rounded-2xl p-5 md:p-6">
+              <div key={report.id} className="yb-card p-5 md:p-6">
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       {report.anonymous && (
                         <span className="flex items-center gap-1 text-[10px] bg-secondary text-muted-foreground px-2 py-0.5 rounded-md">
-                          <Eye className="w-3 h-3" /> {t("common.anonymous")}
+                          <Eye className="w-3 h-3" /> Anonymous
                         </span>
                       )}
                       <span className="text-xs text-muted-foreground">{report.id}</span>
@@ -72,7 +72,7 @@ export default function Tracker() {
                 <div className="flex items-center gap-1 mb-3">
                   {statusSteps.map((s, i) => (
                     <div key={s} className="flex-1 flex items-center gap-1">
-                      <div className={`h-1.5 flex-1 rounded-full transition-colors ${i <= currentIdx ? "bg-accent" : "bg-border"}`} />
+                      <div className={`h-1.5 flex-1 rounded-full transition-colors ${i <= currentIdx ? "bg-primary" : "bg-border"}`} />
                     </div>
                   ))}
                 </div>

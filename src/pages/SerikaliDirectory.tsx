@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import {
   Search, User, MapPin, Landmark, Building2, Scale, Shield,
-  ChevronDown, X, Filter, Banknote, Building,
+  ChevronDown, X, Filter, Banknote, Building, BookOpen,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,7 +16,6 @@ import SecureActionCard from "@/components/SecureActionCard";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import LocalGovPanel from "@/components/LocalGovPanel";
 
-// ── Tab definitions ──
 type DirectoryTab = "serikali" | "wakala" | "benki";
 
 const tabs: { value: DirectoryTab; label: string; shortLabel: string; icon: React.ElementType }[] = [
@@ -25,7 +24,6 @@ const tabs: { value: DirectoryTab; label: string; shortLabel: string; icon: Reac
   { value: "benki", label: "Banking Institutions", shortLabel: "Banking", icon: Banknote },
 ];
 
-// Sub-tabs for serikali
 type SerikaliSubTab = "executive" | "parliament" | "localGov" | "judiciary";
 const serikaliSubTabs: { value: SerikaliSubTab; label: string; roleTypes: RoleType[] }[] = [
   { value: "executive", label: "Executive", roleTypes: ["PRESIDENT", "MINISTER", "DEPUTY_MINISTER", "PERMANENT_SECRETARY", "COMMISSIONER"] },
@@ -44,7 +42,6 @@ export default function SerikaliDirectory() {
   const clearFilters = () => { setSearch(""); setSelectedRegion(""); };
   const hasFilters = !!search || !!selectedRegion;
 
-  // ── Government Officials ──
   const currentSubTab = serikaliSubTabs.find((t) => t.value === serikaliSub)!;
   const filteredOfficials = useMemo(() => {
     return officials.filter((o) => {
@@ -71,13 +68,11 @@ export default function SerikaliDirectory() {
     return groups;
   }, [filteredOfficials]);
 
-  // ── Agencies ──
   const filteredAgencies = useMemo(() => {
     if (!search) return agencies;
     return searchAgencies(search);
   }, [search]);
 
-  // ── Banking ──
   const filteredBanking = useMemo(() => {
     if (!search) return bankingCEOs;
     return searchBanking(search);
@@ -86,29 +81,29 @@ export default function SerikaliDirectory() {
   return (
     <div className="animate-fade-in">
       {/* Hero */}
-      <section className="gradient-navy py-10 md:py-14">
+      <section className="bg-yb-charcoal py-10 md:py-14">
         <div className="container max-w-5xl text-center">
-          <div className="inline-flex items-center gap-2 bg-gold/20 text-gold px-3 py-1 rounded-full text-xs font-medium mb-4">
-            <Shield className="w-3.5 h-3.5" />
-            United Republic of Tanzania
+          <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+            <BookOpen className="w-3.5 h-3.5" />
+            Citizen Yellow Book
           </div>
-          <h1 className="text-3xl md:text-4xl font-heading font-bold text-primary-foreground mb-2">
+          <h1 className="text-3xl md:text-4xl font-heading font-bold text-white mb-2">
             National Directory
           </h1>
-          <p className="text-primary-foreground/60 mb-8 max-w-xl mx-auto">
+          <p className="text-yb-charcoal-muted mb-8 max-w-xl mx-auto">
             Find the right person or institution — no queues, no middlemen
           </p>
 
           <div className="relative max-w-xl mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary" />
             <input
               placeholder="Type a name, agency, ministry, or region..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-12 pr-10 h-12 bg-card text-foreground border border-border rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground/60"
+              className="w-full pl-12 pr-10 h-12 bg-yb-charcoal-mid text-white border border-primary rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-yb-charcoal-muted"
             />
             {search && (
-              <button onClick={() => setSearch("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+              <button onClick={() => setSearch("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-yb-charcoal-muted hover:text-white">
                 <X className="w-4 h-4" />
               </button>
             )}
@@ -117,7 +112,6 @@ export default function SerikaliDirectory() {
       </section>
 
       <div className="container max-w-5xl py-6">
-        {/* Constituency Finder */}
         <ConstituencyFinder />
 
         {/* Main tabs */}
@@ -137,12 +131,9 @@ export default function SerikaliDirectory() {
           </TabsList>
         </Tabs>
 
-        {/* ═══════════════════════════════════════ */}
-        {/* TAB: SERIKALI (Government Officials)    */}
-        {/* ═══════════════════════════════════════ */}
+        {/* SERIKALI */}
         {activeTab === "serikali" && (
           <>
-            {/* Sub-tabs */}
             <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
               {serikaliSubTabs.map((sub) => (
                 <button
@@ -159,7 +150,6 @@ export default function SerikaliDirectory() {
               ))}
             </div>
 
-            {/* Region filter */}
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2">
                 <Filter className="w-3.5 h-3.5" />
@@ -175,7 +165,7 @@ export default function SerikaliDirectory() {
             </div>
 
             {showFilters && (
-              <div className="glass-card rounded-xl p-4 mb-4 animate-fade-in">
+              <div className="yb-card p-4 mb-4 animate-fade-in">
                 <select
                   value={selectedRegion}
                   onChange={(e) => setSelectedRegion(e.target.value)}
@@ -194,11 +184,11 @@ export default function SerikaliDirectory() {
             ) : (
               Object.entries(groupedOfficials).map(([label, items]) => (
                 <div key={label} className="mb-8">
-                  <h2 className="text-lg font-heading font-bold text-foreground mb-3 flex items-center gap-2">
-                    <Landmark className="w-4 h-4 text-gold" />
-                    {label}
-                    <span className="text-sm font-body font-normal text-muted-foreground">({items.length})</span>
-                  </h2>
+                  <div className="bg-yb-charcoal text-primary px-4 py-2.5 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                    <Landmark className="w-4 h-4" />
+                    <h2 className="text-base font-heading font-bold">{label}</h2>
+                    <span className="text-sm font-normal text-yb-charcoal-muted ml-1">({items.length})</span>
+                  </div>
                   <div className="grid gap-3">
                     {items.map((o) => (
                       <SecureActionCard
@@ -220,9 +210,7 @@ export default function SerikaliDirectory() {
           </>
         )}
 
-        {/* ═══════════════════════════════════════ */}
-        {/* TAB: WAKALA (Government Agencies)       */}
-        {/* ═══════════════════════════════════════ */}
+        {/* WAKALA */}
         {activeTab === "wakala" && (
           <>
             <div className="flex items-center justify-between mb-4">
@@ -247,9 +235,7 @@ export default function SerikaliDirectory() {
           </>
         )}
 
-        {/* ═══════════════════════════════════════ */}
-        {/* TAB: BENKI (Banking)                    */}
-        {/* ═══════════════════════════════════════ */}
+        {/* BENKI */}
         {activeTab === "benki" && (
           <>
             <div className="flex items-center justify-between mb-4">
@@ -265,7 +251,7 @@ export default function SerikaliDirectory() {
                     name={b.name}
                     position={b.position}
                     organization={b.organization}
-                    badgeColor="bg-gold/15 text-foreground border-gold/30"
+                    badgeColor="bg-primary/15 text-foreground border-primary/30"
                     badgeLabel="Banking"
                   />
                 ))}
@@ -288,9 +274,14 @@ export default function SerikaliDirectory() {
 function EmptyState() {
   return (
     <div className="text-center py-16 text-muted-foreground">
-      <User className="w-12 h-12 mx-auto mb-3 opacity-40" />
-      <p className="font-medium">No results found</p>
-      <p className="text-sm mt-1">Try adjusting your search or filters</p>
+      <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-primary/10 flex items-center justify-center">
+        <BookOpen className="w-8 h-8 text-primary opacity-60" />
+      </div>
+      <p className="font-medium text-foreground">No officials found in this area yet</p>
+      <p className="text-sm mt-1">Help us grow — suggest an official</p>
+      <Button asChild className="mt-4 bg-primary text-primary-foreground hover:bg-yb-yellow-deep">
+        <a href="/report">Suggest an Official</a>
+      </Button>
     </div>
   );
 }
