@@ -125,15 +125,41 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Trending Concerns */}
-      <section className="py-16">
+      {/* Quick actions */}
+      <section className="py-8 bg-background">
         <div className="container max-w-3xl">
-          <div className="flex items-center gap-3 mb-8">
+          <div className="grid grid-cols-2 gap-3">
+            <Link to="/ramani" className="glass-card rounded-xl p-4 flex items-center gap-3 hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-lg bg-sema-green/10 flex items-center justify-center">
+                <Map className="w-5 h-5 text-sema-green" />
+              </div>
+              <div>
+                <p className="font-semibold text-sm text-foreground">Ramani</p>
+                <p className="text-[10px] text-muted-foreground">Tazama ripoti kwenye ramani</p>
+              </div>
+            </Link>
+            <Link to="/sauti" className="glass-card rounded-xl p-4 flex items-center gap-3 hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 rounded-lg bg-sema-red/10 flex items-center justify-center">
+                <Megaphone className="w-5 h-5 text-sema-red" />
+              </div>
+              <div>
+                <p className="font-semibold text-sm text-foreground">Sauti Zetu</p>
+                <p className="text-[10px] text-muted-foreground">Maombi & petitions</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Trending Concerns */}
+      <section className="py-12">
+        <div className="container max-w-3xl">
+          <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-sema-red flex items-center justify-center">
               <TrendingUp className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h2 className="text-xl font-heading font-bold text-foreground">Masuala Yanayoongoza</h2>
+              <h2 className="text-xl font-heading font-bold text-foreground">Sauti Zote — Latest</h2>
               <p className="text-sm text-muted-foreground">Trending Concerns from Citizens</p>
             </div>
           </div>
@@ -155,19 +181,54 @@ export default function Index() {
                     <span>{concern.region}</span>
                   </div>
                 </div>
-                <div className="text-right shrink-0">
+                <div className="flex flex-col items-end gap-1 shrink-0">
                   <div className="text-lg font-heading font-bold text-sema-red">{concern.count}</div>
-                  <div className="text-[10px] text-muted-foreground">reports</div>
+                  <button
+                    onClick={() => {
+                      const msg = encodeURIComponent(`📢 ${concern.text} — ${concern.count} ripoti\n\n#Sema #SautiyaMwananchi`);
+                      window.open(`https://wa.me/?text=${msg}`, "_blank");
+                    }}
+                    className="text-[10px] text-sema-green flex items-center gap-0.5 hover:underline"
+                  >
+                    <Share2 className="w-3 h-3" /> Shiriki
+                  </button>
                 </div>
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
+          <div className="text-center mt-6">
             <Button asChild variant="outline" className="gap-2 border-sema-red/30 text-sema-red hover:bg-sema-red/5">
               <Link to="/report">
-                Report an Issue <ArrowRight className="w-4 h-4" />
+                Ripoti Sasa <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Success Stories */}
+      <section className="py-12 bg-card kitenge-top">
+        <div className="container max-w-3xl">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-xl bg-sema-green/10 flex items-center justify-center">
+              <Award className="w-5 h-5 text-sema-green" />
+            </div>
+            <div>
+              <h2 className="text-xl font-heading font-bold text-foreground">Sauti Iliyosikika</h2>
+              <p className="text-sm text-muted-foreground">Voices That Were Heard — Success Stories</p>
+            </div>
+          </div>
+          <div className="grid gap-3">
+            {successStories.map((story, i) => (
+              <div key={i} className="flex items-center gap-3 glass-card rounded-xl p-4 hover:shadow-md transition-shadow">
+                <span className="text-2xl">{story.emoji}</span>
+                <div className="flex-1">
+                  <p className="font-semibold text-sm text-foreground">{story.title}</p>
+                  <p className="text-[10px] text-muted-foreground">{story.impact} wamenufaika</p>
+                </div>
+                <Badge className="bg-sema-green/10 text-sema-green border-sema-green/20 text-[10px]">✅ Imeshughulikiwa</Badge>
+              </div>
+            ))}
           </div>
         </div>
       </section>
