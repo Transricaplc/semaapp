@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/reports";
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
+import EmergencyBanner from "@/components/EmergencyContacts";
 
 const categoryIcons: Record<ReportCategory, React.ReactNode> = {
   service_delivery: <Droplets className="w-4 h-4" />,
@@ -66,6 +67,7 @@ export default function Index() {
       {/* Constituency Finder */}
       <section className="py-8 bg-background">
         <div className="container max-w-3xl">
+          <EmergencyBanner />
           <ConstituencyFinder />
         </div>
       </section>

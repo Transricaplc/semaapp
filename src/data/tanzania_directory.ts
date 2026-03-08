@@ -73,7 +73,9 @@ export type OfficialRole =
   | "President" // President/VP/PM
   | "Speaker"   // Speaker of Parliament
   | "IGP"       // Inspector General of Police
-  | "CJ";       // Chief Justice
+  | "CJ"        // Chief Justice
+  | "PCCB"      // Anti-Graft / TAKUKURU
+  | "Emergency"; // Emergency Services
 
 export const roleLabels: Record<OfficialRole, string> = {
   RC: "Mkuu wa Mkoa",
@@ -89,6 +91,8 @@ export const roleLabels: Record<OfficialRole, string> = {
   Speaker: "Spika",
   IGP: "Inspekta Jenerali wa Polisi",
   CJ: "Jaji Mkuu",
+  PCCB: "TAKUKURU / Rushwa",
+  Emergency: "Huduma za Dharura",
 };
 
 export const roleBadgeColors: Record<OfficialRole, string> = {
@@ -105,6 +109,8 @@ export const roleBadgeColors: Record<OfficialRole, string> = {
   Speaker: "bg-gold/15 text-foreground border-gold/30",
   IGP: "bg-destructive/10 text-destructive border-destructive/20",
   CJ: "bg-destructive/10 text-destructive border-destructive/20",
+  PCCB: "bg-gold/15 text-foreground border-gold/30",
+  Emergency: "bg-destructive/15 text-destructive border-destructive/25",
 };
 
 export interface Official {
@@ -126,10 +132,167 @@ export interface Official {
 }
 
 // ============================================================
-// OFFICIALS DATABASE — Comprehensive directory
+// EMERGENCY & ANTI-GRAFT CONTACTS (National)
 // ============================================================
 
-export const officials: Official[] = [
+export interface EmergencyContact {
+  id: string;
+  name: string;
+  description: string;
+  phone: string;
+  altPhone: string;
+  email: string;
+  category: "police" | "fire" | "medical" | "antigraft" | "gender" | "child" | "traffic";
+}
+
+export const emergencyContacts: EmergencyContact[] = [
+  { id: "em-police", name: "Polisi — Police Emergency", description: "Nambari ya dharura ya polisi Tanzania nzima", phone: "112", altPhone: "999", email: "", category: "police" },
+  { id: "em-fire", name: "Zimamoto — Fire & Rescue", description: "Huduma ya Zimamoto na Uokoaji", phone: "114", altPhone: "+255-22-211-7152", email: "", category: "fire" },
+  { id: "em-ambulance", name: "Ambulansi — Ambulance", description: "Huduma ya Ambulansi na Dharura za Afya", phone: "115", altPhone: "114", email: "", category: "medical" },
+  { id: "em-pccb", name: "TAKUKURU / PCCB — Anti-Corruption", description: "Ripoti rushwa na matumizi mabaya ya madaraka", phone: "113", altPhone: "+255-22-215-0043", email: "dg@pccb.go.tz", category: "antigraft" },
+  { id: "em-gender", name: "Dawati la Jinsia — Gender Desk", description: "Ripoti ukatili wa kijinsia na vurugu majumbani", phone: "116", altPhone: "", email: "", category: "gender" },
+  { id: "em-child", name: "Mtoto — Child Helpline", description: "Laini ya watoto — Ripoti unyanyasaji wa watoto", phone: "116", altPhone: "", email: "", category: "child" },
+  { id: "em-traffic", name: "Usalama Barabarani — Traffic Police", description: "Ripoti ajali na ukiukaji wa sheria za barabara", phone: "112", altPhone: "", email: "", category: "traffic" },
+  { id: "em-pccb-ia", name: "Internal Affairs — Maadili ya Polisi", description: "Ripoti tabia mbaya ya askari polisi", phone: "+255-22-211-7152", altPhone: "", email: "complaints@polisi.go.tz", category: "police" },
+];
+
+// ============================================================
+// POLICE REGIONS — Tanzania has 35 Police Regions
+// (Note: Police regions differ from administrative regions.
+//  DSM has 5 police districts but is 1 admin region, etc.)
+// ============================================================
+
+interface PoliceRegionDef {
+  policeRegion: string;       // Police region name
+  adminRegion: string;        // Mapped admin region
+  rpcId: string;
+  rpcName: string;
+  phone: string;
+  email: string;
+  districts: { name: string; ocdId: string }[];
+}
+
+const policeRegions: PoliceRegionDef[] = [
+  // ── Dar es Salaam (5 police districts) ──
+  { policeRegion: "Kinondoni", adminRegion: "Dar es Salaam", rpcId: "rpc-kinondoni", rpcName: "RPC Kinondoni", phone: "112", email: "rpc.kinondoni@polisi.go.tz", districts: [{ name: "Kinondoni", ocdId: "ocd-kinondoni" }, { name: "Ubungo", ocdId: "ocd-ubungo" }] },
+  { policeRegion: "Ilala", adminRegion: "Dar es Salaam", rpcId: "rpc-ilala", rpcName: "RPC Ilala", phone: "112", email: "rpc.ilala@polisi.go.tz", districts: [{ name: "Ilala", ocdId: "ocd-ilala" }] },
+  { policeRegion: "Temeke", adminRegion: "Dar es Salaam", rpcId: "rpc-temeke", rpcName: "RPC Temeke", phone: "112", email: "rpc.temeke@polisi.go.tz", districts: [{ name: "Temeke", ocdId: "ocd-temeke" }, { name: "Kigamboni", ocdId: "ocd-kigamboni" }] },
+  // ── Other Mainland Regions ──
+  { policeRegion: "Arusha", adminRegion: "Arusha", rpcId: "rpc-arusha", rpcName: "RPC Arusha", phone: "112", email: "rpc.arusha@polisi.go.tz", districts: [{ name: "Arusha City", ocdId: "ocd-arusha-city" }, { name: "Arusha DC", ocdId: "ocd-arusha-dc" }, { name: "Karatu", ocdId: "ocd-karatu" }, { name: "Longido", ocdId: "ocd-longido" }, { name: "Meru", ocdId: "ocd-meru" }, { name: "Monduli", ocdId: "ocd-monduli" }, { name: "Ngorongoro", ocdId: "ocd-ngorongoro" }] },
+  { policeRegion: "Dodoma", adminRegion: "Dodoma", rpcId: "rpc-dodoma", rpcName: "RPC Dodoma", phone: "112", email: "rpc.dodoma@polisi.go.tz", districts: [{ name: "Dodoma City", ocdId: "ocd-dodoma-city" }, { name: "Bahi", ocdId: "ocd-bahi" }, { name: "Chamwino", ocdId: "ocd-chamwino" }, { name: "Chemba", ocdId: "ocd-chemba" }, { name: "Kondoa", ocdId: "ocd-kondoa" }, { name: "Kongwa", ocdId: "ocd-kongwa" }, { name: "Mpwapwa", ocdId: "ocd-mpwapwa" }] },
+  { policeRegion: "Geita", adminRegion: "Geita", rpcId: "rpc-geita", rpcName: "RPC Geita", phone: "112", email: "rpc.geita@polisi.go.tz", districts: [{ name: "Geita DC", ocdId: "ocd-geita-dc" }, { name: "Geita TC", ocdId: "ocd-geita-tc" }, { name: "Bukombe", ocdId: "ocd-bukombe" }, { name: "Chato", ocdId: "ocd-chato" }, { name: "Mbogwe", ocdId: "ocd-mbogwe" }, { name: "Nyang'hwale", ocdId: "ocd-nyanghwale" }] },
+  { policeRegion: "Iringa", adminRegion: "Iringa", rpcId: "rpc-iringa", rpcName: "RPC Iringa", phone: "112", email: "rpc.iringa@polisi.go.tz", districts: [{ name: "Iringa MC", ocdId: "ocd-iringa-mc" }, { name: "Iringa DC", ocdId: "ocd-iringa-dc" }, { name: "Kilolo", ocdId: "ocd-kilolo" }, { name: "Mafinga TC", ocdId: "ocd-mafinga" }, { name: "Mufindi", ocdId: "ocd-mufindi" }] },
+  { policeRegion: "Kagera", adminRegion: "Kagera", rpcId: "rpc-kagera", rpcName: "RPC Kagera", phone: "112", email: "rpc.kagera@polisi.go.tz", districts: [{ name: "Bukoba MC", ocdId: "ocd-bukoba-mc" }, { name: "Bukoba DC", ocdId: "ocd-bukoba-dc" }, { name: "Biharamulo", ocdId: "ocd-biharamulo" }, { name: "Karagwe", ocdId: "ocd-karagwe" }, { name: "Kyerwa", ocdId: "ocd-kyerwa" }, { name: "Missenyi", ocdId: "ocd-missenyi" }, { name: "Muleba", ocdId: "ocd-muleba" }, { name: "Ngara", ocdId: "ocd-ngara" }] },
+  { policeRegion: "Katavi", adminRegion: "Katavi", rpcId: "rpc-katavi", rpcName: "RPC Katavi", phone: "112", email: "rpc.katavi@polisi.go.tz", districts: [{ name: "Mpanda TC", ocdId: "ocd-mpanda-tc" }, { name: "Mpanda DC", ocdId: "ocd-mpanda-dc" }, { name: "Mlele", ocdId: "ocd-mlele" }, { name: "Nsimbo", ocdId: "ocd-nsimbo" }] },
+  { policeRegion: "Kigoma", adminRegion: "Kigoma", rpcId: "rpc-kigoma", rpcName: "RPC Kigoma", phone: "112", email: "rpc.kigoma@polisi.go.tz", districts: [{ name: "Kigoma-Ujiji MC", ocdId: "ocd-kigoma-mc" }, { name: "Kigoma DC", ocdId: "ocd-kigoma-dc" }, { name: "Kasulu DC", ocdId: "ocd-kasulu-dc" }, { name: "Kasulu TC", ocdId: "ocd-kasulu-tc" }, { name: "Kibondo", ocdId: "ocd-kibondo" }, { name: "Buhigwe", ocdId: "ocd-buhigwe" }, { name: "Kakonko", ocdId: "ocd-kakonko" }, { name: "Uvinza", ocdId: "ocd-uvinza" }] },
+  { policeRegion: "Kilimanjaro", adminRegion: "Kilimanjaro", rpcId: "rpc-kilimanjaro", rpcName: "RPC Kilimanjaro", phone: "112", email: "rpc.kilimanjaro@polisi.go.tz", districts: [{ name: "Moshi MC", ocdId: "ocd-moshi-mc" }, { name: "Moshi DC", ocdId: "ocd-moshi-dc" }, { name: "Hai", ocdId: "ocd-hai" }, { name: "Mwanga", ocdId: "ocd-mwanga" }, { name: "Rombo", ocdId: "ocd-rombo" }, { name: "Same", ocdId: "ocd-same" }, { name: "Siha", ocdId: "ocd-siha" }] },
+  { policeRegion: "Lindi", adminRegion: "Lindi", rpcId: "rpc-lindi", rpcName: "RPC Lindi", phone: "112", email: "rpc.lindi@polisi.go.tz", districts: [{ name: "Lindi MC", ocdId: "ocd-lindi-mc" }, { name: "Lindi DC", ocdId: "ocd-lindi-dc" }, { name: "Kilwa", ocdId: "ocd-kilwa" }, { name: "Liwale", ocdId: "ocd-liwale" }, { name: "Nachingwea", ocdId: "ocd-nachingwea" }, { name: "Ruangwa", ocdId: "ocd-ruangwa" }] },
+  { policeRegion: "Manyara", adminRegion: "Manyara", rpcId: "rpc-manyara", rpcName: "RPC Manyara", phone: "112", email: "rpc.manyara@polisi.go.tz", districts: [{ name: "Babati TC", ocdId: "ocd-babati-tc" }, { name: "Babati DC", ocdId: "ocd-babati-dc" }, { name: "Hanang", ocdId: "ocd-hanang" }, { name: "Kiteto", ocdId: "ocd-kiteto" }, { name: "Mbulu DC", ocdId: "ocd-mbulu-dc" }, { name: "Mbulu TC", ocdId: "ocd-mbulu-tc" }, { name: "Simanjiro", ocdId: "ocd-simanjiro" }] },
+  { policeRegion: "Mara", adminRegion: "Mara", rpcId: "rpc-mara", rpcName: "RPC Mara", phone: "112", email: "rpc.mara@polisi.go.tz", districts: [{ name: "Musoma MC", ocdId: "ocd-musoma-mc" }, { name: "Musoma DC", ocdId: "ocd-musoma-dc" }, { name: "Bunda DC", ocdId: "ocd-bunda-dc" }, { name: "Bunda TC", ocdId: "ocd-bunda-tc" }, { name: "Butiama", ocdId: "ocd-butiama" }, { name: "Rorya", ocdId: "ocd-rorya" }, { name: "Serengeti", ocdId: "ocd-serengeti" }, { name: "Tarime DC", ocdId: "ocd-tarime-dc" }, { name: "Tarime TC", ocdId: "ocd-tarime-tc" }] },
+  { policeRegion: "Mbeya", adminRegion: "Mbeya", rpcId: "rpc-mbeya", rpcName: "RPC Mbeya", phone: "112", email: "rpc.mbeya@polisi.go.tz", districts: [{ name: "Mbeya City", ocdId: "ocd-mbeya-city" }, { name: "Mbeya DC", ocdId: "ocd-mbeya-dc" }, { name: "Busokelo", ocdId: "ocd-busokelo" }, { name: "Chunya", ocdId: "ocd-chunya" }, { name: "Mbarali", ocdId: "ocd-mbarali" }, { name: "Rungwe", ocdId: "ocd-rungwe" }] },
+  { policeRegion: "Morogoro", adminRegion: "Morogoro", rpcId: "rpc-morogoro", rpcName: "RPC Morogoro", phone: "112", email: "rpc.morogoro@polisi.go.tz", districts: [{ name: "Morogoro MC", ocdId: "ocd-morogoro-mc" }, { name: "Morogoro DC", ocdId: "ocd-morogoro-dc" }, { name: "Kilombero", ocdId: "ocd-kilombero" }, { name: "Kilosa", ocdId: "ocd-kilosa" }, { name: "Mvomero", ocdId: "ocd-mvomero" }, { name: "Ulanga", ocdId: "ocd-ulanga" }, { name: "Gairo", ocdId: "ocd-gairo" }, { name: "Malinyi", ocdId: "ocd-malinyi" }, { name: "Ifakara TC", ocdId: "ocd-ifakara" }] },
+  { policeRegion: "Mtwara", adminRegion: "Mtwara", rpcId: "rpc-mtwara", rpcName: "RPC Mtwara", phone: "112", email: "rpc.mtwara@polisi.go.tz", districts: [{ name: "Mtwara MC", ocdId: "ocd-mtwara-mc" }, { name: "Mtwara DC", ocdId: "ocd-mtwara-dc" }, { name: "Masasi DC", ocdId: "ocd-masasi-dc" }, { name: "Masasi TC", ocdId: "ocd-masasi-tc" }, { name: "Nanyumbu", ocdId: "ocd-nanyumbu" }, { name: "Newala DC", ocdId: "ocd-newala-dc" }, { name: "Newala TC", ocdId: "ocd-newala-tc" }, { name: "Tandahimba", ocdId: "ocd-tandahimba" }] },
+  { policeRegion: "Mwanza", adminRegion: "Mwanza", rpcId: "rpc-mwanza", rpcName: "RPC Mwanza", phone: "112", email: "rpc.mwanza@polisi.go.tz", districts: [{ name: "Nyamagana", ocdId: "ocd-nyamagana" }, { name: "Ilemela", ocdId: "ocd-ilemela" }, { name: "Kwimba", ocdId: "ocd-kwimba" }, { name: "Magu", ocdId: "ocd-magu" }, { name: "Misungwi", ocdId: "ocd-misungwi" }, { name: "Sengerema", ocdId: "ocd-sengerema" }, { name: "Ukerewe", ocdId: "ocd-ukerewe" }] },
+  { policeRegion: "Njombe", adminRegion: "Njombe", rpcId: "rpc-njombe", rpcName: "RPC Njombe", phone: "112", email: "rpc.njombe@polisi.go.tz", districts: [{ name: "Njombe TC", ocdId: "ocd-njombe-tc" }, { name: "Njombe DC", ocdId: "ocd-njombe-dc" }, { name: "Ludewa", ocdId: "ocd-ludewa" }, { name: "Makambako TC", ocdId: "ocd-makambako" }, { name: "Makete", ocdId: "ocd-makete" }, { name: "Wanging'ombe", ocdId: "ocd-wangingombe" }] },
+  { policeRegion: "Pwani", adminRegion: "Pwani", rpcId: "rpc-pwani", rpcName: "RPC Pwani", phone: "112", email: "rpc.pwani@polisi.go.tz", districts: [{ name: "Kibaha TC", ocdId: "ocd-kibaha-tc" }, { name: "Kibaha DC", ocdId: "ocd-kibaha-dc" }, { name: "Bagamoyo", ocdId: "ocd-bagamoyo" }, { name: "Chalinze", ocdId: "ocd-chalinze" }, { name: "Kisarawe", ocdId: "ocd-kisarawe" }, { name: "Mafia", ocdId: "ocd-mafia" }, { name: "Mkuranga", ocdId: "ocd-mkuranga" }, { name: "Rufiji", ocdId: "ocd-rufiji" }] },
+  { policeRegion: "Rukwa", adminRegion: "Rukwa", rpcId: "rpc-rukwa", rpcName: "RPC Rukwa", phone: "112", email: "rpc.rukwa@polisi.go.tz", districts: [{ name: "Sumbawanga MC", ocdId: "ocd-sumbawanga-mc" }, { name: "Sumbawanga DC", ocdId: "ocd-sumbawanga-dc" }, { name: "Kalambo", ocdId: "ocd-kalambo" }, { name: "Nkasi", ocdId: "ocd-nkasi" }] },
+  { policeRegion: "Ruvuma", adminRegion: "Ruvuma", rpcId: "rpc-ruvuma", rpcName: "RPC Ruvuma", phone: "112", email: "rpc.ruvuma@polisi.go.tz", districts: [{ name: "Songea MC", ocdId: "ocd-songea-mc" }, { name: "Songea DC", ocdId: "ocd-songea-dc" }, { name: "Mbinga DC", ocdId: "ocd-mbinga-dc" }, { name: "Mbinga TC", ocdId: "ocd-mbinga-tc" }, { name: "Namtumbo", ocdId: "ocd-namtumbo" }, { name: "Nyasa", ocdId: "ocd-nyasa" }, { name: "Tunduru", ocdId: "ocd-tunduru" }] },
+  { policeRegion: "Shinyanga", adminRegion: "Shinyanga", rpcId: "rpc-shinyanga", rpcName: "RPC Shinyanga", phone: "112", email: "rpc.shinyanga@polisi.go.tz", districts: [{ name: "Shinyanga MC", ocdId: "ocd-shinyanga-mc" }, { name: "Shinyanga DC", ocdId: "ocd-shinyanga-dc" }, { name: "Kahama DC", ocdId: "ocd-kahama-dc" }, { name: "Kahama TC", ocdId: "ocd-kahama-tc" }, { name: "Kishapu", ocdId: "ocd-kishapu" }, { name: "Msalala", ocdId: "ocd-msalala" }, { name: "Ushetu", ocdId: "ocd-ushetu" }] },
+  { policeRegion: "Simiyu", adminRegion: "Simiyu", rpcId: "rpc-simiyu", rpcName: "RPC Simiyu", phone: "112", email: "rpc.simiyu@polisi.go.tz", districts: [{ name: "Bariadi DC", ocdId: "ocd-bariadi-dc" }, { name: "Bariadi TC", ocdId: "ocd-bariadi-tc" }, { name: "Busega", ocdId: "ocd-busega" }, { name: "Itilima", ocdId: "ocd-itilima" }, { name: "Maswa", ocdId: "ocd-maswa" }, { name: "Meatu", ocdId: "ocd-meatu" }] },
+  { policeRegion: "Singida", adminRegion: "Singida", rpcId: "rpc-singida", rpcName: "RPC Singida", phone: "112", email: "rpc.singida@polisi.go.tz", districts: [{ name: "Singida MC", ocdId: "ocd-singida-mc" }, { name: "Singida DC", ocdId: "ocd-singida-dc" }, { name: "Ikungi", ocdId: "ocd-ikungi" }, { name: "Iramba", ocdId: "ocd-iramba" }, { name: "Manyoni", ocdId: "ocd-manyoni" }, { name: "Mkalama", ocdId: "ocd-mkalama" }] },
+  { policeRegion: "Songwe", adminRegion: "Songwe", rpcId: "rpc-songwe", rpcName: "RPC Songwe", phone: "112", email: "rpc.songwe@polisi.go.tz", districts: [{ name: "Songwe DC", ocdId: "ocd-songwe-dc" }, { name: "Tunduma TC", ocdId: "ocd-tunduma" }, { name: "Ileje", ocdId: "ocd-ileje" }, { name: "Mbozi", ocdId: "ocd-mbozi" }, { name: "Momba", ocdId: "ocd-momba" }] },
+  { policeRegion: "Tabora", adminRegion: "Tabora", rpcId: "rpc-tabora", rpcName: "RPC Tabora", phone: "112", email: "rpc.tabora@polisi.go.tz", districts: [{ name: "Tabora MC", ocdId: "ocd-tabora-mc" }, { name: "Igunga", ocdId: "ocd-igunga" }, { name: "Kaliua", ocdId: "ocd-kaliua" }, { name: "Nzega DC", ocdId: "ocd-nzega-dc" }, { name: "Nzega TC", ocdId: "ocd-nzega-tc" }, { name: "Sikonge", ocdId: "ocd-sikonge" }, { name: "Urambo", ocdId: "ocd-urambo" }, { name: "Uyui", ocdId: "ocd-uyui" }] },
+  { policeRegion: "Tanga", adminRegion: "Tanga", rpcId: "rpc-tanga", rpcName: "RPC Tanga", phone: "112", email: "rpc.tanga@polisi.go.tz", districts: [{ name: "Tanga City", ocdId: "ocd-tanga-city" }, { name: "Handeni DC", ocdId: "ocd-handeni-dc" }, { name: "Handeni TC", ocdId: "ocd-handeni-tc" }, { name: "Kilindi", ocdId: "ocd-kilindi" }, { name: "Korogwe DC", ocdId: "ocd-korogwe-dc" }, { name: "Korogwe TC", ocdId: "ocd-korogwe-tc" }, { name: "Lushoto", ocdId: "ocd-lushoto" }, { name: "Mkinga", ocdId: "ocd-mkinga" }, { name: "Muheza", ocdId: "ocd-muheza" }, { name: "Pangani", ocdId: "ocd-pangani" }] },
+  // ── Zanzibar Police Regions ──
+  { policeRegion: "Zanzibar Mjini", adminRegion: "Unguja Mjini Magharibi", rpcId: "rpc-znz-mjini", rpcName: "RPC Zanzibar Mjini", phone: "112", email: "rpc.zanzibar@polisi.go.tz", districts: [{ name: "Mjini", ocdId: "ocd-mjini" }, { name: "Magharibi A", ocdId: "ocd-magharibi-a" }, { name: "Magharibi B", ocdId: "ocd-magharibi-b" }] },
+  { policeRegion: "Zanzibar Kaskazini", adminRegion: "Unguja Kaskazini", rpcId: "rpc-znz-kaskazini", rpcName: "RPC Zanzibar Kaskazini", phone: "112", email: "rpc.znzkaskazini@polisi.go.tz", districts: [{ name: "Kaskazini A", ocdId: "ocd-kaskazini-a" }, { name: "Kaskazini B", ocdId: "ocd-kaskazini-b" }] },
+  { policeRegion: "Zanzibar Kusini", adminRegion: "Unguja Kusini", rpcId: "rpc-znz-kusini", rpcName: "RPC Zanzibar Kusini", phone: "112", email: "rpc.znzkusini@polisi.go.tz", districts: [{ name: "Kati", ocdId: "ocd-kati" }, { name: "Kusini", ocdId: "ocd-kusini" }] },
+  { policeRegion: "Pemba Kaskazini", adminRegion: "Pemba Kaskazini", rpcId: "rpc-pemba-kaskazini", rpcName: "RPC Pemba Kaskazini", phone: "112", email: "rpc.pembakaskazini@polisi.go.tz", districts: [{ name: "Micheweni", ocdId: "ocd-micheweni" }, { name: "Wete", ocdId: "ocd-wete" }] },
+  { policeRegion: "Pemba Kusini", adminRegion: "Pemba Kusini", rpcId: "rpc-pemba-kusini", rpcName: "RPC Pemba Kusini", phone: "112", email: "rpc.pembakusini@polisi.go.tz", districts: [{ name: "Chake Chake", ocdId: "ocd-chake-chake" }, { name: "Mkoani", ocdId: "ocd-mkoani" }] },
+];
+
+// ============================================================
+// GENERATE OFFICIALS FROM POLICE REGION DATA
+// ============================================================
+
+function generatePoliceOfficials(): Official[] {
+  const result: Official[] = [];
+  const v = "2026-03-08";
+
+  policeRegions.forEach((pr) => {
+    // RPC
+    result.push({
+      id: pr.rpcId,
+      name: pr.rpcName,
+      role: "RPC",
+      roleTitle: `Kamanda wa Polisi Mkoa — ${pr.policeRegion}`,
+      region: pr.adminRegion,
+      district: "",
+      constituency: "",
+      party: "",
+      phone: pr.phone,
+      email: pr.email,
+      office: `Makao Makuu ya Polisi, ${pr.policeRegion}`,
+      photoUrl: "",
+      verified: false,
+      source: "polisi.go.tz",
+      lastVerified: v,
+    });
+
+    // OCDs for each district
+    pr.districts.forEach((d) => {
+      result.push({
+        id: d.ocdId,
+        name: `OCD ${d.name}`,
+        role: "OCD",
+        roleTitle: `Kamanda wa Polisi Wilaya — ${d.name}`,
+        region: pr.adminRegion,
+        district: d.name,
+        constituency: "",
+        party: "",
+        phone: "112",
+        email: `ocd.${d.name.toLowerCase().replace(/[^a-z]/g, "")}@polisi.go.tz`,
+        office: `Polisi Wilaya, ${d.name}`,
+        photoUrl: "",
+        verified: false,
+        source: "polisi.go.tz",
+        lastVerified: v,
+      });
+    });
+  });
+
+  // PCCB Regional offices
+  tanzaniaRegions.forEach((r) => {
+    if (r.name.startsWith("Unguja") || r.name.startsWith("Pemba")) return; // ZNZ has ZAECA
+    result.push({
+      id: `pccb-${r.name.toLowerCase().replace(/\s/g, "-")}`,
+      name: `TAKUKURU ${r.name}`,
+      role: "PCCB",
+      roleTitle: `Ofisi ya TAKUKURU — ${r.name}`,
+      region: r.name,
+      district: "",
+      constituency: "",
+      party: "",
+      phone: "113",
+      email: `pccb.${r.name.toLowerCase().replace(/\s/g, "")}@pccb.go.tz`,
+      office: `Ofisi ya TAKUKURU, ${r.capital}`,
+      photoUrl: "",
+      verified: false,
+      source: "pccb.go.tz",
+      lastVerified: "2026-03-08",
+    });
+  });
+
+  return result;
+}
+
+const generatedPoliceOfficials = generatePoliceOfficials();
+
+// ============================================================
+// OFFICIALS DATABASE — Core hand-curated entries
+// ============================================================
+
+const coreOfficials: Official[] = [
   // ── NATIONAL LEADERSHIP ──
   { id: "nat-001", name: "Mhe. Dkt. Samia Suluhu Hassan", role: "President", roleTitle: "Rais wa Jamhuri ya Muungano wa Tanzania", region: "", district: "", constituency: "", party: "CCM", phone: "+255-22-211-6898", email: "info@ikulu.go.tz", office: "Ikulu, Dar es Salaam", photoUrl: "", verified: true, source: "ikulu.go.tz", lastVerified: "2026-03-08" },
   { id: "nat-002", name: "Mhe. Dkt. Philip Isdor Mpango", role: "President", roleTitle: "Makamu wa Rais", region: "", district: "", constituency: "", party: "CCM", phone: "+255-22-211-3856", email: "info@vpo.go.tz", office: "Ofisi ya Makamu wa Rais", photoUrl: "", verified: true, source: "vpo.go.tz", lastVerified: "2026-03-08" },
@@ -172,32 +335,33 @@ export const officials: Official[] = [
   { id: "rc-songwe", name: "Mhe. Dkt. Margreth Ikongwe Sitta", role: "RC", roleTitle: "Mkuu wa Mkoa", region: "Songwe", district: "", constituency: "", party: "", phone: "", email: "rc.songwe@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Mkoa, Vwawa", photoUrl: "", verified: false, source: "TAMISEMI", lastVerified: "2026-03-08" },
   { id: "rc-mara", name: "Mhe. Kanali Idd Hussein Kimanta", role: "RC", roleTitle: "Mkuu wa Mkoa", region: "Mara", district: "", constituency: "", party: "", phone: "", email: "rc.mara@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Mkoa, Musoma", photoUrl: "", verified: false, source: "TAMISEMI", lastVerified: "2026-03-08" },
 
-  // ── RAS (Regional Administrative Secretaries) ──
+  // ── RAS ──
   { id: "ras-dsm", name: "Bw. Abdul Rajab Mhinte", role: "RAS", roleTitle: "Katibu Tawala Mkoa", region: "Dar es Salaam", district: "", constituency: "", party: "", phone: "+255-22-220-3156", email: "ras@dsm.go.tz", office: "Ofisi ya Mkuu wa Mkoa, Dar es Salaam", photoUrl: "", verified: true, source: "dsm.go.tz", lastVerified: "2026-03-08" },
   { id: "ras-arusha", name: "Ndg. Missaile Albano Musa", role: "RAS", roleTitle: "Katibu Tawala Mkoa", region: "Arusha", district: "", constituency: "", party: "", phone: "", email: "ras.arusha@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Mkoa, Arusha", photoUrl: "", verified: true, source: "arusha.go.tz", lastVerified: "2026-03-08" },
   { id: "ras-mwanza", name: "Bw. Balandya Mayuganya Elikana", role: "RAS", roleTitle: "Katibu Tawala Mkoa", region: "Mwanza", district: "", constituency: "", party: "", phone: "", email: "ras.mwanza@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Mkoa, Mwanza", photoUrl: "", verified: true, source: "mwanza.go.tz", lastVerified: "2026-03-08" },
   { id: "ras-kilimanjaro", name: "Bw. Kiseo Yusuf Nzowa", role: "RAS", roleTitle: "Katibu Tawala Mkoa", region: "Kilimanjaro", district: "", constituency: "", party: "", phone: "", email: "ras.kilimanjaro@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Mkoa, Moshi", photoUrl: "", verified: true, source: "kilimanjaro.go.tz", lastVerified: "2026-03-08" },
 
-  // ── REGIONAL POLICE COMMANDERS ──
-  { id: "rpc-dsm", name: "CP Mhe. Gilles Muroto", role: "RPC", roleTitle: "Kamanda wa Polisi Mkoa", region: "Dar es Salaam", district: "", constituency: "", party: "", phone: "112", email: "polisi.dsm@polisi.go.tz", office: "Polisi Mkoa, Dar es Salaam", photoUrl: "", verified: true, source: "polisi.go.tz", lastVerified: "2026-03-08" },
-  { id: "rpc-arusha", name: "RPC Arusha", role: "RPC", roleTitle: "Kamanda wa Polisi Mkoa", region: "Arusha", district: "", constituency: "", party: "", phone: "112", email: "polisi.arusha@polisi.go.tz", office: "Polisi Mkoa, Arusha", photoUrl: "", verified: false, source: "polisi.go.tz", lastVerified: "2026-03-08" },
-  { id: "rpc-dodoma", name: "RPC Dodoma", role: "RPC", roleTitle: "Kamanda wa Polisi Mkoa", region: "Dodoma", district: "", constituency: "", party: "", phone: "112", email: "polisi.dodoma@polisi.go.tz", office: "Polisi Mkoa, Dodoma", photoUrl: "", verified: false, source: "polisi.go.tz", lastVerified: "2026-03-08" },
-  { id: "rpc-mwanza", name: "RPC Mwanza", role: "RPC", roleTitle: "Kamanda wa Polisi Mkoa", region: "Mwanza", district: "", constituency: "", party: "", phone: "112", email: "polisi.mwanza@polisi.go.tz", office: "Polisi Mkoa, Mwanza", photoUrl: "", verified: false, source: "polisi.go.tz", lastVerified: "2026-03-08" },
-
-  // ── DAR ES SALAAM DISTRICT COMMISSIONERS ──
+  // ── DSM DISTRICT COMMISSIONERS ──
   { id: "dc-ilala", name: "Mhe. Sophia Mjema", role: "DC", roleTitle: "Mkuu wa Wilaya", region: "Dar es Salaam", district: "Ilala", constituency: "", party: "", phone: "", email: "dc.ilala@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Wilaya, Ilala", photoUrl: "", verified: true, source: "ilalamc.go.tz", lastVerified: "2026-03-08" },
   { id: "dc-kinondoni", name: "Mhe. Albert Chalamila Jr.", role: "DC", roleTitle: "Mkuu wa Wilaya", region: "Dar es Salaam", district: "Kinondoni", constituency: "", party: "", phone: "", email: "dc.kinondoni@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Wilaya, Kinondoni", photoUrl: "", verified: false, source: "kinondonmc.go.tz", lastVerified: "2026-03-08" },
   { id: "dc-temeke", name: "Mhe. Jokate Mwegelo", role: "DC", roleTitle: "Mkuu wa Wilaya", region: "Dar es Salaam", district: "Temeke", constituency: "", party: "", phone: "", email: "dc.temeke@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Wilaya, Temeke", photoUrl: "", verified: true, source: "temekemc.go.tz", lastVerified: "2026-03-08" },
   { id: "dc-ubungo", name: "Mhe. Anne Kilango Malecela", role: "DC", roleTitle: "Mkuu wa Wilaya", region: "Dar es Salaam", district: "Ubungo", constituency: "", party: "", phone: "", email: "dc.ubungo@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Wilaya, Ubungo", photoUrl: "", verified: false, source: "ubungomc.go.tz", lastVerified: "2026-03-08" },
   { id: "dc-kigamboni", name: "Mhe. John Osmund Nchimbi", role: "DC", roleTitle: "Mkuu wa Wilaya", region: "Dar es Salaam", district: "Kigamboni", constituency: "", party: "", phone: "", email: "dc.kigamboni@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Wilaya, Kigamboni", photoUrl: "", verified: false, source: "kigambonimc.go.tz", lastVerified: "2026-03-08" },
 
-  // ── DODOMA DISTRICT COMMISSIONERS ──
+  // ── DODOMA DCs ──
   { id: "dc-dodoma-city", name: "DC Dodoma City", role: "DC", roleTitle: "Mkuu wa Wilaya", region: "Dodoma", district: "Dodoma City", constituency: "", party: "", phone: "", email: "dc.dodomacc@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Wilaya, Dodoma", photoUrl: "", verified: false, source: "TAMISEMI", lastVerified: "2026-03-08" },
   { id: "dc-kondoa", name: "DC Kondoa", role: "DC", roleTitle: "Mkuu wa Wilaya", region: "Dodoma", district: "Kondoa", constituency: "", party: "", phone: "", email: "dc.kondoa@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Wilaya, Kondoa", photoUrl: "", verified: false, source: "TAMISEMI", lastVerified: "2026-03-08" },
 
   // ── JUDGES ──
   { id: "judge-dsm", name: "Jaji Mkazi wa Mahakama Kuu DSM", role: "Judge", roleTitle: "Jaji Mkazi - Mahakama Kuu", region: "Dar es Salaam", district: "", constituency: "", party: "", phone: "+255-22-211-2758", email: "hc.dsm@judiciary.go.tz", office: "Mahakama Kuu, Dar es Salaam", photoUrl: "", verified: true, source: "judiciary.go.tz", lastVerified: "2026-03-08" },
   { id: "judge-dodoma", name: "Jaji Mkazi wa Mahakama Kuu Dodoma", role: "Judge", roleTitle: "Jaji Mkazi - Mahakama Kuu", region: "Dodoma", district: "", constituency: "", party: "", phone: "", email: "hc.dodoma@judiciary.go.tz", office: "Mahakama Kuu, Dodoma", photoUrl: "", verified: false, source: "judiciary.go.tz", lastVerified: "2026-03-08" },
+];
+
+// ── MERGE: core + generated police (no duplicates by ID) ──
+const idSet = new Set(coreOfficials.map((o) => o.id));
+export const officials: Official[] = [
+  ...coreOfficials,
+  ...generatedPoliceOfficials.filter((o) => !idSet.has(o.id)),
 ];
 
 // ============================================================
@@ -249,15 +413,25 @@ export function getYourOfficials(region: string, district?: string): Official[] 
   const rpc = officials.find((o) => o.region === region && o.role === "RPC");
   if (rpc) result.push(rpc);
 
+  // OCD for the district
+  if (district) {
+    const ocd = officials.find((o) => o.region === region && o.district === district && o.role === "OCD");
+    if (ocd) result.push(ocd);
+  }
+
   // Judge for the region
   const judge = officials.find((o) => o.region === region && o.role === "Judge");
   if (judge) result.push(judge);
+
+  // PCCB for the region
+  const pccb = officials.find((o) => o.region === region && o.role === "PCCB");
+  if (pccb) result.push(pccb);
 
   // RAS
   const ras = officials.find((o) => o.region === region && o.role === "RAS");
   if (ras) result.push(ras);
 
-  // Relevant minister (always show TAMISEMI minister for local gov queries)
+  // Relevant minister
   const minister = officials.find((o) => o.role === "Minister" && o.roleTitle.includes("TAMISEMI"));
   if (minister) result.push(minister);
 
@@ -268,3 +442,17 @@ export function getYourOfficials(region: string, district?: string): Official[] 
 export function getNationalOfficials(): Official[] {
   return officials.filter((o) => !o.region);
 }
+
+/** Get police officials for a region */
+export function getPoliceByRegion(region: string): Official[] {
+  return officials.filter((o) => o.region === region && (o.role === "RPC" || o.role === "OCD"));
+}
+
+/** Count totals for stats */
+export const directoryStats = {
+  totalOfficials: officials.length,
+  totalRegions: allRegionNames.length,
+  totalPoliceRegions: policeRegions.length,
+  totalRPCs: officials.filter((o) => o.role === "RPC").length,
+  totalOCDs: officials.filter((o) => o.role === "OCD").length,
+};
