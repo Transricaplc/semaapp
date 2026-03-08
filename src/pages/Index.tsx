@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/reports";
+import GlobalSearch from "@/components/GlobalSearch";
+import ConstituencyFinder from "@/components/ConstituencyFinder";
 
 const categoryIcons: Record<ReportCategory, React.ReactNode> = {
   service_delivery: <Droplets className="w-4 h-4" />,
@@ -40,7 +42,11 @@ export default function Index() {
           <p className="text-lg md:text-xl text-primary-foreground/70 mb-10 max-w-xl mx-auto">
             Your voice matters. Report issues, find your leaders, and hold public servants accountable — all in one place.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+          {/* Global Search */}
+          <GlobalSearch />
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <Button asChild size="lg" className="gradient-green text-accent-foreground font-semibold text-base px-8 h-13 shadow-lg hover:opacity-90 transition-opacity border-0">
               <Link to="/report">
                 <AlertTriangle className="w-5 h-5 mr-2" />
@@ -48,12 +54,19 @@ export default function Index() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary-foreground/20 text-primary-foreground bg-primary-foreground/5 hover:bg-primary-foreground/10 font-semibold text-base px-8 h-13">
-              <Link to="/directory">
+              <Link to="/saka-viongozi">
                 <BookOpen className="w-5 h-5 mr-2" />
-                Tafuta Kiongozi — Find an Official
+                Saraka ya Viongozi — Full Directory
               </Link>
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* Constituency Finder */}
+      <section className="py-8 bg-background">
+        <div className="container max-w-3xl">
+          <ConstituencyFinder />
         </div>
       </section>
 
