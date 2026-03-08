@@ -7,6 +7,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import {
   searchOfficials,
+  getOfficialsByRole,
   roleTypeLabels,
   roleBadgeColors,
   type Official,
@@ -85,7 +86,6 @@ function searchWithAliases(query: string): Official[] {
       const byRole = searchOfficials(remaining || " ").filter((o) => roles.includes(o.role_type));
       if (byRole.length > 0) return byRole;
       // Fall back to all of that role
-      const { getOfficialsByRole } = require("@/data/unified_officials");
       return roles.flatMap((r: RoleType) => getOfficialsByRole(r));
     }
   }
