@@ -65,7 +65,7 @@ const dataAudit: Record<Mhimili, { total: number; gaps: string[] }> = {
   },
   LocalGov: {
     total: viongoziWote.filter((k) => k.mhimili === "LocalGov").length,
-    gaps: ["Wakurugenzi wa Halmashauri (DEDs)", "Madiwani wa Kata"],
+    gaps: [],
   },
   Judiciary: {
     total: viongoziWote.filter((k) => k.mhimili === "Judiciary").length,
