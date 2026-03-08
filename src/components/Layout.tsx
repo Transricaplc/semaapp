@@ -1,36 +1,37 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, AlertTriangle, ClipboardList, Menu, X, Shield, Landmark } from "lucide-react";
-import { useState } from "react";
+import { Home, Search, AlertTriangle, BookOpen, ClipboardList } from "lucide-react";
 
 const navItems = [
-  { path: "/", label: "Nyumbani", sublabel: "Home", icon: Home },
-  { path: "/saka-viongozi", label: "Saka Viongozi", sublabel: "Search Leaders", icon: Landmark },
-  { path: "/directory", label: "Kitabu cha Njano", sublabel: "Yellow Book", icon: BookOpen },
-  { path: "/report", label: "Toa Taarifa", sublabel: "Report", icon: AlertTriangle },
-  { path: "/tracker", label: "Fuatilia", sublabel: "Track", icon: ClipboardList },
+  { path: "/", label: "Nyumbani", icon: Home },
+  { path: "/saka-viongozi", label: "Saka", icon: Search },
+  { path: "/report", label: "Ripoti", icon: AlertTriangle, center: true },
+  { path: "/directory", label: "Kitabu", icon: BookOpen },
+  { path: "/tracker", label: "Fuatilia", icon: ClipboardList },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      {/* Header */}
-      <header className="gradient-navy sticky top-0 z-50 shadow-lg">
-        <div className="container flex items-center justify-between h-16">
+    <div className="min-h-screen flex flex-col bg-background pb-20 md:pb-0">
+      {/* Slim Desktop Top Bar */}
+      <header className="hidden md:block bg-sema-earth sticky top-0 z-50 shadow-md">
+        <div className="container flex items-center justify-between h-14">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg gradient-green flex items-center justify-center">
-              <Shield className="w-5 h-5 text-accent-foreground" />
+            <div className="w-8 h-8 rounded-lg bg-sema-red flex items-center justify-center">
+              <span className="text-lg font-bold text-primary-foreground">S</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-heading font-bold text-primary-foreground leading-tight">Sema</span>
-              <span className="text-[10px] text-primary-foreground/60 leading-none">Speak Up · Sema Mapema</span>
+              <span className="text-base font-heading font-bold text-primary-foreground leading-tight">
+                Sema
+              </span>
+              <span className="text-[9px] text-primary-foreground/50 leading-none">
+                Sauti ya Mwananchi
+              </span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="flex items-center gap-1">
             {navItems.map((item) => {
               const active = location.pathname === item.path;
               return (
@@ -39,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   to={item.path}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                     active
-                      ? "bg-accent/20 text-accent"
+                      ? "bg-sema-red/20 text-sema-yellow"
                       : "text-primary-foreground/70 hover:text-primary-foreground hover:bg-primary-foreground/5"
                   }`}
                 >
@@ -49,47 +50,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               );
             })}
           </nav>
-
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2 text-primary-foreground/80 hover:text-primary-foreground"
-          >
-            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
-
-        {/* Mobile Nav */}
-        {menuOpen && (
-          <nav className="md:hidden border-t border-primary-foreground/10 pb-3 px-4 animate-fade-in">
-            {navItems.map((item) => {
-              const active = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                    active ? "bg-accent/20 text-accent" : "text-primary-foreground/70"
-                  }`}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <div>
-                    <div>{item.label}</div>
-                    <div className="text-xs opacity-60">{item.sublabel}</div>
-                  </div>
-                </Link>
-              );
-            })}
-          </nav>
-        )}
       </header>
 
       {/* Main Content */}
       <main className="flex-1">{children}</main>
 
-      {/* Footer */}
-      <footer className="gradient-navy py-8">
+      {/* Footer - desktop only */}
+      <footer className="hidden md:block bg-sema-earth py-6 kitenge-top">
         <div className="container text-center text-primary-foreground/50 text-sm">
           <p className="font-heading font-semibold text-primary-foreground/70 mb-1">
             Sema — Sauti ya Mwananchi
@@ -97,6 +65,69 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <p>The Voice of the Citizen · Empowering Transparency in Tanzania</p>
         </div>
       </footer>
+
+      {/* Bottom Navigation - always visible */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-lg border-t border-border shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="kitenge-top" />
+        <div className="flex items-end justify-around px-2 pt-1 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+          {navItems.map((item) => {
+            const active = location.pathname === item.path;
+            const isCenter = item.center;
+
+            if (isCenter) {
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="flex flex-col items-center -mt-5"
+                >
+                  <div
+                    className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all ${
+                      active
+                        ? "bg-sema-red warm-glow scale-110"
+                        : "bg-sema-red hover:scale-105 warm-glow-sm"
+                    }`}
+                  >
+                    <item.icon className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <span
+                    className={`text-[10px] font-bold mt-1 ${
+                      active ? "text-sema-red" : "text-muted-foreground"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            }
+
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className="flex flex-col items-center py-1.5 min-w-[56px] transition-all"
+              >
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
+                    active
+                      ? "bg-sema-red/10 text-sema-red scale-110"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <item.icon className={`w-5 h-5 ${active ? "stroke-[2.5px]" : ""}`} />
+                </div>
+                <span
+                  className={`text-[10px] font-semibold mt-0.5 ${
+                    active ? "text-sema-red" : "text-muted-foreground"
+                  }`}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }
