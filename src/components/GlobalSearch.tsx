@@ -34,7 +34,12 @@ export default function GlobalSearch() {
     return searchFireStations(query).slice(0, 3);
   }, [query]);
 
-  const hasAnyResults = results.length > 0 || facilityResults.length > 0 || fireResults.length > 0;
+  const agencyResults = useMemo(() => {
+    if (query.length < 2) return [];
+    return searchAgencies(query).slice(0, 3);
+  }, [query]);
+
+  const hasAnyResults = results.length > 0 || facilityResults.length > 0 || fireResults.length > 0 || agencyResults.length > 0;
 
   const showResults = focused && query.length >= 2;
 
