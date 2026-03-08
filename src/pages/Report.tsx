@@ -1,9 +1,8 @@
 import { useState } from "react";
 import {
   AlertTriangle,
-  ShieldAlert,
-  Landmark,
   Droplets,
+  Landmark,
   MapPin,
   Camera,
   EyeOff,
@@ -17,8 +16,6 @@ import {
   Leaf,
   Sprout,
   PawPrint,
-  Mic,
-  Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,14 +24,14 @@ import { type ReportCategory, categoryLabels } from "@/data/reports";
 import { toast } from "sonner";
 
 const categories = [
-  { value: "service_delivery" as ReportCategory, label: "Barabara — Roads", icon: AlertTriangle, desc: "Potholes, broken bridges, unsafe roads" },
-  { value: "service_delivery" as ReportCategory, label: "Maji — Water", icon: Droplets, desc: "Water shortages, contamination, broken pipes", key: "maji" },
-  { value: "service_delivery" as ReportCategory, label: "Afya — Health", icon: HeartPulse, desc: "No medicine, hospital staff shortages", key: "afya" },
-  { value: "service_delivery" as ReportCategory, label: "Elimu — Education", icon: GraduationCap, desc: "Missing desks, teacher shortages", key: "elimu" },
-  { value: "service_delivery" as ReportCategory, label: "Mazingira — Environment", icon: Leaf, desc: "Pollution, deforestation, waste dumping", key: "mazingira" },
-  { value: "graft" as ReportCategory, label: "Rushwa — Corruption", icon: Landmark, desc: "Bribery, misuse of public funds" },
-  { value: "service_delivery" as ReportCategory, label: "Kilimo — Agriculture", icon: Sprout, desc: "Crop issues, unfair pricing, land disputes", key: "kilimo" },
-  { value: "crime" as ReportCategory, label: "Wanyamapori — Wildlife", icon: PawPrint, desc: "Poaching, human-wildlife conflict", key: "wanyamapori" },
+  { value: "service_delivery" as ReportCategory, label: "Roads", icon: AlertTriangle, desc: "Potholes, broken bridges, unsafe roads" },
+  { value: "service_delivery" as ReportCategory, label: "Water", icon: Droplets, desc: "Water shortages, contamination, broken pipes", key: "maji" },
+  { value: "service_delivery" as ReportCategory, label: "Health", icon: HeartPulse, desc: "No medicine, hospital staff shortages", key: "afya" },
+  { value: "service_delivery" as ReportCategory, label: "Education", icon: GraduationCap, desc: "Missing desks, teacher shortages", key: "elimu" },
+  { value: "service_delivery" as ReportCategory, label: "Environment", icon: Leaf, desc: "Pollution, deforestation, waste dumping", key: "mazingira" },
+  { value: "graft" as ReportCategory, label: "Corruption", icon: Landmark, desc: "Bribery, misuse of public funds" },
+  { value: "service_delivery" as ReportCategory, label: "Agriculture", icon: Sprout, desc: "Crop issues, unfair pricing, land disputes", key: "kilimo" },
+  { value: "crime" as ReportCategory, label: "Wildlife", icon: PawPrint, desc: "Poaching, human-wildlife conflict", key: "wanyamapori" },
 ];
 
 export default function Report() {
@@ -55,7 +52,7 @@ export default function Report() {
 
   const handleSubmit = () => {
     setSubmitted(true);
-    toast.success("Ripoti yako imetumwa! Your report has been submitted.");
+    toast.success("Your report has been submitted successfully.");
   };
 
   const handleGetLocation = () => {
@@ -74,7 +71,7 @@ export default function Report() {
           <div className="w-20 h-20 rounded-full gradient-green flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-10 h-10 text-accent-foreground" />
           </div>
-          <h1 className="text-2xl font-heading font-bold text-foreground mb-2">Asante! Thank You!</h1>
+          <h1 className="text-2xl font-heading font-bold text-foreground mb-2">Thank You!</h1>
           <p className="text-muted-foreground mb-6">
             Your report has been submitted successfully. {anonymous ? "Your identity will remain anonymous." : "You can track its status in the Accountability Tracker."}
           </p>
@@ -89,11 +86,11 @@ export default function Report() {
             </div>
             <div className="flex justify-between py-1.5">
               <span className="text-muted-foreground">Status</span>
-              <span className="status-sent px-2 py-0.5 rounded-md text-xs font-medium">Imetumwa — Sent</span>
+              <span className="status-sent px-2 py-0.5 rounded-md text-xs font-medium">Sent</span>
             </div>
           </div>
           <Button asChild className="gradient-green text-accent-foreground border-0">
-            <a href="/tracker">Fuatilia Ripoti — Track Report</a>
+            <a href="/tracker">Track Report</a>
           </Button>
         </div>
       </div>
@@ -106,10 +103,10 @@ export default function Report() {
       <section className="gradient-navy py-10">
         <div className="container max-w-2xl text-center">
           <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary-foreground mb-2">
-            Ripoti Tatizo — Report an Issue
+            Report an Issue
           </h1>
           <p className="text-primary-foreground/60 text-sm">
-            Sema Mapema — Speak Early, Speak Clearly
+            Speak early, speak clearly — help your community
           </p>
         </div>
       </section>
@@ -137,12 +134,12 @@ export default function Report() {
           {/* Step 1: Category */}
           {step === 1 && (
             <div className="animate-fade-in">
-              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Aina ya Tatizo</h2>
+              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Issue Category</h2>
               <p className="text-sm text-muted-foreground mb-6">Select the category of your report</p>
               <div className="grid gap-3">
-                {categories.map((cat) => (
+                {categories.map((cat, i) => (
                   <button
-                    key={cat.value}
+                    key={`${cat.value}-${i}`}
                     onClick={() => setCategory(cat.value)}
                     className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all text-left ${
                       category === cat.value
@@ -168,10 +165,10 @@ export default function Report() {
           {/* Step 2: Details */}
           {step === 2 && (
             <div className="animate-fade-in space-y-5">
-              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Maelezo ya Tatizo</h2>
+              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Issue Details</h2>
               <p className="text-sm text-muted-foreground mb-4">Describe the issue in detail</p>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">Title / Kichwa</label>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Title</label>
                 <Input
                   placeholder="Brief title of the issue"
                   value={title}
@@ -179,7 +176,7 @@ export default function Report() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1.5 block">Description / Maelezo</label>
+                <label className="text-sm font-medium text-foreground mb-1.5 block">Description</label>
                 <Textarea
                   placeholder="Describe the issue in detail..."
                   rows={5}
@@ -200,7 +197,7 @@ export default function Report() {
           {/* Step 3: Location */}
           {step === 3 && (
             <div className="animate-fade-in space-y-5">
-              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Mahali — Location</h2>
+              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Location</h2>
               <p className="text-sm text-muted-foreground mb-4">Where did this occur?</p>
               <div>
                 <label className="text-sm font-medium text-foreground mb-1.5 block">Location</label>
@@ -220,7 +217,7 @@ export default function Report() {
           {/* Step 4: Review */}
           {step === 4 && (
             <div className="animate-fade-in space-y-5">
-              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Kagua & Tuma</h2>
+              <h2 className="text-lg font-heading font-bold text-foreground mb-1">Review & Submit</h2>
               <p className="text-sm text-muted-foreground mb-4">Review and submit your report</p>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between py-2 border-b border-border">
@@ -269,7 +266,7 @@ export default function Report() {
           <div className="flex justify-between mt-8 pt-6 border-t border-border">
             {step > 1 ? (
               <Button variant="outline" onClick={() => setStep(step - 1)} className="gap-2">
-                <ChevronLeft className="w-4 h-4" /> Rudi — Back
+                <ChevronLeft className="w-4 h-4" /> Back
               </Button>
             ) : <div />}
             {step < 4 ? (
@@ -278,14 +275,14 @@ export default function Report() {
                 disabled={!canNext()}
                 className="gradient-green text-accent-foreground border-0 gap-2"
               >
-                Endelea — Next <ChevronRight className="w-4 h-4" />
+                Next <ChevronRight className="w-4 h-4" />
               </Button>
             ) : (
               <Button
                 onClick={handleSubmit}
                 className="gradient-green text-accent-foreground border-0 gap-2"
               >
-                <Send className="w-4 h-4" /> Tuma Ripoti — Submit
+                <Send className="w-4 h-4" /> Submit Report
               </Button>
             )}
           </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, TrendingUp, Users, Share2, Heart, Target, ChevronRight, Phone } from "lucide-react";
+import { Plus, TrendingUp, Share2, Heart, Target, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,40 +23,40 @@ interface Petition {
 const mockPetitions: Petition[] = [
   {
     id: "pet-001",
-    title: "Tunataka maji safi Dodoma — We demand clean water in Dodoma",
-    description: "Wakazi wa Dodoma wamekuwa bila maji safi kwa miezi 3. Tunaomba Waziri wa Maji achukue hatua za haraka.",
-    target: "Waziri wa Maji",
+    title: "We demand clean water in Dodoma",
+    description: "Dodoma residents have been without clean water for 3 months. We urge the Minister of Water to take immediate action.",
+    target: "Minister of Water",
     targetRole: "Ministry of Water",
     signatures: 2847,
     goal: 5000,
-    category: "Maji",
-    author: "Wananchi wa Dodoma",
+    category: "Water",
+    author: "Citizens of Dodoma",
     createdAt: "2026-02-01",
     trending: true,
   },
   {
     id: "pet-002",
-    title: "Barabara ya Morogoro irekebishwe — Fix Morogoro Highway",
-    description: "Barabara hii imesababisha ajali nyingi. Tunaomba Serikali iirejeshe katika hali nzuri.",
-    target: "Waziri wa Ujenzi",
-    targetRole: "Ministry of Works",
+    title: "Fix Morogoro Highway",
+    description: "This road has caused many accidents. We urge the Government to restore it to good condition.",
+    target: "Minister of Works",
+    targetRole: "Ministry of Works & Transport",
     signatures: 1523,
     goal: 3000,
-    category: "Barabara",
-    author: "Madereva wa Morogoro",
+    category: "Roads",
+    author: "Morogoro Drivers",
     createdAt: "2026-02-15",
     trending: true,
   },
   {
     id: "pet-003",
-    title: "Madawati shule za Mwanza — Desks for Mwanza schools",
-    description: "Wanafunzi 500+ wanakaa chini. Tunaomba serikali ya mkoa itoe madawati ya kutosha.",
+    title: "Desks for Mwanza schools",
+    description: "500+ students are sitting on the floor. We urge the regional government to provide enough desks.",
     target: "RC Mwanza",
     targetRole: "Regional Commissioner",
     signatures: 892,
     goal: 2000,
-    category: "Elimu",
-    author: "Wazazi wa Mwanza",
+    category: "Education",
+    author: "Parents of Mwanza",
     createdAt: "2026-03-01",
     trending: false,
   },
@@ -69,21 +69,21 @@ export default function Sauti() {
   const [newTarget, setNewTarget] = useState("");
 
   const handleSign = (id: string) => {
-    toast.success("Umesaini! — You signed the petition. Asante!");
+    toast.success("You signed the petition. Thank you!");
   };
 
   const handleShare = (petition: Petition) => {
-    const msg = encodeURIComponent(`✊ ${petition.title}\n\nSaini hapa: https://semaapp.lovable.app/sauti\n\n#SautiyaMwananchi #Sema`);
+    const msg = encodeURIComponent(`✊ ${petition.title}\n\nSign here: https://semaapp.lovable.app/sauti\n\n#CitizenVoice #Sema`);
     window.open(`https://wa.me/?text=${msg}`, "_blank");
   };
 
   const handleDonate = (petition: Petition) => {
-    toast.info("M-Pesa: Tuma kwa 0754 000 000 (Ref: " + petition.id + ")");
+    toast.info("M-Pesa: Send to 0754 000 000 (Ref: " + petition.id + ")");
   };
 
   const handleCreate = () => {
     if (!newTitle.trim() || !newDesc.trim()) return;
-    toast.success("Ombi lako limetumwa! — Your petition has been created.");
+    toast.success("Your petition has been created successfully.");
     setShowCreate(false);
     setNewTitle("");
     setNewDesc("");
@@ -96,10 +96,10 @@ export default function Sauti() {
       <section className="gradient-hero py-10">
         <div className="container max-w-3xl text-center">
           <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary-foreground mb-2">
-            ✊ Sauti Zetu — Our Voices
+            ✊ Our Voices — Petitions
           </h1>
           <p className="text-primary-foreground/60 text-sm">
-            Anza ombi, saini, shiriki — Start petitions, sign, and make change happen
+            Start petitions, sign, and make change happen
           </p>
         </div>
       </section>
@@ -111,31 +111,31 @@ export default function Sauti() {
           className="w-full mb-6 bg-sema-red hover:bg-sema-red-light text-primary-foreground font-semibold h-12 text-base gap-2 animate-warm-pulse"
         >
           <Plus className="w-5 h-5" />
-          Anza Ombi Jipya — Start New Petition
+          Start New Petition
         </Button>
 
         {/* Create form */}
         {showCreate && (
           <div className="glass-card rounded-2xl p-6 mb-6 animate-fade-in kitenge-border border-2">
-            <h3 className="font-heading font-bold text-foreground mb-4">Ombi Jipya — New Petition</h3>
+            <h3 className="font-heading font-bold text-foreground mb-4">New Petition</h3>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Kichwa / Title</label>
-                <Input placeholder="e.g. Tunataka maji safi..." value={newTitle} onChange={e => setNewTitle(e.target.value)} />
+                <label className="text-sm font-medium text-foreground mb-1 block">Title</label>
+                <Input placeholder="e.g. We demand clean water..." value={newTitle} onChange={e => setNewTitle(e.target.value)} />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Maelezo / Description</label>
-                <Textarea placeholder="Eleza tatizo na unachotaka..." rows={4} value={newDesc} onChange={e => setNewDesc(e.target.value)} />
+                <label className="text-sm font-medium text-foreground mb-1 block">Description</label>
+                <Textarea placeholder="Describe the issue and what you want..." rows={4} value={newDesc} onChange={e => setNewDesc(e.target.value)} />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Lengwa / Target (MP, Waziri, au Diwani)</label>
-                <Input placeholder="e.g. Waziri wa Maji" value={newTarget} onChange={e => setNewTarget(e.target.value)} />
+                <label className="text-sm font-medium text-foreground mb-1 block">Target (MP, Minister, or Councillor)</label>
+                <Input placeholder="e.g. Minister of Water" value={newTarget} onChange={e => setNewTarget(e.target.value)} />
               </div>
               <div className="flex gap-3">
                 <Button onClick={handleCreate} className="flex-1 bg-sema-green text-primary-foreground gap-2">
-                  <Target className="w-4 h-4" /> Tuma Ombi
+                  <Target className="w-4 h-4" /> Submit Petition
                 </Button>
-                <Button variant="outline" onClick={() => setShowCreate(false)}>Ghairi</Button>
+                <Button variant="outline" onClick={() => setShowCreate(false)}>Cancel</Button>
               </div>
             </div>
           </div>
@@ -144,8 +144,7 @@ export default function Sauti() {
         {/* Trending badge */}
         <div className="flex items-center gap-2 mb-4">
           <TrendingUp className="w-4 h-4 text-sema-red" />
-          <span className="text-sm font-semibold text-foreground">Maombi Yanayoongoza</span>
-          <span className="text-xs text-muted-foreground">— Trending Petitions</span>
+          <span className="text-sm font-semibold text-foreground">Trending Petitions</span>
         </div>
 
         {/* Petition cards */}
@@ -175,14 +174,14 @@ export default function Sauti() {
                 {/* Target */}
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3 pl-[52px]">
                   <Target className="w-3 h-3" />
-                  <span>Kwa: <strong className="text-foreground">{petition.target}</strong> ({petition.targetRole})</span>
+                  <span>To: <strong className="text-foreground">{petition.target}</strong> ({petition.targetRole})</span>
                 </div>
 
                 {/* Progress bar */}
                 <div className="pl-[52px] mb-3">
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="font-bold text-sema-red">{petition.signatures.toLocaleString()} saini</span>
-                    <span className="text-muted-foreground">Lengo: {petition.goal.toLocaleString()}</span>
+                    <span className="font-bold text-sema-red">{petition.signatures.toLocaleString()} signatures</span>
+                    <span className="text-muted-foreground">Goal: {petition.goal.toLocaleString()}</span>
                   </div>
                   <div className="h-2 bg-secondary rounded-full overflow-hidden">
                     <div
@@ -195,7 +194,7 @@ export default function Sauti() {
                 {/* Actions */}
                 <div className="flex items-center gap-2 pl-[52px]">
                   <Button size="sm" onClick={() => handleSign(petition.id)} className="bg-sema-green text-primary-foreground text-xs gap-1 flex-1">
-                    <Heart className="w-3 h-3" /> Saini — Sign
+                    <Heart className="w-3 h-3" /> Sign
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => handleShare(petition)} className="text-xs gap-1">
                     <Share2 className="w-3 h-3" /> WhatsApp
