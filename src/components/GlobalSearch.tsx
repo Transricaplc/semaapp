@@ -74,17 +74,61 @@ export default function GlobalSearch() {
       {/* Results dropdown */}
       {showResults && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
-          {results.length > 0 ? (
+          {hasAnyResults ? (
             <>
               <div className="p-3 border-b border-border/50">
                 <p className="text-xs text-muted-foreground">
-                  Matokeo {results.length} yamepatikana
+                  Matokeo {results.length + facilityResults.length + fireResults.length} yamepatikana
                 </p>
               </div>
               <div className="max-h-[400px] overflow-y-auto">
                 {results.map((official) => (
                   <SearchResultItem key={official.id} official={official} onSelect={() => { setFocused(false); setQuery(""); }} />
                 ))}
+
+                {/* Health facilities */}
+                {facilityResults.length > 0 && (
+                  <>
+                    <div className="px-4 py-1.5 bg-accent/5 text-[10px] font-medium text-accent flex items-center gap-1">
+                      <Heart className="w-3 h-3" /> Hospitali
+                    </div>
+                    {facilityResults.map((f) => (
+                      <div key={f.id} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors">
+                        <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                          <Heart className="w-5 h-5 text-accent" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm text-foreground truncate">{f.name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{facilityLevelLabels[f.level]} · {f.region}</p>
+                        </div>
+                        {f.phone && (
+                          <a href={`tel:${f.phone}`} className="text-xs font-bold text-accent shrink-0">{f.phone}</a>
+                        )}
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                {/* Fire stations */}
+                {fireResults.length > 0 && (
+                  <>
+                    <div className="px-4 py-1.5 bg-destructive/5 text-[10px] font-medium text-destructive flex items-center gap-1">
+                      <Flame className="w-3 h-3" /> Zimamoto
+                    </div>
+                    {fireResults.map((s) => (
+                      <div key={s.id} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors">
+                        <div className="w-10 h-10 rounded-lg bg-destructive/10 flex items-center justify-center shrink-0">
+                          <Flame className="w-5 h-5 text-destructive" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm text-foreground truncate">{s.name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{s.region} · {s.district}</p>
+                        </div>
+                        <a href={`tel:${s.hotline}`} className="text-xs font-bold text-destructive shrink-0">{s.hotline}</a>
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
               <div className="p-3 border-t border-border/50 text-center">
                 <button
@@ -100,7 +144,7 @@ export default function GlobalSearch() {
               <User className="w-10 h-10 mx-auto text-muted-foreground/40 mb-2" />
               <p className="text-sm font-medium text-foreground">Hakuna matokeo</p>
               <p className="text-xs text-muted-foreground mt-1 mb-3">
-                Kiongozi "{query}" hajapatikana kwenye mfumo
+                "{query}" hajapatikana kwenye mfumo
               </p>
               <Link
                 to="/report"
@@ -108,7 +152,7 @@ export default function GlobalSearch() {
                 className="inline-flex items-center gap-1.5 text-sm text-accent hover:underline"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                Pendekeza kiongozi aongezwe
+                Pendekeza aongezwe
               </Link>
             </div>
           )}
