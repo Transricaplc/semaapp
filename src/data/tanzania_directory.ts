@@ -313,8 +313,8 @@ const coreOfficials: Official[] = [
   // Finance
   { id: "min-finance", name: "Mhe. Khamis Mussa Omar", role: "Minister", roleTitle: "Waziri wa Fedha", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "ps@mof.go.tz", office: "Wizara ya Fedha, Dodoma", photoUrl: "", verified: true, source: "mof.go.tz", lastVerified: "2026-03-08" },
   { id: "ps-finance", name: "PS — Wizara ya Fedha", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Fedha", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@mof.go.tz", office: "Wizara ya Fedha, Dodoma", photoUrl: "", verified: false, source: "mof.go.tz", lastVerified: "2026-03-08" },
-  // Home Affairs
-  { id: "min-home", name: "Mhe. Patrobas Katambi", role: "Minister", roleTitle: "Waziri wa Mambo ya Ndani", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "ps@moha.go.tz", office: "Wizara ya Mambo ya Ndani, Dodoma", photoUrl: "", verified: true, source: "moha.go.tz", lastVerified: "2026-03-08" },
+   // Home Affairs
+  { id: "min-home", name: "Mhe. George Boniface Simbachawene", role: "Minister", roleTitle: "Waziri wa Mambo ya Ndani", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "ps@moha.go.tz", office: "Wizara ya Mambo ya Ndani, Dodoma", photoUrl: "", verified: true, source: "moha.go.tz", lastVerified: "2026-03-08" },
   { id: "dmin-home", name: "Mhe. Denis Londo", role: "DeputyMinister", roleTitle: "Naibu Waziri wa Mambo ya Ndani", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "ps@moha.go.tz", office: "Wizara ya Mambo ya Ndani, Dodoma", photoUrl: "", verified: true, source: "moha.go.tz", lastVerified: "2026-03-08" },
   { id: "ps-home", name: "PS — Wizara ya Mambo ya Ndani", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Mambo ya Ndani", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@moha.go.tz", office: "Wizara ya Mambo ya Ndani, Dodoma", photoUrl: "", verified: false, source: "moha.go.tz", lastVerified: "2026-03-08" },
   // Foreign Affairs
