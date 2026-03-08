@@ -84,6 +84,7 @@ export default function ConstituencyFinder() {
     setResults(null);
     setNearbyHospitals([]);
     setNearbyFire([]);
+    setNearbyAgencies([]);
   };
 
   return (
