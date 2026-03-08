@@ -53,6 +53,7 @@ export default function ConstituencyFinder() {
   const [results, setResults] = useState<Official[] | null>(null);
   const [nearbyHospitals, setNearbyHospitals] = useState<HealthFacility[]>([]);
   const [nearbyFire, setNearbyFire] = useState<FireStation[]>([]);
+  const [nearbyAgencies, setNearbyAgencies] = useState<{ agency: Agency; office: ZonalOffice }[]>([]);
 
   const availableWilaya = mkoa ? districtsByRegion[mkoa] || [] : [];
 
