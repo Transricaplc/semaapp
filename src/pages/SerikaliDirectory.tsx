@@ -28,6 +28,7 @@ import {
 } from "@/data/serikali";
 import KiongoziCard from "@/components/KiongoziCard";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
+import LocalGovPanel from "@/components/LocalGovPanel";
 
 // ============================================================
 // TAB CONFIG
@@ -52,7 +53,7 @@ const dataAudit: Record<Mhimili, { total: number; gaps: string[] }> = {
   },
   LocalGov: {
     total: viongoziWote.filter((k) => k.mhimili === "LocalGov").length,
-    gaps: ["Wakurugenzi wa Halmashauri (DEDs)", "Madiwani wa Kata"],
+    gaps: [],
   },
   Judiciary: {
     total: viongoziWote.filter((k) => k.mhimili === "Judiciary").length,
@@ -257,8 +258,10 @@ export default function SerikaliDirectory() {
           </div>
         )}
 
-        {/* Results */}
-        {filtered.length === 0 ? (
+        {/* Results — LocalGov gets special panel */}
+        {activeTab === "LocalGov" ? (
+          <LocalGovPanel />
+        ) : filtered.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
             <User className="w-12 h-12 mx-auto mb-3 opacity-40" />
             <p className="font-medium">Hakuna matokeo</p>
