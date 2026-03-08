@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "@/components/Layout";
 import Index from "./pages/Index";
 import Directory from "./pages/Directory";
+import SerikaliDirectory from "./pages/SerikaliDirectory";
 import Report from "./pages/Report";
 import Tracker from "./pages/Tracker";
 import NotFound from "./pages/NotFound";
