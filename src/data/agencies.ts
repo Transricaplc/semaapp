@@ -265,8 +265,8 @@ export const agencies: Agency[] = [
     agency: "Tanzania National Parks Authority",
     acronym: "TANAPA",
     sector: "Tourism",
-    head: "Dr. Allan Kijazi",
-    headTitle: "Director General",
+    head: "Musa N.K Juma",
+    headTitle: "Conservation Commissioner",
     contacts: {
       email: "info@tanzaniaparks.go.tz",
       phone: "+255 27 2503471",
