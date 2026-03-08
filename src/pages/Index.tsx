@@ -12,8 +12,13 @@ import {
   Eye,
   Heart,
   Flame,
+  Award,
+  Megaphone,
+  Share2,
+  Map,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/reports";
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
@@ -29,6 +34,12 @@ const categoryIcons: Record<ReportCategory, React.ReactNode> = {
   crime: <ShieldAlert className="w-4 h-4" />,
   graft: <Landmark className="w-4 h-4" />,
 };
+
+const successStories = [
+  { title: "Maji safi yamerudi Dodoma CBD", impact: "Watu 12,000+", emoji: "💧" },
+  { title: "Barabara ya Mbagala imeanza kujengwa", impact: "Wakazi 50,000+", emoji: "🛣️" },
+  { title: "Dawa zimefika Mwananyamala Hospital", impact: "Wagonjwa 3,000+", emoji: "🏥" },
+];
 
 export default function Index() {
   return (
