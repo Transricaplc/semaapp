@@ -12,6 +12,18 @@ import {
   Filter,
   AlertTriangle,
 } from "lucide-react";
+  Search,
+  User,
+  MapPin,
+  Landmark,
+  Building2,
+  Scale,
+  Shield,
+  ChevronDown,
+  X,
+  Filter,
+  AlertTriangle,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
