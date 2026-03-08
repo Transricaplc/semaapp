@@ -1,0 +1,82 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "last_updated": "2026-03-08",
+    "source": "Manual Entry — Replace with POLIS export",
+    "total_records": 5,
+    "schema": {
+      "id": "string — Unique identifier (e.g., mp-001)",
+      "name": "string — Full name of the official",
+      "title_role": "string — Role title: MP, Minister, Speaker, etc.",
+      "constituency": "string — Constituency name",
+      "district": "string — District name",
+      "region": "string — Region name",
+      "political_party": "string — Party abbreviation: CCM, CHADEMA, ACT-Wazalendo, etc.",
+      "email": "string — Official email address",
+      "phone": "string — Official phone number",
+      "profile_image_url": "string — URL to profile photo (optional)"
+    }
+  },
+  "officials": [
+    {
+      "id": "mp-001",
+      "name": "Hon. John Mnyika",
+      "title_role": "MP",
+      "constituency": "Dodoma Mjini",
+      "district": "Dodoma Urban",
+      "region": "Dodoma",
+      "political_party": "CHADEMA",
+      "email": "john.mnyika@bunge.go.tz",
+      "phone": "+255-262-321-001",
+      "profile_image_url": ""
+    },
+    {
+      "id": "mp-002",
+      "name": "Hon. Anna Kilango",
+      "title_role": "MP",
+      "constituency": "Kondoa",
+      "district": "Kondoa",
+      "region": "Dodoma",
+      "political_party": "CCM",
+      "email": "anna.kilango@bunge.go.tz",
+      "phone": "+255-262-321-002",
+      "profile_image_url": ""
+    },
+    {
+      "id": "mp-003",
+      "name": "Hon. Salome Makamba",
+      "title_role": "MP",
+      "constituency": "Bumbuli",
+      "district": "Lushoto",
+      "region": "Tanga",
+      "political_party": "CHADEMA",
+      "email": "salome.makamba@bunge.go.tz",
+      "phone": "+255-272-640-003",
+      "profile_image_url": ""
+    },
+    {
+      "id": "mp-004",
+      "name": "Hon. Ridhiwani Kikwete",
+      "title_role": "MP",
+      "constituency": "Chalinze",
+      "district": "Chalinze",
+      "region": "Pwani",
+      "political_party": "CCM",
+      "email": "ridhiwani.kikwete@bunge.go.tz",
+      "phone": "+255-232-400-004",
+      "profile_image_url": ""
+    },
+    {
+      "id": "mp-005",
+      "name": "Hon. Halima Mdee",
+      "title_role": "Minister",
+      "constituency": "Kawe",
+      "district": "Kinondoni",
+      "region": "Dar es Salaam",
+      "political_party": "CHADEMA",
+      "email": "halima.mdee@bunge.go.tz",
+      "phone": "+255-222-113-005",
+      "profile_image_url": ""
+    }
+  ]
+}
