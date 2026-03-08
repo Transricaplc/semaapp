@@ -171,7 +171,7 @@ export default function ConstituencyFinder() {
               </div>
 
               {/* Nearby Emergency Services */}
-              {(nearbyHospitals.length > 0 || nearbyFire.length > 0) && (
+              {(nearbyHospitals.length > 0 || nearbyFire.length > 0 || nearbyAgencies.length > 0) && (
                 <div className="mt-6 pt-4 border-t border-border/30">
                   <h4 className="font-heading font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 text-destructive" />
