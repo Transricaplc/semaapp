@@ -14,6 +14,8 @@ import {
   Shield,
   Scale,
   Building2,
+  Heart,
+  Flame,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -25,6 +27,8 @@ import {
   roleBadgeColors,
   type Official,
 } from "@/data/tanzania_directory";
+import { getFacilitiesByRegion, getFacilitiesByDistrict, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
+import { getFireStationsByRegion, getFireStationsByDistrict, type FireStation } from "@/data/fire_stations";
 
 function shareWhatsApp(official: Official) {
   const text = `🇹🇿 ${official.name}\n📌 ${official.roleTitle}${official.office ? `\n📍 ${official.office}` : ""}${official.phone ? `\n📞 ${official.phone}` : ""}${official.email ? `\n✉️ ${official.email}` : ""}\n\n— Sema App`;
