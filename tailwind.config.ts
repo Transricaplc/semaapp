@@ -51,17 +51,31 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        navy: {
-          DEFAULT: "hsl(var(--navy))",
-          light: "hsl(var(--navy-light))",
-        },
-        green: {
-          DEFAULT: "hsl(var(--green))",
-          light: "hsl(var(--green-light))",
-          dark: "hsl(var(--green-dark))",
+        sema: {
+          red: "hsl(var(--sema-red))",
+          "red-light": "hsl(var(--sema-red-light))",
+          yellow: "hsl(var(--sema-yellow))",
+          "yellow-warm": "hsl(var(--sema-yellow-warm))",
+          green: "hsl(var(--sema-green))",
+          "green-light": "hsl(var(--sema-green-light))",
+          brown: "hsl(var(--sema-brown))",
+          "brown-light": "hsl(var(--sema-brown-light))",
+          earth: "hsl(var(--sema-earth))",
+          cream: "hsl(var(--sema-cream))",
+          sunrise: "hsl(var(--sema-sunrise))",
         },
         gold: "hsl(var(--gold))",
         warning: "hsl(var(--warning))",
+        // Legacy aliases
+        navy: {
+          DEFAULT: "hsl(var(--sema-earth))",
+          light: "hsl(var(--sema-brown-light))",
+        },
+        green: {
+          DEFAULT: "hsl(var(--sema-green))",
+          light: "hsl(var(--sema-green-light))",
+          dark: "hsl(var(--sema-green))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -99,6 +113,14 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0.7" },
         },
+        "warm-pulse": {
+          "0%, 100%": { boxShadow: "0 0 15px hsl(48 100% 50% / 0.2)" },
+          "50%": { boxShadow: "0 0 25px hsl(48 100% 50% / 0.4), 0 0 50px hsl(20 90% 60% / 0.15)" },
+        },
+        "slide-up": {
+          from: { opacity: "0", transform: "translateY(100%)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -106,6 +128,8 @@ export default {
         "fade-in": "fade-in 0.4s ease-out",
         "slide-in": "slide-in-right 0.3s ease-out",
         "pulse-gentle": "pulse-gentle 2s ease-in-out infinite",
+        "warm-pulse": "warm-pulse 3s ease-in-out infinite",
+        "slide-up": "slide-up 0.3s ease-out",
       },
     },
   },
