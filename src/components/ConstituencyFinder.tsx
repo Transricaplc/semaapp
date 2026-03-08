@@ -49,6 +49,8 @@ export default function ConstituencyFinder() {
   const [mkoa, setMkoa] = useState("");
   const [wilaya, setWilaya] = useState("");
   const [results, setResults] = useState<Official[] | null>(null);
+  const [nearbyHospitals, setNearbyHospitals] = useState<HealthFacility[]>([]);
+  const [nearbyFire, setNearbyFire] = useState<FireStation[]>([]);
 
   const availableWilaya = mkoa ? districtsByRegion[mkoa] || [] : [];
 
@@ -56,6 +58,17 @@ export default function ConstituencyFinder() {
     if (!mkoa) return;
     const found = getYourOfficials(mkoa, wilaya || undefined);
     setResults(found);
+
+    // Get nearby health & fire services
+    const hospitals = wilaya
+      ? getFacilitiesByDistrict(mkoa, wilaya)
+      : getFacilitiesByRegion(mkoa);
+    setNearbyHospitals(hospitals.slice(0, 5));
+
+    const fireStns = wilaya
+      ? getFireStationsByDistrict(mkoa, wilaya)
+      : getFireStationsByRegion(mkoa);
+    setNearbyFire(fireStns.slice(0, 3));
   };
 
   const handleMkoaChange = (val: string) => {
