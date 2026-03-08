@@ -14,7 +14,149 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      petition_signatures: {
+        Row: {
+          created_at: string
+          id: string
+          petition_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          petition_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          petition_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "petition_signatures_petition_id_fkey"
+            columns: ["petition_id"]
+            isOneToOne: false
+            referencedRelation: "petitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      petitions: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string
+          goal: number
+          id: string
+          target: string
+          target_role: string | null
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description: string
+          goal?: number
+          id?: string
+          target: string
+          target_role?: string | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string
+          goal?: number
+          id?: string
+          target?: string
+          target_role?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          anonymous_mode: boolean
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          language: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          anonymous_mode?: boolean
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          language?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          anonymous_mode?: boolean
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          language?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          anonymous: boolean
+          category: string
+          created_at: string
+          description: string
+          id: string
+          location: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          anonymous?: boolean
+          category: string
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          anonymous?: boolean
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
