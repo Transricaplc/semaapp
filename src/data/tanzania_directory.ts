@@ -1,3 +1,5 @@
+import { mpData, getMPsByRegion, getMPsByDistrict, type MPEntry } from "./mps_data";
+
 /**
  * Tanzania Administrative Divisions + Officials Directory
  * All 31 regions with their districts, plus mapped officials
