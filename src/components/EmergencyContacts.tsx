@@ -1,5 +1,7 @@
-import { Phone, Shield, Flame, Heart, Scale, Users, Car, AlertTriangle } from "lucide-react";
+import { Phone, Shield, Flame, Heart, Scale, Users, Car, AlertTriangle, Building } from "lucide-react";
 import { emergencyContacts, type EmergencyContact } from "@/data/tanzania_directory";
+import { facilityStats } from "@/data/health_facilities";
+import { fireStats } from "@/data/fire_stations";
 
 const categoryIcons: Record<EmergencyContact["category"], React.ElementType> = {
   police: Shield,
