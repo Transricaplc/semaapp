@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Search, X, User, MapPin, ChevronRight, BadgeCheck, ExternalLink, Heart, Flame } from "lucide-react";
+import { Search, X, User, MapPin, ChevronRight, BadgeCheck, ExternalLink, Heart, Flame, Building } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,6 +10,7 @@ import {
 } from "@/data/tanzania_directory";
 import { searchFacilities, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
 import { searchFireStations, type FireStation } from "@/data/fire_stations";
+import { searchAgencies, type Agency } from "@/data/agencies";
 
 export default function GlobalSearch() {
   const [query, setQuery] = useState("");
@@ -33,7 +34,12 @@ export default function GlobalSearch() {
     return searchFireStations(query).slice(0, 3);
   }, [query]);
 
-  const hasAnyResults = results.length > 0 || facilityResults.length > 0 || fireResults.length > 0;
+  const agencyResults = useMemo(() => {
+    if (query.length < 2) return [];
+    return searchAgencies(query).slice(0, 3);
+  }, [query]);
+
+  const hasAnyResults = results.length > 0 || facilityResults.length > 0 || fireResults.length > 0 || agencyResults.length > 0;
 
   const showResults = focused && query.length >= 2;
 
@@ -78,7 +84,7 @@ export default function GlobalSearch() {
             <>
               <div className="p-3 border-b border-border/50">
                 <p className="text-xs text-muted-foreground">
-                  Matokeo {results.length + facilityResults.length + fireResults.length} yamepatikana
+                  Matokeo {results.length + facilityResults.length + fireResults.length + agencyResults.length} yamepatikana
                 </p>
               </div>
               <div className="max-h-[400px] overflow-y-auto">
@@ -125,6 +131,29 @@ export default function GlobalSearch() {
                           <p className="text-xs text-muted-foreground truncate">{s.region} · {s.district}</p>
                         </div>
                         <a href={`tel:${s.hotline}`} className="text-xs font-bold text-destructive shrink-0">{s.hotline}</a>
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                {/* Agencies */}
+                {agencyResults.length > 0 && (
+                  <>
+                    <div className="px-4 py-1.5 bg-primary/5 text-[10px] font-medium text-primary flex items-center gap-1">
+                      <Building className="w-3 h-3" /> Taasisi za Serikali
+                    </div>
+                    {agencyResults.map((a) => (
+                      <div key={a.id} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors">
+                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <Building className="w-5 h-5 text-primary" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm text-foreground truncate">{a.acronym} — {a.agency}</p>
+                          <p className="text-xs text-muted-foreground truncate">{a.head} · {a.headTitle}</p>
+                        </div>
+                        {a.contacts.phone && (
+                          <a href={`tel:${a.contacts.phone}`} className="text-xs font-bold text-primary shrink-0">{a.contacts.phone}</a>
+                        )}
                       </div>
                     ))}
                   </>

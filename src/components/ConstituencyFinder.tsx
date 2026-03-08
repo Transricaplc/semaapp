@@ -16,6 +16,7 @@ import {
   Building2,
   Heart,
   Flame,
+  Building,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -29,6 +30,7 @@ import {
 } from "@/data/tanzania_directory";
 import { getFacilitiesByRegion, getFacilitiesByDistrict, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
 import { getFireStationsByRegion, getFireStationsByDistrict, type FireStation } from "@/data/fire_stations";
+import { getAgenciesForRegion, sectorLabels, type Agency, type ZonalOffice } from "@/data/agencies";
 
 function shareWhatsApp(official: Official) {
   const text = `🇹🇿 ${official.name}\n📌 ${official.roleTitle}${official.office ? `\n📍 ${official.office}` : ""}${official.phone ? `\n📞 ${official.phone}` : ""}${official.email ? `\n✉️ ${official.email}` : ""}\n\n— Sema App`;
@@ -51,6 +53,7 @@ export default function ConstituencyFinder() {
   const [results, setResults] = useState<Official[] | null>(null);
   const [nearbyHospitals, setNearbyHospitals] = useState<HealthFacility[]>([]);
   const [nearbyFire, setNearbyFire] = useState<FireStation[]>([]);
+  const [nearbyAgencies, setNearbyAgencies] = useState<{ agency: Agency; office: ZonalOffice }[]>([]);
 
   const availableWilaya = mkoa ? districtsByRegion[mkoa] || [] : [];
 
@@ -69,6 +72,10 @@ export default function ConstituencyFinder() {
       ? getFireStationsByDistrict(mkoa, wilaya)
       : getFireStationsByRegion(mkoa);
     setNearbyFire(fireStns.slice(0, 3));
+
+    // Get zonal agency offices for this region
+    const agencyOffices = getAgenciesForRegion(mkoa);
+    setNearbyAgencies(agencyOffices.slice(0, 4));
   };
 
   const handleMkoaChange = (val: string) => {
@@ -77,6 +84,7 @@ export default function ConstituencyFinder() {
     setResults(null);
     setNearbyHospitals([]);
     setNearbyFire([]);
+    setNearbyAgencies([]);
   };
 
   return (
@@ -163,7 +171,7 @@ export default function ConstituencyFinder() {
               </div>
 
               {/* Nearby Emergency Services */}
-              {(nearbyHospitals.length > 0 || nearbyFire.length > 0) && (
+              {(nearbyHospitals.length > 0 || nearbyFire.length > 0 || nearbyAgencies.length > 0) && (
                 <div className="mt-6 pt-4 border-t border-border/30">
                   <h4 className="font-heading font-bold text-foreground text-sm mb-3 flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 text-destructive" />
@@ -222,6 +230,35 @@ export default function ConstituencyFinder() {
                               <Phone className="w-3 h-3" />
                               {s.hotline}
                             </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Agency Zonal Offices */}
+                  {nearbyAgencies.length > 0 && (
+                    <div className="mt-3">
+                      <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
+                        <Building className="w-3 h-3 text-primary" />
+                        Taasisi za Serikali ({nearbyAgencies.length})
+                      </p>
+                      <div className="grid gap-2">
+                        {nearbyAgencies.map(({ agency, office }) => (
+                          <div key={`${agency.id}-${office.zone}`} className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/5 border border-primary/10">
+                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                              <Building className="w-4 h-4 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-foreground truncate">{agency.acronym} — {office.zone}</p>
+                              <p className="text-[10px] text-muted-foreground">{office.manager}</p>
+                            </div>
+                            {office.phone && (
+                              <a href={`tel:${office.phone}`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-primary/10 text-primary text-xs font-bold hover:bg-primary/20 transition-colors shrink-0">
+                                <Phone className="w-3 h-3" />
+                                {office.phone}
+                              </a>
+                            )}
                           </div>
                         ))}
                       </div>
