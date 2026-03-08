@@ -41,13 +41,13 @@ export default defineConfig(({ mode }) => ({
         ],
       },
       manifest: {
-        name: "Sema — Sauti ya Mwananchi",
+        name: "Sema — Tanzania's Citizen Yellow Book",
         short_name: "Sema",
-        description: "Citizen advocacy platform for Tanzania. Report issues, start petitions, hold leaders accountable.",
+        description: "Every government contact. One place. Verified. Tanzania's official citizen directory.",
         start_url: "/",
         display: "standalone",
-        background_color: "#3D2A1A",
-        theme_color: "#E30613",
+        background_color: "#1C1C1E",
+        theme_color: "#F5C500",
         orientation: "portrait-primary",
         icons: [
           { src: "/favicon.ico", sizes: "64x64", type: "image/x-icon" },

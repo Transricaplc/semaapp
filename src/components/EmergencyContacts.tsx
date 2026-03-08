@@ -21,22 +21,16 @@ const emergencyContacts: EmergencyContact[] = [
 ];
 
 const categoryIcons: Record<EmergencyContact["category"], React.ElementType> = {
-  police: Shield,
-  fire: Flame,
-  medical: Heart,
-  antigraft: Scale,
-  gender: Users,
-  child: Users,
-  traffic: Car,
+  police: Shield, fire: Flame, medical: Heart, antigraft: Scale, gender: Users, child: Users, traffic: Car,
 };
 
 const categoryColors: Record<EmergencyContact["category"], string> = {
   police: "bg-destructive/10 text-destructive border-destructive/20",
   fire: "bg-destructive/15 text-destructive border-destructive/25",
   medical: "bg-accent/10 text-accent border-accent/20",
-  antigraft: "bg-gold/15 text-foreground border-gold/30",
-  gender: "bg-primary/10 text-primary border-primary/20",
-  child: "bg-primary/10 text-primary border-primary/20",
+  antigraft: "bg-primary/15 text-foreground border-primary/30",
+  gender: "bg-yb-info/10 text-yb-info border-yb-info/20",
+  child: "bg-yb-info/10 text-yb-info border-yb-info/20",
   traffic: "bg-destructive/10 text-destructive border-destructive/20",
 };
 
@@ -49,19 +43,14 @@ export default function EmergencyBanner() {
     <div className="bg-destructive/5 border border-destructive/15 rounded-xl p-4 mb-6">
       <div className="flex items-center gap-2 mb-3">
         <AlertTriangle className="w-4 h-4 text-destructive" />
-        <h3 className="font-heading font-bold text-foreground text-sm">
-          Emergency Contacts
-        </h3>
+        <h3 className="font-heading font-bold text-foreground text-sm">Emergency Contacts</h3>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {critical.map((contact) => {
           const Icon = categoryIcons[contact.category];
           return (
-            <a
-              key={contact.id}
-              href={`tel:${contact.phone}`}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-sm font-medium hover:opacity-90 transition-opacity ${categoryColors[contact.category]}`}
-            >
+            <a key={contact.id} href={`tel:${contact.phone}`}
+              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-sm font-medium hover:opacity-90 transition-opacity ${categoryColors[contact.category]}`}>
               <Icon className="w-4 h-4 shrink-0" />
               <div className="min-w-0">
                 <div className="font-bold text-base leading-tight">{contact.phone}</div>
@@ -75,14 +64,8 @@ export default function EmergencyBanner() {
         PCCB: 113 · Police: 112/999 · Fire: 114 · Ambulance: 115 · Gender/Child: 116
       </p>
       <div className="flex flex-wrap gap-3 mt-2 text-[10px] text-muted-foreground">
-        <span className="flex items-center gap-1">
-          <Heart className="w-2.5 h-2.5 text-accent" />
-          {facilityStats.total} hospitals in system
-        </span>
-        <span className="flex items-center gap-1">
-          <Flame className="w-2.5 h-2.5 text-destructive" />
-          {fireStats.totalStations} fire stations
-        </span>
+        <span className="flex items-center gap-1"><Heart className="w-2.5 h-2.5 text-accent" />{facilityStats.total} hospitals in system</span>
+        <span className="flex items-center gap-1"><Flame className="w-2.5 h-2.5 text-destructive" />{fireStats.totalStations} fire stations</span>
       </div>
     </div>
   );
