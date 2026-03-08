@@ -502,6 +502,16 @@ export function getYourOfficials(region: string, district?: string): Official[] 
     if (dc) result.push(dc);
   }
 
+  // MP(s) for the district
+  if (district) {
+    const mps = officials.filter((o) => o.region === region && o.district === district && o.role === "MP");
+    mps.forEach((mp) => result.push(mp));
+  } else {
+    // Show first 3 MPs for the region if no district selected
+    const regionMps = officials.filter((o) => o.region === region && o.role === "MP").slice(0, 3);
+    regionMps.forEach((mp) => result.push(mp));
+  }
+
   // RPC for the region
   const rpc = officials.find((o) => o.region === region && o.role === "RPC");
   if (rpc) result.push(rpc);
@@ -530,6 +540,9 @@ export function getYourOfficials(region: string, district?: string): Official[] 
 
   return result;
 }
+
+/** Re-export MP utilities */
+export { getMPsByRegion, getMPsByDistrict, mpData, type MPEntry } from "./mps_data";
 
 /** Get all national-level officials */
 export function getNationalOfficials(): Official[] {

@@ -48,7 +48,7 @@ const dataAudit: Record<Mhimili, { total: number; gaps: string[] }> = {
   },
   Legislature: {
     total: viongoziWote.filter((k) => k.mhimili === "Legislature").length,
-    gaps: ["Wabunge wote (All MPs)", "Wenyeviti wa Kamati"],
+    gaps: ["Wenyeviti wa Kamati"],
   },
   LocalGov: {
     total: viongoziWote.filter((k) => k.mhimili === "LocalGov").length,
