@@ -58,6 +58,16 @@ export default function EmergencyBanner() {
       <p className="text-[10px] text-muted-foreground mt-2">
         TAKUKURU/PCCB: 113 · Polisi: 112/999 · Zimamoto: 114 · Ambulansi: 115 · Jinsia/Watoto: 116
       </p>
+      <div className="flex flex-wrap gap-3 mt-2 text-[10px] text-muted-foreground">
+        <span className="flex items-center gap-1">
+          <Heart className="w-2.5 h-2.5 text-accent" />
+          Hospitali {facilityStats.total} kwenye mfumo
+        </span>
+        <span className="flex items-center gap-1">
+          <Flame className="w-2.5 h-2.5 text-destructive" />
+          Vituo vya Zimamoto {fireStats.totalStations}
+        </span>
+      </div>
     </div>
   );
 }
