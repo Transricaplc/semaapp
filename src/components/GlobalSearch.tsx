@@ -85,7 +85,6 @@ function searchWithAliases(query: string): Official[] {
       const byRole = searchOfficials(remaining || " ").filter((o) => roles.includes(o.role_type));
       if (byRole.length > 0) return byRole;
       // Fall back to all of that role
-      const { getOfficialsByRole } = require("@/data/unified_officials");
       return roles.flatMap((r: RoleType) => getOfficialsByRole(r));
     }
   }
