@@ -161,6 +161,74 @@ export default function ConstituencyFinder() {
                   <OfficialCard key={official.id} official={official} />
                 ))}
               </div>
+
+              {/* Nearby Emergency Services */}
+              {(nearbyHospitals.length > 0 || nearbyFire.length > 0) && (
+                <div className="mt-6 pt-4 border-t border-border/30">
+                  <h4 className="font-heading font-bold text-foreground text-sm mb-3 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 text-destructive" />
+                    Huduma za Dharura Karibu Nawe
+                  </h4>
+
+                  {/* Hospitals */}
+                  {nearbyHospitals.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
+                        <Heart className="w-3 h-3 text-accent" />
+                        Hospitali ({nearbyHospitals.length})
+                      </p>
+                      <div className="grid gap-2">
+                        {nearbyHospitals.map((h) => (
+                          <div key={h.id} className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-accent/5 border border-accent/10">
+                            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                              <Heart className="w-4 h-4 text-accent" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-foreground truncate">{h.name}</p>
+                              <p className="text-[10px] text-muted-foreground">
+                                {facilityLevelLabels[h.level]} · {h.district}
+                              </p>
+                            </div>
+                            {h.phone && (
+                              <a href={`tel:${h.phone}`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-accent/10 text-accent text-xs font-bold hover:bg-accent/20 transition-colors shrink-0">
+                                <Phone className="w-3 h-3" />
+                                {h.phone}
+                              </a>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Fire Stations */}
+                  {nearbyFire.length > 0 && (
+                    <div>
+                      <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
+                        <Flame className="w-3 h-3 text-destructive" />
+                        Zimamoto ({nearbyFire.length})
+                      </p>
+                      <div className="grid gap-2">
+                        {nearbyFire.map((s) => (
+                          <div key={s.id} className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-destructive/5 border border-destructive/10">
+                            <div className="w-8 h-8 rounded-lg bg-destructive/10 flex items-center justify-center shrink-0">
+                              <Flame className="w-4 h-4 text-destructive" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-foreground truncate">{s.name}</p>
+                              <p className="text-[10px] text-muted-foreground">{s.district}</p>
+                            </div>
+                            <a href={`tel:${s.hotline}`} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-destructive/10 text-destructive text-xs font-bold hover:bg-destructive/20 transition-colors shrink-0">
+                              <Phone className="w-3 h-3" />
+                              {s.hotline}
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
