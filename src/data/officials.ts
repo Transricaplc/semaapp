@@ -16,11 +16,11 @@ export interface Official {
 export const officials: Official[] = [
   // National
   { id: "n1", name: "Hon. Samia Suluhu Hassan", role: "Rais wa Jamhuri (President)", level: "national", region: "Dodoma", department: "Executive", phone: "+255-22-211-6898", email: "info@ikulu.go.tz" },
-  { id: "n2", name: "Hon. Kassim Majaliwa", role: "Waziri Mkuu (Prime Minister)", level: "national", region: "Dodoma", department: "Executive", phone: "+255-22-213-5061", email: "pm@pmo.go.tz" },
-  { id: "n3", name: "Hon. January Makamba", role: "Minister of Energy", level: "national", region: "Dodoma", department: "Infrastructure", phone: "+255-22-211-7624", email: "info@nishati.go.tz" },
-  { id: "n4", name: "Hon. Ummy Mwalimu", role: "Minister of Health", level: "national", region: "Dodoma", department: "Health", phone: "+255-22-212-0261", email: "ps@afya.go.tz" },
-  { id: "n5", name: "Hon. Adolf Mkenda", role: "Minister of Education", level: "national", region: "Dodoma", department: "Education", phone: "+255-22-212-1481", email: "ps@moe.go.tz" },
-  { id: "n6", name: "Hon. Doto Biteko", role: "Minister of Minerals", level: "national", region: "Dodoma", department: "Finance", phone: "+255-22-212-5038", email: "info@madini.go.tz" },
+  { id: "n2", name: "Hon. Mwigulu Nchemba", role: "Waziri Mkuu (Prime Minister)", level: "national", region: "Dodoma", department: "Executive", phone: "+255-26-232-2443", email: "pm@pmo.go.tz" },
+  { id: "n3", name: "Hon. Deogratius Ndejembi", role: "Minister of Energy", level: "national", region: "Dodoma", department: "Infrastructure", phone: "", email: "info@nishati.go.tz" },
+  { id: "n4", name: "Hon. Mohamed Mchengerwa", role: "Minister of Health", level: "national", region: "Dodoma", department: "Health", phone: "", email: "info@moh.go.tz" },
+  { id: "n5", name: "Hon. Prof. Adolf Mkenda", role: "Minister of Education", level: "national", region: "Dodoma", department: "Education", phone: "", email: "info@moest.go.tz" },
+  { id: "n6", name: "Hon. Anthony Peter Mavunde", role: "Minister of Minerals", level: "national", region: "Dodoma", department: "Finance", phone: "", email: "info@madini.go.tz" },
 
   // Regional Commissioners
   { id: "r1", name: "Albert Chalamila", role: "Regional Commissioner (RC)", level: "regional", region: "Dar es Salaam", department: "Executive", phone: "+255-22-211-5414", email: "rc@dsm.go.tz" },
