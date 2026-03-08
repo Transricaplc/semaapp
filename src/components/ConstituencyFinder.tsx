@@ -30,6 +30,7 @@ import {
 } from "@/data/tanzania_directory";
 import { getFacilitiesByRegion, getFacilitiesByDistrict, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
 import { getFireStationsByRegion, getFireStationsByDistrict, type FireStation } from "@/data/fire_stations";
+import { getAgenciesForRegion, sectorLabels, type Agency, type ZonalOffice } from "@/data/agencies";
 
 function shareWhatsApp(official: Official) {
   const text = `🇹🇿 ${official.name}\n📌 ${official.roleTitle}${official.office ? `\n📍 ${official.office}` : ""}${official.phone ? `\n📞 ${official.phone}` : ""}${official.email ? `\n✉️ ${official.email}` : ""}\n\n— Sema App`;
