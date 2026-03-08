@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Search, X, User, MapPin, ChevronRight, BadgeCheck, ExternalLink } from "lucide-react";
+import { Search, X, User, MapPin, ChevronRight, BadgeCheck, ExternalLink, Heart, Flame } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -8,6 +8,8 @@ import {
   roleBadgeColors,
   type Official,
 } from "@/data/tanzania_directory";
+import { searchFacilities, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
+import { searchFireStations, type FireStation } from "@/data/fire_stations";
 
 export default function GlobalSearch() {
   const [query, setQuery] = useState("");
