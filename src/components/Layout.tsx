@@ -2,11 +2,11 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, AlertTriangle, Map, Megaphone, User } from "lucide-react";
 
 const navItems = [
-  { path: "/", label: "Nyumbani", icon: Home },
-  { path: "/ramani", label: "Ramani", icon: Map },
-  { path: "/report", label: "Ripoti", icon: AlertTriangle, center: true },
-  { path: "/sauti", label: "Sauti", icon: Megaphone },
-  { path: "/mimi", label: "Mimi", icon: User },
+  { path: "/", label: "Home", icon: Home },
+  { path: "/ramani", label: "Map", icon: Map },
+  { path: "/report", label: "Report", icon: AlertTriangle, center: true },
+  { path: "/sauti", label: "Petitions", icon: Megaphone },
+  { path: "/mimi", label: "Profile", icon: User },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -26,21 +26,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Sema
               </span>
               <span className="text-[9px] text-primary-foreground/50 leading-none">
-                Sauti ya Mwananchi
+                The Citizen's Voice
               </span>
             </div>
           </Link>
 
           <nav className="flex items-center gap-1">
             {[
-              { path: "/", label: "Nyumbani" },
-              { path: "/saka-viongozi", label: "Saka Viongozi" },
-              { path: "/ramani", label: "Ramani" },
-              { path: "/sauti", label: "Sauti" },
-              { path: "/report", label: "Ripoti" },
-              { path: "/directory", label: "Kitabu" },
-              { path: "/tracker", label: "Fuatilia" },
-              { path: "/mimi", label: "Mimi" },
+              { path: "/", label: "Home" },
+              { path: "/saka-viongozi", label: "Directory" },
+              { path: "/ramani", label: "Map" },
+              { path: "/sauti", label: "Petitions" },
+              { path: "/report", label: "Report" },
+              { path: "/directory", label: "Yellow Book" },
+              { path: "/tracker", label: "Tracker" },
+              { path: "/mimi", label: "Profile" },
             ].map((item) => {
               const active = location.pathname === item.path;
               return (
@@ -67,9 +67,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <footer className="hidden md:block bg-sema-earth py-6 kitenge-top">
         <div className="container text-center text-primary-foreground/50 text-sm">
           <p className="font-heading font-semibold text-primary-foreground/70 mb-1">
-            Sema — Sauti ya Mwananchi
+            Sema — The Citizen's Voice
           </p>
-          <p>The Voice of the Citizen · Empowering Transparency in Tanzania</p>
+          <p>Empowering Transparency & Accountability in Tanzania</p>
         </div>
       </footer>
 

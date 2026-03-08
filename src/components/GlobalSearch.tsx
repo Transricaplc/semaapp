@@ -4,10 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import {
   searchOfficials,
-  roleLabels,
+  roleTypeLabels,
   roleBadgeColors,
+  getContact,
   type Official,
-} from "@/data/tanzania_directory";
+} from "@/data/unified_officials";
 import { searchFacilities, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
 import { searchFireStations, type FireStation } from "@/data/fire_stations";
 import { searchAgencies, type Agency } from "@/data/agencies";
@@ -40,10 +41,8 @@ export default function GlobalSearch() {
   }, [query]);
 
   const hasAnyResults = results.length > 0 || facilityResults.length > 0 || fireResults.length > 0 || agencyResults.length > 0;
-
   const showResults = focused && query.length >= 2;
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -61,7 +60,7 @@ export default function GlobalSearch() {
         <Input
           ref={inputRef}
           type="search"
-          placeholder="Saka kiongozi kwa jina, wadhifa, mkoa, au wizara..."
+          placeholder="Search officials by name, role, region, or ministry..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
@@ -77,14 +76,13 @@ export default function GlobalSearch() {
         )}
       </div>
 
-      {/* Results dropdown */}
       {showResults && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
           {hasAnyResults ? (
             <>
               <div className="p-3 border-b border-border/50">
                 <p className="text-xs text-muted-foreground">
-                  Matokeo {results.length + facilityResults.length + fireResults.length + agencyResults.length} yamepatikana
+                  {results.length + facilityResults.length + fireResults.length + agencyResults.length} results found
                 </p>
               </div>
               <div className="max-h-[400px] overflow-y-auto">
@@ -92,11 +90,10 @@ export default function GlobalSearch() {
                   <SearchResultItem key={official.id} official={official} onSelect={() => { setFocused(false); setQuery(""); }} />
                 ))}
 
-                {/* Health facilities */}
                 {facilityResults.length > 0 && (
                   <>
                     <div className="px-4 py-1.5 bg-accent/5 text-[10px] font-medium text-accent flex items-center gap-1">
-                      <Heart className="w-3 h-3" /> Hospitali
+                      <Heart className="w-3 h-3" /> Hospitals
                     </div>
                     {facilityResults.map((f) => (
                       <div key={f.id} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors">
@@ -115,11 +112,10 @@ export default function GlobalSearch() {
                   </>
                 )}
 
-                {/* Fire stations */}
                 {fireResults.length > 0 && (
                   <>
                     <div className="px-4 py-1.5 bg-destructive/5 text-[10px] font-medium text-destructive flex items-center gap-1">
-                      <Flame className="w-3 h-3" /> Zimamoto
+                      <Flame className="w-3 h-3" /> Fire Stations
                     </div>
                     {fireResults.map((s) => (
                       <div key={s.id} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors">
@@ -136,11 +132,10 @@ export default function GlobalSearch() {
                   </>
                 )}
 
-                {/* Agencies */}
                 {agencyResults.length > 0 && (
                   <>
                     <div className="px-4 py-1.5 bg-primary/5 text-[10px] font-medium text-primary flex items-center gap-1">
-                      <Building className="w-3 h-3" /> Taasisi za Serikali
+                      <Building className="w-3 h-3" /> Government Agencies
                     </div>
                     {agencyResults.map((a) => (
                       <div key={a.id} className="flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors">
@@ -164,16 +159,16 @@ export default function GlobalSearch() {
                   onClick={() => { navigate("/saka-viongozi"); setFocused(false); }}
                   className="text-sm text-accent hover:underline flex items-center gap-1 mx-auto"
                 >
-                  Tazama saraka kamili <ChevronRight className="w-3 h-3" />
+                  View full directory <ChevronRight className="w-3 h-3" />
                 </button>
               </div>
             </>
           ) : (
             <div className="p-6 text-center">
               <User className="w-10 h-10 mx-auto text-muted-foreground/40 mb-2" />
-              <p className="text-sm font-medium text-foreground">Hakuna matokeo</p>
+              <p className="text-sm font-medium text-foreground">No results found</p>
               <p className="text-xs text-muted-foreground mt-1 mb-3">
-                "{query}" hajapatikana kwenye mfumo
+                "{query}" was not found in the system
               </p>
               <Link
                 to="/report"
@@ -181,7 +176,7 @@ export default function GlobalSearch() {
                 className="inline-flex items-center gap-1.5 text-sm text-accent hover:underline"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                Pendekeza aongezwe
+                Suggest this official be added
               </Link>
             </div>
           )}
@@ -197,33 +192,28 @@ function SearchResultItem({ official, onSelect }: { official: Official; onSelect
       onClick={onSelect}
       className="w-full flex items-center gap-3 px-4 py-3 hover:bg-secondary/50 transition-colors text-left"
     >
-      {/* Avatar */}
       <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center shrink-0">
-        {official.photoUrl ? (
-          <img src={official.photoUrl} alt={official.name} className="w-full h-full rounded-lg object-cover" />
+        {official.profile_photo_url ? (
+          <img src={official.profile_photo_url} alt={official.full_name} className="w-full h-full rounded-lg object-cover" />
         ) : (
           <User className="w-5 h-5 text-primary-foreground" />
         )}
       </div>
-
-      {/* Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="font-medium text-sm text-foreground truncate">{official.name}</span>
-          {official.verified && <BadgeCheck className="w-3.5 h-3.5 text-accent shrink-0" />}
+          <span className="font-medium text-sm text-foreground truncate">{official.full_name}</span>
+          {official.verified_status === "VERIFIED" && <BadgeCheck className="w-3.5 h-3.5 text-accent shrink-0" />}
         </div>
-        <p className="text-xs text-muted-foreground truncate">{official.roleTitle}</p>
+        <p className="text-xs text-muted-foreground truncate">{official.role_title}</p>
       </div>
-
-      {/* Badges */}
       <div className="flex flex-col items-end gap-1 shrink-0">
-        <span className={`text-[10px] px-2 py-0.5 rounded-md font-medium border ${roleBadgeColors[official.role]}`}>
-          {roleLabels[official.role]}
+        <span className={`text-[10px] px-2 py-0.5 rounded-md font-medium border ${roleBadgeColors[official.role_type]}`}>
+          {roleTypeLabels[official.role_type]}
         </span>
-        {official.region && (
+        {official.location.region && (
           <span className="flex items-center gap-0.5 text-[10px] text-muted-foreground">
             <MapPin className="w-2.5 h-2.5" />
-            {official.region}
+            {official.location.region}
           </span>
         )}
       </div>
