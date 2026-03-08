@@ -12,6 +12,13 @@ import {
   ChevronLeft,
   CheckCircle2,
   Send,
+  HeartPulse,
+  GraduationCap,
+  Leaf,
+  Sprout,
+  PawPrint,
+  Mic,
+  Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,9 +27,14 @@ import { type ReportCategory, categoryLabels } from "@/data/reports";
 import { toast } from "sonner";
 
 const categories = [
-  { value: "graft" as ReportCategory, label: "Rushwa — Graft", icon: Landmark, desc: "Corruption, bribery, misuse of public funds" },
-  { value: "crime" as ReportCategory, label: "Uhalifu — Crime", icon: ShieldAlert, desc: "Theft, violence, public safety threats" },
-  { value: "service_delivery" as ReportCategory, label: "Huduma — Service Delivery", icon: Droplets, desc: "Water, health, roads, electricity issues" },
+  { value: "service_delivery" as ReportCategory, label: "Barabara — Roads", icon: AlertTriangle, desc: "Potholes, broken bridges, unsafe roads" },
+  { value: "service_delivery" as ReportCategory, label: "Maji — Water", icon: Droplets, desc: "Water shortages, contamination, broken pipes", key: "maji" },
+  { value: "service_delivery" as ReportCategory, label: "Afya — Health", icon: HeartPulse, desc: "No medicine, hospital staff shortages", key: "afya" },
+  { value: "service_delivery" as ReportCategory, label: "Elimu — Education", icon: GraduationCap, desc: "Missing desks, teacher shortages", key: "elimu" },
+  { value: "service_delivery" as ReportCategory, label: "Mazingira — Environment", icon: Leaf, desc: "Pollution, deforestation, waste dumping", key: "mazingira" },
+  { value: "graft" as ReportCategory, label: "Rushwa — Corruption", icon: Landmark, desc: "Bribery, misuse of public funds" },
+  { value: "service_delivery" as ReportCategory, label: "Kilimo — Agriculture", icon: Sprout, desc: "Crop issues, unfair pricing, land disputes", key: "kilimo" },
+  { value: "crime" as ReportCategory, label: "Wanyamapori — Wildlife", icon: PawPrint, desc: "Poaching, human-wildlife conflict", key: "wanyamapori" },
 ];
 
 export default function Report() {
