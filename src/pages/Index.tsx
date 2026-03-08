@@ -67,6 +67,7 @@ export default function Index() {
       {/* Constituency Finder */}
       <section className="py-8 bg-background">
         <div className="container max-w-3xl">
+          <EmergencyBanner />
           <ConstituencyFinder />
         </div>
       </section>
