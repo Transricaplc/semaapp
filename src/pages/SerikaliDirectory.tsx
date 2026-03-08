@@ -40,6 +40,7 @@ import {
 } from "@/data/serikali";
 import KiongoziCard from "@/components/KiongoziCard";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
+import LocalGovPanel from "@/components/LocalGovPanel";
 
 // ============================================================
 // TAB CONFIG
