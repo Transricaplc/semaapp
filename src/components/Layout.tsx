@@ -1,11 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, AlertTriangle, ClipboardList, Menu, X, Shield } from "lucide-react";
+import { Home, BookOpen, AlertTriangle, ClipboardList, Menu, X, Shield, Landmark } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
   { path: "/", label: "Nyumbani", sublabel: "Home", icon: Home },
-  { path: "/directory", label: "Viongozi", sublabel: "Directory", icon: BookOpen },
-  { path: "/report", label: "Ripoti", sublabel: "Report", icon: AlertTriangle },
+  { path: "/saka-viongozi", label: "Saka Viongozi", sublabel: "Search Leaders", icon: Landmark },
+  { path: "/directory", label: "Kitabu cha Njano", sublabel: "Yellow Book", icon: BookOpen },
+  { path: "/report", label: "Toa Taarifa", sublabel: "Report", icon: AlertTriangle },
   { path: "/tracker", label: "Fuatilia", sublabel: "Track", icon: ClipboardList },
 ];
 
