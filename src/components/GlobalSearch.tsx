@@ -23,6 +23,18 @@ export default function GlobalSearch() {
     return searchOfficials(query).slice(0, 8);
   }, [query]);
 
+  const facilityResults = useMemo(() => {
+    if (query.length < 2) return [];
+    return searchFacilities(query).slice(0, 3);
+  }, [query]);
+
+  const fireResults = useMemo(() => {
+    if (query.length < 2) return [];
+    return searchFireStations(query).slice(0, 3);
+  }, [query]);
+
+  const hasAnyResults = results.length > 0 || facilityResults.length > 0 || fireResults.length > 0;
+
   const showResults = focused && query.length >= 2;
 
   // Close on outside click
