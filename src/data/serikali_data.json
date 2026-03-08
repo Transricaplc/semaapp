@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "last_updated": "2026-03-08",
     "source": "Official Regional Portals (.go.tz) & TAMISEMI",
     "total_records": 30
@@ -19,7 +19,9 @@
       "simu": "+255-22-211-6898",
       "barua_pepe": "info@ikulu.go.tz",
       "ofisi": "Ikulu, Dar es Salaam",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "ikulu.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-002",
@@ -34,7 +36,9 @@
       "simu": "+255-22-211-3856",
       "barua_pepe": "info@vpo.go.tz",
       "ofisi": "Ofisi ya Makamu wa Rais, Dar es Salaam",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "vpo.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-003",
@@ -49,7 +53,9 @@
       "simu": "+255-22-213-5679",
       "barua_pepe": "info@pmo.go.tz",
       "ofisi": "Ofisi ya Waziri Mkuu, Dodoma",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "pmo.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-004",
@@ -64,7 +70,9 @@
       "simu": "+255-22-220-3158",
       "barua_pepe": "rc.dsm@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Dar es Salaam",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "dsm.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-005",
@@ -79,7 +87,9 @@
       "simu": "+255-26-232-4343",
       "barua_pepe": "rc.dodoma@tamisemi.go.tz",
       "ofisi": "Jengo la Mkapa, Dodoma",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "dodoma.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-006",
@@ -94,7 +104,9 @@
       "simu": "",
       "barua_pepe": "rc.arusha@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Arusha",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "arusha.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-007",
@@ -109,7 +121,9 @@
       "simu": "",
       "barua_pepe": "rc.mwanza@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Mwanza",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "mwanza.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-008",
@@ -124,7 +138,9 @@
       "simu": "027-264-2421",
       "barua_pepe": "rc.tanga@tamisemi.go.tz",
       "ofisi": "Golf Area/Masiwani Road, Tanga",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "tanga.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-009",
@@ -139,7 +155,9 @@
       "simu": "",
       "barua_pepe": "rc.kilimanjaro@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Moshi",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "kilimanjaro.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-010",
@@ -154,7 +172,9 @@
       "simu": "+255-22-220-3156",
       "barua_pepe": "ras@dsm.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Dar es Salaam",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "dsm.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "parl-001",
@@ -169,7 +189,9 @@
       "simu": "+255-26-232-2761",
       "barua_pepe": "speaker@bunge.go.tz",
       "ofisi": "Bunge la Tanzania, Dodoma",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "bunge.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "parl-002",
@@ -184,7 +206,9 @@
       "simu": "+255-26-232-2761",
       "barua_pepe": "info@bunge.go.tz",
       "ofisi": "Bunge la Tanzania, Dodoma",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "bunge.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "parl-003",
@@ -199,7 +223,9 @@
       "simu": "",
       "barua_pepe": "info@bunge.go.tz",
       "ofisi": "Bunge la Tanzania, Dodoma",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "bunge.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "local-001",
@@ -214,7 +240,9 @@
       "simu": "",
       "barua_pepe": "ras.arusha@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Arusha",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "arusha.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "local-002",
@@ -229,7 +257,9 @@
       "simu": "",
       "barua_pepe": "ras.mwanza@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Mwanza",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "mwanza.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "local-003",
@@ -244,7 +274,9 @@
       "simu": "",
       "barua_pepe": "ras.kilimanjaro@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Moshi",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "kilimanjaro.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "local-004",
@@ -259,7 +291,9 @@
       "simu": "",
       "barua_pepe": "ras.pwani@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Pwani",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "pwani.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "local-005",
@@ -274,7 +308,9 @@
       "simu": "",
       "barua_pepe": "ras.iringa@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Iringa",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "iringa.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "local-006",
@@ -289,7 +325,9 @@
       "simu": "",
       "barua_pepe": "ras.morogoro@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Morogoro",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "morogoro.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "jud-001",
@@ -304,7 +342,9 @@
       "simu": "+255-22-211-6065",
       "barua_pepe": "info@judiciary.go.tz",
       "ofisi": "Mahakama Kuu, Dar es Salaam",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "judiciary.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "jud-002",
@@ -319,7 +359,9 @@
       "simu": "+255-22-211-7152",
       "barua_pepe": "igp@polisi.go.tz",
       "ofisi": "Makao Makuu ya Polisi, Dar es Salaam",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "polisi.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "jud-003",
@@ -334,7 +376,9 @@
       "simu": "112",
       "barua_pepe": "polisi.dsm@polisi.go.tz",
       "ofisi": "Polisi Mkoa, Dar es Salaam",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "polisi.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-011",
@@ -349,7 +393,9 @@
       "simu": "",
       "barua_pepe": "rc.mbeya@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Mbeya",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "mbeya.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-012",
@@ -364,7 +410,9 @@
       "simu": "",
       "barua_pepe": "rc.morogoro@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Morogoro",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "morogoro.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-013",
@@ -379,7 +427,9 @@
       "simu": "",
       "barua_pepe": "rc.kagera@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Bukoba",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "kagera.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-014",
@@ -394,7 +444,9 @@
       "simu": "",
       "barua_pepe": "rc.pwani@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Kibaha",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "pwani.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-015",
@@ -409,7 +461,9 @@
       "simu": "",
       "barua_pepe": "rc.iringa@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Iringa",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "iringa.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-016",
@@ -424,7 +478,9 @@
       "simu": "",
       "barua_pepe": "rc.mtwara@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Mtwara",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "mtwara.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-017",
@@ -439,7 +495,9 @@
       "simu": "",
       "barua_pepe": "rc.manyara@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Babati",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "manyara.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     },
     {
       "id": "exec-018",
@@ -454,7 +512,9 @@
       "simu": "",
       "barua_pepe": "rc.rukwa@tamisemi.go.tz",
       "ofisi": "Ofisi ya Mkuu wa Mkoa, Sumbawanga",
-      "picha_url": ""
+      "picha_url": "",
+      "chanzo": "rukwa.go.tz",
+      "tarehe_uhakiki": "2026-03-08"
     }
   ]
 }

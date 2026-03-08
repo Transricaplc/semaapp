@@ -21,6 +21,8 @@ export interface Kiongozi {
   barua_pepe: string;
   ofisi: string;
   picha_url: string;
+  chanzo: string;
+  tarehe_uhakiki: string;
 }
 
 export interface SerikaliMeta {
