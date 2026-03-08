@@ -235,8 +235,6 @@ export default function ConstituencyFinder() {
                       </div>
                     </div>
                   )}
-                </div>
-              )}
 
                   {/* Agency Zonal Offices */}
                   {nearbyAgencies.length > 0 && (
