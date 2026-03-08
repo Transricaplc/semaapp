@@ -22,6 +22,7 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/saka-viongozi" element={<SerikaliDirectory />} />
             <Route path="/directory" element={<Directory />} />
             <Route path="/report" element={<Report />} />
             <Route path="/tracker" element={<Tracker />} />
