@@ -61,21 +61,23 @@ tanzaniaRegions.forEach((r) => {
 // ============================================================
 
 export type OfficialRole =
-  | "RC"        // Regional Commissioner
-  | "RAS"       // Regional Administrative Secretary
-  | "DC"        // District Commissioner
-  | "DED"       // District Executive Director
-  | "MP"        // Member of Parliament
-  | "RPC"       // Regional Police Commander
-  | "OCD"       // Officer Commanding District
-  | "Judge"     // Judge/Magistrate
-  | "Minister"  // Cabinet Minister
-  | "President" // President/VP/PM
-  | "Speaker"   // Speaker of Parliament
-  | "IGP"       // Inspector General of Police
-  | "CJ"        // Chief Justice
-  | "PCCB"      // Anti-Graft / TAKUKURU
-  | "Emergency"; // Emergency Services
+  | "RC"             // Regional Commissioner
+  | "RAS"            // Regional Administrative Secretary
+  | "DC"             // District Commissioner
+  | "DED"            // District Executive Director
+  | "MP"             // Member of Parliament
+  | "RPC"            // Regional Police Commander
+  | "OCD"            // Officer Commanding District
+  | "Judge"          // Judge/Magistrate
+  | "Minister"       // Cabinet Minister
+  | "DeputyMinister" // Deputy Minister
+  | "PS"             // Permanent Secretary
+  | "President"      // President/VP/PM
+  | "Speaker"        // Speaker of Parliament
+  | "IGP"            // Inspector General of Police
+  | "CJ"             // Chief Justice
+  | "PCCB"           // Anti-Graft / TAKUKURU
+  | "Emergency";     // Emergency Services
 
 export const roleLabels: Record<OfficialRole, string> = {
   RC: "Mkuu wa Mkoa",
@@ -87,6 +89,8 @@ export const roleLabels: Record<OfficialRole, string> = {
   OCD: "Kamanda wa Polisi Wilaya",
   Judge: "Jaji/Hakimu",
   Minister: "Waziri",
+  DeputyMinister: "Naibu Waziri",
+  PS: "Katibu Mkuu (PS)",
   President: "Rais/Makamu/Waziri Mkuu",
   Speaker: "Spika",
   IGP: "Inspekta Jenerali wa Polisi",
@@ -105,6 +109,8 @@ export const roleBadgeColors: Record<OfficialRole, string> = {
   OCD: "bg-destructive/10 text-destructive border-destructive/20",
   Judge: "bg-destructive/10 text-destructive border-destructive/20",
   Minister: "bg-primary/15 text-primary border-primary/25",
+  DeputyMinister: "bg-primary/10 text-primary border-primary/15",
+  PS: "bg-secondary text-foreground border-border",
   President: "bg-primary/15 text-primary border-primary/25",
   Speaker: "bg-gold/15 text-foreground border-gold/30",
   IGP: "bg-destructive/10 text-destructive border-destructive/20",
@@ -293,19 +299,78 @@ const generatedPoliceOfficials = generatePoliceOfficials();
 // ============================================================
 
 const coreOfficials: Official[] = [
-  // ── NATIONAL LEADERSHIP ──
+  // ── NATIONAL LEADERSHIP (Post-Nov 2025 / Jan 2026 Reshuffle) ──
   { id: "nat-001", name: "Mhe. Dkt. Samia Suluhu Hassan", role: "President", roleTitle: "Rais wa Jamhuri ya Muungano wa Tanzania", region: "", district: "", constituency: "", party: "CCM", phone: "+255-22-211-6898", email: "info@ikulu.go.tz", office: "Ikulu, Dar es Salaam", photoUrl: "", verified: true, source: "ikulu.go.tz", lastVerified: "2026-03-08" },
-  { id: "nat-002", name: "Mhe. Dkt. Philip Isdor Mpango", role: "President", roleTitle: "Makamu wa Rais", region: "", district: "", constituency: "", party: "CCM", phone: "+255-22-211-3856", email: "info@vpo.go.tz", office: "Ofisi ya Makamu wa Rais", photoUrl: "", verified: true, source: "vpo.go.tz", lastVerified: "2026-03-08" },
-  { id: "nat-003", name: "Mhe. Kassim Majaliwa Majaliwa", role: "President", roleTitle: "Waziri Mkuu", region: "", district: "", constituency: "", party: "CCM", phone: "+255-22-213-5679", email: "info@pmo.go.tz", office: "Ofisi ya Waziri Mkuu, Dodoma", photoUrl: "", verified: true, source: "pmo.go.tz", lastVerified: "2026-03-08" },
+  { id: "nat-002", name: "Mhe. Emmanuel Nchimbi", role: "President", roleTitle: "Makamu wa Rais", region: "", district: "", constituency: "", party: "CCM", phone: "+255-22-211-3856", email: "info@vpo.go.tz", office: "Ofisi ya Makamu wa Rais, Dar es Salaam", photoUrl: "", verified: true, source: "vpo.go.tz", lastVerified: "2026-03-08" },
+  { id: "nat-003", name: "Mhe. Dkt. Mwigulu Nchemba", role: "President", roleTitle: "Waziri Mkuu", region: "", district: "", constituency: "", party: "CCM", phone: "+255-26-232-2443", email: "info@pmo.go.tz", office: "Ofisi ya Waziri Mkuu, Dodoma", photoUrl: "", verified: true, source: "pmo.go.tz", lastVerified: "2026-03-08" },
   { id: "nat-004", name: "Mhe. Dkt. Tulia Ackson", role: "Speaker", roleTitle: "Spika wa Bunge", region: "", district: "", constituency: "", party: "CCM", phone: "+255-26-232-2761", email: "speaker@bunge.go.tz", office: "Bunge la Tanzania, Dodoma", photoUrl: "", verified: true, source: "bunge.go.tz", lastVerified: "2026-03-08" },
   { id: "nat-005", name: "Mhe. Prof. Ibrahim Hamisi Juma", role: "CJ", roleTitle: "Jaji Mkuu wa Tanzania", region: "", district: "", constituency: "", party: "", phone: "+255-22-211-6065", email: "info@judiciary.go.tz", office: "Mahakama Kuu, Dar es Salaam", photoUrl: "", verified: true, source: "judiciary.go.tz", lastVerified: "2026-03-08" },
   { id: "nat-006", name: "IGP Mhe. Camillus Wambura", role: "IGP", roleTitle: "Inspekta Jenerali wa Polisi", region: "", district: "", constituency: "", party: "", phone: "+255-22-211-7152", email: "igp@polisi.go.tz", office: "Makao Makuu ya Polisi, Dar es Salaam", photoUrl: "", verified: true, source: "polisi.go.tz", lastVerified: "2026-03-08" },
 
-  // ── MINISTERS ──
-  { id: "min-001", name: "Mhe. January Makamba", role: "Minister", roleTitle: "Waziri wa Nishati", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@nishati.go.tz", office: "Wizara ya Nishati, Dodoma", photoUrl: "", verified: true, source: "nishati.go.tz", lastVerified: "2026-03-08" },
-  { id: "min-002", name: "Mhe. Prof. Adolf Mkenda", role: "Minister", roleTitle: "Waziri wa Elimu", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@moest.go.tz", office: "Wizara ya Elimu, Dodoma", photoUrl: "", verified: true, source: "moest.go.tz", lastVerified: "2026-03-08" },
-  { id: "min-003", name: "Mhe. Ummy Mwalimu", role: "Minister", roleTitle: "Waziri wa Afya", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@moh.go.tz", office: "Wizara ya Afya, Dodoma", photoUrl: "", verified: true, source: "moh.go.tz", lastVerified: "2026-03-08" },
-  { id: "min-004", name: "Mhe. Angellah Kairuki", role: "Minister", roleTitle: "Waziri wa TAMISEMI", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@tamisemi.go.tz", office: "TAMISEMI, Dodoma", photoUrl: "", verified: true, source: "tamisemi.go.tz", lastVerified: "2026-03-08" },
+  // ── CABINET — MINISTERS (March 2026 Baraza la Mawaziri) ──
+  // Finance
+  { id: "min-finance", name: "Mhe. Khamis Mussa Omar", role: "Minister", roleTitle: "Waziri wa Fedha", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "ps@mof.go.tz", office: "Wizara ya Fedha, Dodoma", photoUrl: "", verified: true, source: "mof.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-finance", name: "PS — Wizara ya Fedha", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Fedha", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@mof.go.tz", office: "Wizara ya Fedha, Dodoma", photoUrl: "", verified: false, source: "mof.go.tz", lastVerified: "2026-03-08" },
+  // Home Affairs
+  { id: "min-home", name: "Mhe. Patrobas Katambi", role: "Minister", roleTitle: "Waziri wa Mambo ya Ndani", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "ps@moha.go.tz", office: "Wizara ya Mambo ya Ndani, Dodoma", photoUrl: "", verified: true, source: "moha.go.tz", lastVerified: "2026-03-08" },
+  { id: "dmin-home", name: "Mhe. Denis Londo", role: "DeputyMinister", roleTitle: "Naibu Waziri wa Mambo ya Ndani", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "ps@moha.go.tz", office: "Wizara ya Mambo ya Ndani, Dodoma", photoUrl: "", verified: true, source: "moha.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-home", name: "PS — Wizara ya Mambo ya Ndani", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Mambo ya Ndani", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@moha.go.tz", office: "Wizara ya Mambo ya Ndani, Dodoma", photoUrl: "", verified: false, source: "moha.go.tz", lastVerified: "2026-03-08" },
+  // Foreign Affairs
+  { id: "min-foreign", name: "Mhe. Mahmoud Thabit Kombo", role: "Minister", roleTitle: "Waziri wa Mambo ya Nje", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@foreign.go.tz", office: "Wizara ya Mambo ya Nje, Dodoma", photoUrl: "", verified: true, source: "foreign.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-foreign", name: "PS — Wizara ya Mambo ya Nje", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Mambo ya Nje", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@foreign.go.tz", office: "Wizara ya Mambo ya Nje, Dodoma", photoUrl: "", verified: false, source: "foreign.go.tz", lastVerified: "2026-03-08" },
+  // Health
+  { id: "min-health", name: "Mhe. Mohamed Mchengerwa", role: "Minister", roleTitle: "Waziri wa Afya", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@moh.go.tz", office: "Wizara ya Afya, Dodoma", photoUrl: "", verified: true, source: "moh.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-health", name: "PS — Wizara ya Afya", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Afya", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@moh.go.tz", office: "Wizara ya Afya, Dodoma", photoUrl: "", verified: false, source: "moh.go.tz", lastVerified: "2026-03-08" },
+  // Education
+  { id: "min-edu", name: "Mhe. Prof. Adolf Mkenda", role: "Minister", roleTitle: "Waziri wa Elimu, Sayansi na Teknolojia", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@moest.go.tz", office: "Wizara ya Elimu, Dodoma", photoUrl: "", verified: true, source: "moest.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-edu", name: "PS — Wizara ya Elimu", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Elimu", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@moest.go.tz", office: "Wizara ya Elimu, Dodoma", photoUrl: "", verified: false, source: "moest.go.tz", lastVerified: "2026-03-08" },
+  // Information, Culture, Arts & Sports
+  { id: "min-info", name: "Mhe. Paul Makonda", role: "Minister", roleTitle: "Waziri wa Habari, Utamaduni, Sanaa na Michezo", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@habari.go.tz", office: "Wizara ya Habari, Dodoma", photoUrl: "", verified: true, source: "habari.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-info", name: "PS — Wizara ya Habari", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Habari", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@habari.go.tz", office: "Wizara ya Habari, Dodoma", photoUrl: "", verified: false, source: "habari.go.tz", lastVerified: "2026-03-08" },
+  // TAMISEMI (Local Government)
+  { id: "min-tamisemi", name: "Mhe. Angellah Kairuki", role: "Minister", roleTitle: "Waziri wa TAMISEMI", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@tamisemi.go.tz", office: "TAMISEMI, Dodoma", photoUrl: "", verified: true, source: "tamisemi.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-tamisemi", name: "PS — TAMISEMI", role: "PS", roleTitle: "Katibu Mkuu — TAMISEMI", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@tamisemi.go.tz", office: "TAMISEMI, Dodoma", photoUrl: "", verified: false, source: "tamisemi.go.tz", lastVerified: "2026-03-08" },
+  // Energy
+  { id: "min-energy", name: "Mhe. January Makamba", role: "Minister", roleTitle: "Waziri wa Nishati", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@nishati.go.tz", office: "Wizara ya Nishati, Dodoma", photoUrl: "", verified: true, source: "nishati.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-energy", name: "PS — Wizara ya Nishati", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Nishati", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@nishati.go.tz", office: "Wizara ya Nishati, Dodoma", photoUrl: "", verified: false, source: "nishati.go.tz", lastVerified: "2026-03-08" },
+  // Agriculture
+  { id: "min-agri", name: "Mhe. Hussein Bashe", role: "Minister", roleTitle: "Waziri wa Kilimo", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@kilimo.go.tz", office: "Wizara ya Kilimo, Dodoma", photoUrl: "", verified: true, source: "kilimo.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-agri", name: "PS — Wizara ya Kilimo", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Kilimo", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@kilimo.go.tz", office: "Wizara ya Kilimo, Dodoma", photoUrl: "", verified: false, source: "kilimo.go.tz", lastVerified: "2026-03-08" },
+  // Works & Transport
+  { id: "min-works", name: "Mhe. Prof. Makame Mbarawa", role: "Minister", roleTitle: "Waziri wa Ujenzi na Uchukuzi", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@uchukuzi.go.tz", office: "Wizara ya Ujenzi na Uchukuzi, Dodoma", photoUrl: "", verified: true, source: "uchukuzi.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-works", name: "PS — Wizara ya Ujenzi na Uchukuzi", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Ujenzi na Uchukuzi", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@uchukuzi.go.tz", office: "Wizara ya Ujenzi na Uchukuzi, Dodoma", photoUrl: "", verified: false, source: "uchukuzi.go.tz", lastVerified: "2026-03-08" },
+  // Natural Resources & Tourism
+  { id: "min-tourism", name: "Mhe. Dkt. Pindi Chana", role: "Minister", roleTitle: "Waziri wa Maliasili na Utalii", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@mnrt.go.tz", office: "Wizara ya Maliasili na Utalii, Dodoma", photoUrl: "", verified: true, source: "mnrt.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-tourism", name: "PS — Wizara ya Maliasili na Utalii", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Maliasili na Utalii", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@mnrt.go.tz", office: "Wizara ya Maliasili na Utalii, Dodoma", photoUrl: "", verified: false, source: "mnrt.go.tz", lastVerified: "2026-03-08" },
+  // Water
+  { id: "min-water", name: "Mhe. Jumaa Aweso", role: "Minister", roleTitle: "Waziri wa Maji", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@maji.go.tz", office: "Wizara ya Maji, Dodoma", photoUrl: "", verified: true, source: "maji.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-water", name: "PS — Wizara ya Maji", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Maji", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@maji.go.tz", office: "Wizara ya Maji, Dodoma", photoUrl: "", verified: false, source: "maji.go.tz", lastVerified: "2026-03-08" },
+  // Lands, Housing & Human Settlements
+  { id: "min-lands", name: "Mhe. William Lukuvi", role: "Minister", roleTitle: "Waziri wa Ardhi, Nyumba na Maendeleo ya Makazi", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@ardhi.go.tz", office: "Wizara ya Ardhi, Dodoma", photoUrl: "", verified: true, source: "ardhi.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-lands", name: "PS — Wizara ya Ardhi", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Ardhi", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@ardhi.go.tz", office: "Wizara ya Ardhi, Dodoma", photoUrl: "", verified: false, source: "ardhi.go.tz", lastVerified: "2026-03-08" },
+  // Defence & National Service
+  { id: "min-defence", name: "Mhe. Stergomena Tax", role: "Minister", roleTitle: "Waziri wa Ulinzi na Jeshi la Kujenga Taifa", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@modans.go.tz", office: "Wizara ya Ulinzi, Dodoma", photoUrl: "", verified: true, source: "modans.go.tz", lastVerified: "2026-03-08" },
+  // Constitution & Legal Affairs
+  { id: "min-legal", name: "Mhe. Dkt. Damas Ndumbaro", role: "Minister", roleTitle: "Waziri wa Katiba na Sheria", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@sheria.go.tz", office: "Wizara ya Katiba na Sheria, Dodoma", photoUrl: "", verified: true, source: "sheria.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-legal", name: "PS — Wizara ya Katiba na Sheria", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Katiba na Sheria", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@sheria.go.tz", office: "Wizara ya Katiba na Sheria, Dodoma", photoUrl: "", verified: false, source: "sheria.go.tz", lastVerified: "2026-03-08" },
+  // Industry & Trade
+  { id: "min-trade", name: "Mhe. Ashatu Kijaji", role: "Minister", roleTitle: "Waziri wa Viwanda na Biashara", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@mit.go.tz", office: "Wizara ya Viwanda na Biashara, Dodoma", photoUrl: "", verified: true, source: "mit.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-trade", name: "PS — Wizara ya Viwanda na Biashara", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Viwanda na Biashara", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@mit.go.tz", office: "Wizara ya Viwanda na Biashara, Dodoma", photoUrl: "", verified: false, source: "mit.go.tz", lastVerified: "2026-03-08" },
+  // Minerals
+  { id: "min-minerals", name: "Mhe. Anthony Peter Mavunde", role: "Minister", roleTitle: "Waziri wa Madini", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@madini.go.tz", office: "Wizara ya Madini, Dodoma", photoUrl: "", verified: true, source: "madini.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-minerals", name: "PS — Wizara ya Madini", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Madini", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@madini.go.tz", office: "Wizara ya Madini, Dodoma", photoUrl: "", verified: false, source: "madini.go.tz", lastVerified: "2026-03-08" },
+  // Livestock & Fisheries
+  { id: "min-livestock", name: "Mhe. Abdallah Ulega", role: "Minister", roleTitle: "Waziri wa Mifugo na Uvuvi", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@mifugouvuvi.go.tz", office: "Wizara ya Mifugo na Uvuvi, Dodoma", photoUrl: "", verified: true, source: "mifugouvuvi.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-livestock", name: "PS — Wizara ya Mifugo na Uvuvi", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Mifugo na Uvuvi", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@mifugouvuvi.go.tz", office: "Wizara ya Mifugo na Uvuvi, Dodoma", photoUrl: "", verified: false, source: "mifugouvuvi.go.tz", lastVerified: "2026-03-08" },
+  // Community Development, Gender, Women & Special Groups
+  { id: "min-gender", name: "Mhe. Dkt. Dorothy Gwajima", role: "Minister", roleTitle: "Waziri wa Maendeleo ya Jamii, Jinsia, Wanawake na Makundi Maalum", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@maendeleo.go.tz", office: "Wizara ya Maendeleo ya Jamii, Dodoma", photoUrl: "", verified: true, source: "maendeleo.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-gender", name: "PS — Wizara ya Maendeleo ya Jamii", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Maendeleo ya Jamii", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@maendeleo.go.tz", office: "Wizara ya Maendeleo ya Jamii, Dodoma", photoUrl: "", verified: false, source: "maendeleo.go.tz", lastVerified: "2026-03-08" },
+  // Labour & Employment
+  { id: "min-labour", name: "Mhe. Dkt. Gwang'ombe", role: "Minister", roleTitle: "Waziri wa Kazi na Ajira", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@kazi.go.tz", office: "Wizara ya Kazi na Ajira, Dodoma", photoUrl: "", verified: true, source: "kazi.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-labour", name: "PS — Wizara ya Kazi na Ajira", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Kazi na Ajira", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@kazi.go.tz", office: "Wizara ya Kazi na Ajira, Dodoma", photoUrl: "", verified: false, source: "kazi.go.tz", lastVerified: "2026-03-08" },
+  // ICT & Communication
+  { id: "min-ict", name: "Mhe. Nape Nnauye", role: "Minister", roleTitle: "Waziri wa Mawasiliano na Teknolojia ya Habari", region: "", district: "", constituency: "", party: "CCM", phone: "", email: "info@mawasiliano.go.tz", office: "Wizara ya Mawasiliano na TEHAMA, Dodoma", photoUrl: "", verified: true, source: "mawasiliano.go.tz", lastVerified: "2026-03-08" },
+  { id: "ps-ict", name: "PS — Wizara ya Mawasiliano", role: "PS", roleTitle: "Katibu Mkuu — Wizara ya Mawasiliano na TEHAMA", region: "", district: "", constituency: "", party: "", phone: "", email: "ps@mawasiliano.go.tz", office: "Wizara ya Mawasiliano na TEHAMA, Dodoma", photoUrl: "", verified: false, source: "mawasiliano.go.tz", lastVerified: "2026-03-08" },
 
   // ── REGIONAL COMMISSIONERS — All 31 Regions ──
   { id: "rc-dsm", name: "Mhe. Albert John Chalamila", role: "RC", roleTitle: "Mkuu wa Mkoa", region: "Dar es Salaam", district: "", constituency: "", party: "", phone: "+255-22-220-3158", email: "rc.dsm@tamisemi.go.tz", office: "Ofisi ya Mkuu wa Mkoa, Dar es Salaam", photoUrl: "", verified: true, source: "dsm.go.tz", lastVerified: "2026-03-08" },

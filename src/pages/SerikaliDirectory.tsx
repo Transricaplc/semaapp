@@ -44,7 +44,7 @@ const tabs: { value: Mhimili; label: string; icon: React.ElementType }[] = [
 const dataAudit: Record<Mhimili, { total: number; gaps: string[] }> = {
   Executive: {
     total: viongoziWote.filter((k) => k.mhimili === "Executive").length,
-    gaps: ["Mawaziri (Ministers)", "Naibu Mawaziri", "Makatibu Wakuu (PS)"],
+    gaps: [],
   },
   Legislature: {
     total: viongoziWote.filter((k) => k.mhimili === "Legislature").length,
@@ -56,7 +56,7 @@ const dataAudit: Record<Mhimili, { total: number; gaps: string[] }> = {
   },
   Judiciary: {
     total: viongoziWote.filter((k) => k.mhimili === "Judiciary").length,
-    gaps: ["Wakuu wa Polisi Mkoa (RPCs)", "Rejista za Mahakama"],
+    gaps: [],
   },
 };
 
