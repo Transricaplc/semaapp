@@ -72,6 +72,10 @@ export default function ConstituencyFinder() {
       ? getFireStationsByDistrict(mkoa, wilaya)
       : getFireStationsByRegion(mkoa);
     setNearbyFire(fireStns.slice(0, 3));
+
+    // Get zonal agency offices for this region
+    const agencyOffices = getAgenciesForRegion(mkoa);
+    setNearbyAgencies(agencyOffices.slice(0, 4));
   };
 
   const handleMkoaChange = (val: string) => {
