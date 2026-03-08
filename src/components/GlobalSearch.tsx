@@ -7,6 +7,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import {
   searchOfficials,
+  getOfficialsByRole,
   roleTypeLabels,
   roleBadgeColors,
   type Official,
