@@ -10,12 +10,17 @@ import {
   Landmark,
   HeartPulse,
   Eye,
+  Heart,
+  Flame,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/reports";
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import EmergencyBanner from "@/components/EmergencyContacts";
+import { directoryStats } from "@/data/tanzania_directory";
+import { facilityStats } from "@/data/health_facilities";
+import { fireStats } from "@/data/fire_stations";
 
 const categoryIcons: Record<ReportCategory, React.ReactNode> = {
   service_delivery: <Droplets className="w-4 h-4" />,
