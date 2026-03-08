@@ -23,7 +23,7 @@ import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/re
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import EmergencyBanner from "@/components/EmergencyContacts";
-import { directoryStats } from "@/data/tanzania_directory";
+import { directoryStats } from "@/data/unified_officials";
 import { facilityStats } from "@/data/health_facilities";
 import { fireStats } from "@/data/fire_stations";
 import { agencyStats } from "@/data/agencies";
@@ -36,9 +36,9 @@ const categoryIcons: Record<ReportCategory, React.ReactNode> = {
 };
 
 const successStories = [
-  { title: "Maji safi yamerudi Dodoma CBD", impact: "Watu 12,000+", emoji: "💧" },
-  { title: "Barabara ya Mbagala imeanza kujengwa", impact: "Wakazi 50,000+", emoji: "🛣️" },
-  { title: "Dawa zimefika Mwananyamala Hospital", impact: "Wagonjwa 3,000+", emoji: "🏥" },
+  { title: "Clean water restored in Dodoma CBD", impact: "12,000+ residents", emoji: "💧" },
+  { title: "Mbagala road construction has begun", impact: "50,000+ residents", emoji: "🛣️" },
+  { title: "Medicine supplies reached Mwananyamala Hospital", impact: "3,000+ patients", emoji: "🏥" },
 ];
 
 export default function Index() {
@@ -50,16 +50,16 @@ export default function Index() {
         <div className="container relative z-10 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-sema-yellow/20 text-sema-yellow px-4 py-1.5 rounded-full text-sm font-medium mb-6 backdrop-blur-sm border border-sema-yellow/20">
             <Eye className="w-4 h-4" />
-            Uwazi na Uwajibikaji — Transparency & Accountability
+            Transparency & Accountability
           </div>
           <h1 className="text-4xl md:text-6xl font-heading font-bold text-primary-foreground mb-5 leading-tight drop-shadow-lg">
-            Sauti Yako{" "}
+            Your Voice{" "}
             <span className="text-sema-yellow drop-shadow-[0_0_20px_rgba(255,204,0,0.4)]">
-              Inasikika
+              Matters
             </span>
           </h1>
           <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-xl mx-auto drop-shadow">
-            Your voice matters. Report issues, find your leaders, and hold public servants accountable — all in one place.
+            Report issues, find your leaders, and hold public servants accountable — all in one place.
           </p>
 
           {/* Global Search */}
@@ -73,7 +73,7 @@ export default function Index() {
             >
               <Link to="/report">
                 <AlertTriangle className="w-5 h-5 mr-2" />
-                Ripoti Tatizo — Report an Issue
+                Report an Issue
               </Link>
             </Button>
             <Button
@@ -84,7 +84,7 @@ export default function Index() {
             >
               <Link to="/saka-viongozi">
                 <BookOpen className="w-5 h-5 mr-2" />
-                Saraka ya Viongozi — Full Directory
+                Full Directory
               </Link>
             </Button>
           </div>
@@ -107,10 +107,10 @@ export default function Index() {
         <div className="container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { value: String(directoryStats.totalOfficials), label: "Viongozi", sub: "Officials Listed", icon: Users, color: "text-sema-red" },
-              { value: String(facilityStats.total), label: "Hospitali", sub: "Health Facilities", icon: Heart, color: "text-sema-green" },
-              { value: String(agencyStats.totalAgencies), label: "Taasisi", sub: "Govt Agencies", icon: Landmark, color: "text-sema-brown" },
-              { value: String(fireStats.totalStations), label: "Zimamoto", sub: "Fire Stations", icon: Flame, color: "text-sema-sunrise" },
+              { value: String(directoryStats.totalOfficials), label: "Officials", sub: "Listed in Directory", icon: Users, color: "text-sema-red" },
+              { value: String(facilityStats.total), label: "Hospitals", sub: "Health Facilities", icon: Heart, color: "text-sema-green" },
+              { value: String(agencyStats.totalAgencies), label: "Agencies", sub: "Government Agencies", icon: Landmark, color: "text-sema-brown" },
+              { value: String(fireStats.totalStations), label: "Fire Stations", sub: "Fire & Rescue", icon: Flame, color: "text-sema-sunrise" },
             ].map((stat) => (
               <div key={stat.sub} className="text-center">
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-secondary ${stat.color} mb-3`}>
@@ -134,8 +134,8 @@ export default function Index() {
                 <Map className="w-5 h-5 text-sema-green" />
               </div>
               <div>
-                <p className="font-semibold text-sm text-foreground">Ramani</p>
-                <p className="text-[10px] text-muted-foreground">Tazama ripoti kwenye ramani</p>
+                <p className="font-semibold text-sm text-foreground">Map</p>
+                <p className="text-[10px] text-muted-foreground">View reports on the map</p>
               </div>
             </Link>
             <Link to="/sauti" className="glass-card rounded-xl p-4 flex items-center gap-3 hover:shadow-md transition-shadow">
@@ -143,8 +143,8 @@ export default function Index() {
                 <Megaphone className="w-5 h-5 text-sema-red" />
               </div>
               <div>
-                <p className="font-semibold text-sm text-foreground">Sauti Zetu</p>
-                <p className="text-[10px] text-muted-foreground">Maombi & petitions</p>
+                <p className="font-semibold text-sm text-foreground">Petitions</p>
+                <p className="text-[10px] text-muted-foreground">Petitions & advocacy</p>
               </div>
             </Link>
           </div>
@@ -159,8 +159,8 @@ export default function Index() {
               <TrendingUp className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h2 className="text-xl font-heading font-bold text-foreground">Sauti Zote — Latest</h2>
-              <p className="text-sm text-muted-foreground">Trending Concerns from Citizens</p>
+              <h2 className="text-xl font-heading font-bold text-foreground">Latest Reports</h2>
+              <p className="text-sm text-muted-foreground">Trending concerns from citizens</p>
             </div>
           </div>
           <div className="space-y-3">
@@ -185,12 +185,12 @@ export default function Index() {
                   <div className="text-lg font-heading font-bold text-sema-red">{concern.count}</div>
                   <button
                     onClick={() => {
-                      const msg = encodeURIComponent(`📢 ${concern.text} — ${concern.count} ripoti\n\n#Sema #SautiyaMwananchi`);
+                      const msg = encodeURIComponent(`📢 ${concern.text} — ${concern.count} reports\n\n#Sema #CitizenVoice`);
                       window.open(`https://wa.me/?text=${msg}`, "_blank");
                     }}
                     className="text-[10px] text-sema-green flex items-center gap-0.5 hover:underline"
                   >
-                    <Share2 className="w-3 h-3" /> Shiriki
+                    <Share2 className="w-3 h-3" /> Share
                   </button>
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function Index() {
           <div className="text-center mt-6">
             <Button asChild variant="outline" className="gap-2 border-sema-red/30 text-sema-red hover:bg-sema-red/5">
               <Link to="/report">
-                Ripoti Sasa <ArrowRight className="w-4 h-4" />
+                Report Now <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
           </div>
@@ -214,8 +214,8 @@ export default function Index() {
               <Award className="w-5 h-5 text-sema-green" />
             </div>
             <div>
-              <h2 className="text-xl font-heading font-bold text-foreground">Sauti Iliyosikika</h2>
-              <p className="text-sm text-muted-foreground">Voices That Were Heard — Success Stories</p>
+              <h2 className="text-xl font-heading font-bold text-foreground">Voices That Were Heard</h2>
+              <p className="text-sm text-muted-foreground">Success stories from citizen reports</p>
             </div>
           </div>
           <div className="grid gap-3">
@@ -224,9 +224,9 @@ export default function Index() {
                 <span className="text-2xl">{story.emoji}</span>
                 <div className="flex-1">
                   <p className="font-semibold text-sm text-foreground">{story.title}</p>
-                  <p className="text-[10px] text-muted-foreground">{story.impact} wamenufaika</p>
+                  <p className="text-[10px] text-muted-foreground">{story.impact} benefited</p>
                 </div>
-                <Badge className="bg-sema-green/10 text-sema-green border-sema-green/20 text-[10px]">✅ Imeshughulikiwa</Badge>
+                <Badge className="bg-sema-green/10 text-sema-green border-sema-green/20 text-[10px]">✅ Resolved</Badge>
               </div>
             ))}
           </div>

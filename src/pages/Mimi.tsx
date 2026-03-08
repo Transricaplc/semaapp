@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { User, FileText, TrendingUp, Award, Settings, LogOut, Share2, ChevronRight, Eye, EyeOff, Shield, Star } from "lucide-react";
+import { User, FileText, TrendingUp, Award, EyeOff, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { mockReports, statusLabels, categoryLabels, type ReportStatus } from "@/data/reports";
 
 const impactStats = [
-  { label: "Ripoti Zangu", value: "5", sub: "My Reports", icon: FileText, color: "bg-sema-red/10 text-sema-red" },
-  { label: "Zimeshughulikiwa", value: "2", sub: "Resolved", icon: Award, color: "bg-sema-green/10 text-sema-green" },
-  { label: "Saini Zangu", value: "12", sub: "Petitions Signed", icon: Star, color: "bg-sema-yellow/10 text-sema-yellow-warm" },
-  { label: "Athari", value: "340", sub: "People Impacted", icon: TrendingUp, color: "bg-sema-sunrise/10 text-sema-sunrise" },
+  { label: "My Reports", value: "5", icon: FileText, color: "bg-sema-red/10 text-sema-red" },
+  { label: "Resolved", value: "2", icon: Award, color: "bg-sema-green/10 text-sema-green" },
+  { label: "Petitions Signed", value: "12", icon: Star, color: "bg-sema-yellow/10 text-sema-yellow-warm" },
+  { label: "People Impacted", value: "340", icon: TrendingUp, color: "bg-sema-sunrise/10 text-sema-sunrise" },
 ];
 
 const statusColors: Record<ReportStatus, string> = {
@@ -20,16 +20,16 @@ const statusColors: Record<ReportStatus, string> = {
 
 const successStories = [
   {
-    title: "Maji safi yamerudi Dodoma CBD",
-    desc: "Baada ya ripoti 47 za wananchi, DUWASA imerekebisha bomba kuu. Maji sasa yanatoka kwa siku 3.",
-    date: "Machi 2026",
-    impact: "Watu 12,000+",
+    title: "Clean water restored in Dodoma CBD",
+    desc: "After 47 citizen reports, DUWASA fixed the main pipe. Water now flows for 3 days.",
+    date: "March 2026",
+    impact: "12,000+ residents",
   },
   {
-    title: "Barabara ya Mbagala imeanza kujengwa",
-    desc: "Ripoti za rushwa zilisababisha uchunguzi. Mkandarasi mpya ameteuliwa.",
-    date: "Februari 2026",
-    impact: "Wakazi 50,000+",
+    title: "Mbagala road construction has begun",
+    desc: "Corruption reports triggered an investigation. A new contractor has been appointed.",
+    date: "February 2026",
+    impact: "50,000+ residents",
   },
 ];
 
@@ -45,16 +45,16 @@ export default function Mimi() {
               <User className="w-10 h-10 text-primary-foreground" />
             </div>
             <h1 className="text-2xl font-heading font-bold text-primary-foreground mb-2">
-              Karibu Sema
+              Welcome to Sema
             </h1>
             <p className="text-primary-foreground/60 text-sm mb-8">
-              Ingia na namba yako ya simu kuona ripoti zako na athari yako
+              Log in with your phone number to view your reports and impact
             </p>
 
             {/* Phone login */}
             <div className="bg-card/10 backdrop-blur-sm border border-primary-foreground/10 rounded-2xl p-6 text-left">
               <label className="text-sm font-medium text-primary-foreground/80 mb-2 block">
-                Namba ya Simu — Phone Number
+                Phone Number
               </label>
               <div className="flex gap-2 mb-4">
                 <div className="bg-primary-foreground/10 border border-primary-foreground/20 rounded-xl px-3 flex items-center text-primary-foreground font-medium text-sm">
@@ -67,22 +67,22 @@ export default function Mimi() {
                 />
               </div>
               <Button className="w-full bg-sema-yellow text-sema-earth font-bold h-12 text-base hover:bg-sema-yellow/90 animate-warm-pulse">
-                Tuma OTP — Send Code
+                Send OTP Code
               </Button>
               <p className="text-[10px] text-primary-foreground/40 text-center mt-3">
-                Tutakutumia SMS ya uthibitisho · We'll send you a verification SMS
+                We'll send you a verification SMS
               </p>
             </div>
 
             <div className="mt-6 flex items-center gap-3 justify-center">
               <div className="h-px flex-1 bg-primary-foreground/10" />
-              <span className="text-xs text-primary-foreground/40">au</span>
+              <span className="text-xs text-primary-foreground/40">or</span>
               <div className="h-px flex-1 bg-primary-foreground/10" />
             </div>
 
             <Button variant="outline" className="mt-4 w-full border-primary-foreground/20 text-primary-foreground bg-primary-foreground/5 hover:bg-primary-foreground/10 gap-2">
               <EyeOff className="w-4 h-4" />
-              Endelea Bila Jina — Continue Anonymously
+              Continue Anonymously
             </Button>
           </div>
         </section>
@@ -95,8 +95,8 @@ export default function Mimi() {
                 <Award className="w-5 h-5 text-sema-green" />
               </div>
               <div>
-                <h2 className="text-lg font-heading font-bold text-foreground">Sauti Iliyosikika</h2>
-                <p className="text-xs text-muted-foreground">Success Stories — Voices That Were Heard</p>
+                <h2 className="text-lg font-heading font-bold text-foreground">Voices That Were Heard</h2>
+                <p className="text-xs text-muted-foreground">Success stories from citizen reports</p>
               </div>
             </div>
             <div className="space-y-3">
@@ -106,7 +106,7 @@ export default function Mimi() {
                   <p className="text-xs text-muted-foreground mt-1">{story.desc}</p>
                   <div className="flex items-center gap-3 mt-2 text-[10px]">
                     <Badge variant="outline" className="text-[10px] text-sema-green border-sema-green/30">
-                      ✅ Imeshughulikiwa
+                      ✅ Resolved
                     </Badge>
                     <span className="text-muted-foreground">{story.date}</span>
                     <span className="text-sema-yellow-warm font-bold">{story.impact}</span>
@@ -120,7 +120,6 @@ export default function Mimi() {
     );
   }
 
-  // Logged in state (placeholder)
   return (
     <div className="animate-fade-in">
       <section className="gradient-hero py-10">
@@ -130,7 +129,7 @@ export default function Mimi() {
               <User className="w-8 h-8 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-heading font-bold text-primary-foreground">Mwananchi</h1>
+              <h1 className="text-xl font-heading font-bold text-primary-foreground">Citizen</h1>
               <p className="text-sm text-primary-foreground/60">+255 7XX XXX XXX</p>
             </div>
           </div>
@@ -141,7 +140,7 @@ export default function Mimi() {
         {/* Impact stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           {impactStats.map((stat) => (
-            <div key={stat.sub} className="glass-card rounded-xl p-4 text-center">
+            <div key={stat.label} className="glass-card rounded-xl p-4 text-center">
               <div className={`w-10 h-10 rounded-lg ${stat.color} flex items-center justify-center mx-auto mb-2`}>
                 <stat.icon className="w-5 h-5" />
               </div>
@@ -152,7 +151,7 @@ export default function Mimi() {
         </div>
 
         {/* My reports */}
-        <h2 className="text-lg font-heading font-bold text-foreground mb-4">Ripoti Zangu</h2>
+        <h2 className="text-lg font-heading font-bold text-foreground mb-4">My Reports</h2>
         <div className="space-y-3">
           {mockReports.slice(0, 3).map((report) => (
             <div key={report.id} className="glass-card rounded-xl p-4 flex items-center gap-3">
@@ -161,7 +160,7 @@ export default function Mimi() {
                 <p className="text-xs text-muted-foreground">{categoryLabels[report.category]} · {report.location}</p>
               </div>
               <Badge className={`${statusColors[report.status]} text-[10px] whitespace-nowrap`}>
-                {statusLabels[report.status].split(" (")[0]}
+                {statusLabels[report.status]}
               </Badge>
             </div>
           ))}

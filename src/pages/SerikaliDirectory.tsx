@@ -16,108 +16,86 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  viongoziWote,
-  mikoa,
-  wilayaByMkoa,
-  ngaziZote,
-  ngaziLabels,
-  serikaliMeta,
-  type Kiongozi,
-  type Mhimili,
-  type Ngazi,
-} from "@/data/serikali";
-import KiongoziCard from "@/components/KiongoziCard";
+  officials,
+  searchOfficials,
+  roleTypeLabels,
+  roleBadgeColors,
+  directoryStats,
+  allRegionNames,
+  districtsByRegion,
+  getContact,
+  type Official,
+  type RoleType,
+} from "@/data/unified_officials";
+import OfficialCard from "@/components/OfficialCard";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import LocalGovPanel from "@/components/LocalGovPanel";
 
 // ============================================================
-// TAB CONFIG
+// TAB CONFIG — maps to sets of role_types
 // ============================================================
 
-const tabs: { value: Mhimili; label: string; icon: React.ElementType }[] = [
-  { value: "Executive", label: "Serikali Kuu", icon: Building2 },
-  { value: "Legislature", label: "Bunge", icon: Landmark },
-  { value: "LocalGov", label: "Serikali za Mitaa", icon: MapPin },
-  { value: "Judiciary", label: "Mahakama & Usalama", icon: Scale },
+type DirectoryTab = "executive" | "parliament" | "localGov" | "judiciary";
+
+const tabs: { value: DirectoryTab; label: string; icon: React.ElementType; roleTypes: RoleType[] }[] = [
+  { value: "executive", label: "Executive", icon: Building2, roleTypes: ["PRESIDENT", "MINISTER", "DEPUTY_MINISTER", "PERMANENT_SECRETARY", "COMMISSIONER"] },
+  { value: "parliament", label: "Parliament", icon: Landmark, roleTypes: ["MP", "SPEAKER"] },
+  { value: "localGov", label: "Local Government", icon: MapPin, roleTypes: ["MUNICIPAL_DIRECTOR"] },
+  { value: "judiciary", label: "Judiciary & Security", icon: Scale, roleTypes: ["JUDGE", "POLICE", "ANTI_CORRUPTION"] },
 ];
 
-// Data completeness audit
-const dataAudit: Record<Mhimili, { total: number; gaps: string[] }> = {
-  Executive: {
-    total: viongoziWote.filter((k) => k.mhimili === "Executive").length,
-    gaps: [],
-  },
-  Legislature: {
-    total: viongoziWote.filter((k) => k.mhimili === "Legislature").length,
-    gaps: ["Wenyeviti wa Kamati"],
-  },
-  LocalGov: {
-    total: viongoziWote.filter((k) => k.mhimili === "LocalGov").length,
-    gaps: [],
-  },
-  Judiciary: {
-    total: viongoziWote.filter((k) => k.mhimili === "Judiciary").length,
-    gaps: [],
-  },
-};
-
-// ============================================================
-// MAIN PAGE
-// ============================================================
-
 export default function SerikaliDirectory() {
-  const [activeTab, setActiveTab] = useState<Mhimili>("Executive");
+  const [activeTab, setActiveTab] = useState<DirectoryTab>("executive");
   const [search, setSearch] = useState("");
-  const [selectedMkoa, setSelectedMkoa] = useState("");
-  const [selectedWilaya, setSelectedWilaya] = useState("");
-  const [selectedNgazi, setSelectedNgazi] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
-  const availableWilaya = selectedMkoa ? wilayaByMkoa[selectedMkoa] || [] : [];
+  const currentTab = tabs.find(t => t.value === activeTab)!;
+  const availableDistricts = selectedRegion ? districtsByRegion[selectedRegion] || [] : [];
 
-  const handleMkoaChange = (val: string) => {
-    setSelectedMkoa(val);
-    setSelectedWilaya("");
+  const handleRegionChange = (val: string) => {
+    setSelectedRegion(val);
+    setSelectedDistrict("");
   };
 
   const clearFilters = () => {
     setSearch("");
-    setSelectedMkoa("");
-    setSelectedWilaya("");
-    setSelectedNgazi("");
+    setSelectedRegion("");
+    setSelectedDistrict("");
   };
 
-  const hasActiveFilters = search || selectedMkoa || selectedWilaya || selectedNgazi;
+  const hasActiveFilters = search || selectedRegion || selectedDistrict;
 
   const filtered = useMemo(() => {
-    return viongoziWote.filter((k) => {
-      const matchTab = k.mhimili === activeTab;
+    return officials.filter((o) => {
+      const matchTab = currentTab.roleTypes.includes(o.role_type);
       const q = search.toLowerCase();
       const matchSearch =
         !q ||
-        k.jina.toLowerCase().includes(q) ||
-        k.wadhifa.toLowerCase().includes(q) ||
-        k.ofisi.toLowerCase().includes(q) ||
-        k.mkoa.toLowerCase().includes(q);
-      const matchMkoa = !selectedMkoa || k.mkoa === selectedMkoa;
-      const matchWilaya = !selectedWilaya || k.wilaya === selectedWilaya;
-      const matchNgazi = !selectedNgazi || k.ngazi === selectedNgazi;
-      return matchTab && matchSearch && matchMkoa && matchWilaya && matchNgazi;
+        o.full_name.toLowerCase().includes(q) ||
+        o.role_title.toLowerCase().includes(q) ||
+        o.institution.ministry.toLowerCase().includes(q) ||
+        o.institution.office_address.toLowerCase().includes(q) ||
+        o.location.region.toLowerCase().includes(q);
+      const matchRegion = !selectedRegion || o.location.region === selectedRegion;
+      const matchDistrict = !selectedDistrict || o.location.district === selectedDistrict;
+      return matchTab && matchSearch && matchRegion && matchDistrict;
     });
-  }, [activeTab, search, selectedMkoa, selectedWilaya, selectedNgazi]);
+  }, [activeTab, search, selectedRegion, selectedDistrict, currentTab.roleTypes]);
 
+  // Group by role_type for display
   const grouped = useMemo(() => {
-    const groups: Record<string, Kiongozi[]> = {};
-    filtered.forEach((k) => {
-      const key = k.ngazi;
+    const groups: Record<string, Official[]> = {};
+    filtered.forEach((o) => {
+      const key = roleTypeLabels[o.role_type];
       if (!groups[key]) groups[key] = [];
-      groups[key].push(k);
+      groups[key].push(o);
     });
     return groups;
   }, [filtered]);
 
-  const ngaziOrder: Ngazi[] = ["Kitaifa", "Mkoa", "Wilaya", "Jimbo/Kata"];
-  const currentAudit = dataAudit[activeTab];
+  const totalForTab = officials.filter(o => currentTab.roleTypes.includes(o.role_type)).length;
 
   return (
     <div className="animate-fade-in">
@@ -126,19 +104,19 @@ export default function SerikaliDirectory() {
         <div className="container max-w-5xl text-center">
           <div className="inline-flex items-center gap-2 bg-gold/20 text-gold px-3 py-1 rounded-full text-xs font-medium mb-4">
             <Shield className="w-3.5 h-3.5" />
-            Jamhuri ya Muungano wa Tanzania
+            United Republic of Tanzania
           </div>
           <h1 className="text-3xl md:text-4xl font-heading font-bold text-primary-foreground mb-2">
-            Saraka ya Viongozi wa Taifa
+            National Directory
           </h1>
           <p className="text-primary-foreground/60 mb-8 max-w-xl mx-auto">
-            Saka na wasiliana na viongozi wako — Tafuta kwa jina, mkoa, au wadhifa
+            Search and connect with your leaders — by name, region, or role
           </p>
 
           <div className="relative max-w-xl mx-auto">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
-              placeholder="Saka kwa jina, wadhifa, au eneo..."
+              placeholder="Search by name, role, ministry, or region..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-12 h-12 bg-card text-foreground border-border rounded-xl text-base"
@@ -154,7 +132,7 @@ export default function SerikaliDirectory() {
         {/* Tabs */}
         <Tabs
           value={activeTab}
-          onValueChange={(v) => setActiveTab(v as Mhimili)}
+          onValueChange={(v) => setActiveTab(v as DirectoryTab)}
           className="mb-6"
         >
           <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 h-auto gap-1 bg-secondary p-1 rounded-xl">
@@ -172,21 +150,6 @@ export default function SerikaliDirectory() {
           </TabsList>
         </Tabs>
 
-        {/* Data completeness notice */}
-        {currentAudit.gaps.length > 0 && (
-          <div className="flex items-start gap-3 p-3 rounded-xl bg-gold/10 border border-gold/20 mb-4 text-sm">
-            <AlertTriangle className="w-4 h-4 text-gold mt-0.5 shrink-0" />
-            <div>
-              <span className="font-medium text-foreground">
-                Taarifa {currentAudit.total} zimepatikana.
-              </span>{" "}
-              <span className="text-muted-foreground">
-                Bado tunaongeza: {currentAudit.gaps.join(", ")}.
-              </span>
-            </div>
-          </div>
-        )}
-
         {/* Filters toolbar */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <Button
@@ -195,62 +158,49 @@ export default function SerikaliDirectory() {
             className="gap-2"
           >
             <Filter className="w-4 h-4" />
-            Chuja Viongozi
+            Filters
             <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
           </Button>
 
           {hasActiveFilters && (
             <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-destructive">
-              <X className="w-3.5 h-3.5" /> Ondoa Chuja
+              <X className="w-3.5 h-3.5" /> Clear Filters
             </Button>
           )}
 
           <span className="ml-auto text-sm text-muted-foreground">
-            Viongozi {filtered.length} kati ya {viongoziWote.filter((k) => k.mhimili === activeTab).length}
+            {filtered.length} of {totalForTab} officials
           </span>
         </div>
 
         {/* Filter Panel */}
         {showFilters && (
           <div className="glass-card rounded-xl p-4 md:p-5 mb-6 animate-fade-in">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Chagua Mkoa</label>
+                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Region</label>
                 <select
-                  value={selectedMkoa}
-                  onChange={(e) => handleMkoaChange(e.target.value)}
+                  value={selectedRegion}
+                  onChange={(e) => handleRegionChange(e.target.value)}
                   className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm"
                 >
-                  <option value="">Mikoa Yote</option>
-                  {mikoa.map((m) => (
+                  <option value="">All Regions</option>
+                  {allRegionNames.map((m) => (
                     <option key={m} value={m}>{m}</option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Chagua Wilaya</label>
+                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">District</label>
                 <select
-                  value={selectedWilaya}
-                  onChange={(e) => setSelectedWilaya(e.target.value)}
-                  disabled={!selectedMkoa || availableWilaya.length === 0}
+                  value={selectedDistrict}
+                  onChange={(e) => setSelectedDistrict(e.target.value)}
+                  disabled={!selectedRegion || availableDistricts.length === 0}
                   className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm disabled:opacity-50"
                 >
-                  <option value="">{selectedMkoa ? "Wilaya Zote" : "Chagua mkoa kwanza"}</option>
-                  {availableWilaya.map((w) => (
+                  <option value="">{selectedRegion ? "All Districts" : "Select region first"}</option>
+                  {availableDistricts.map((w) => (
                     <option key={w} value={w}>{w}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Chagua Ngazi</label>
-                <select
-                  value={selectedNgazi}
-                  onChange={(e) => setSelectedNgazi(e.target.value)}
-                  className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm"
-                >
-                  <option value="">Ngazi Zote</option>
-                  {ngaziZote.map((n) => (
-                    <option key={n} value={n}>{ngaziLabels[n]}</option>
                   ))}
                 </select>
               </div>
@@ -259,39 +209,37 @@ export default function SerikaliDirectory() {
         )}
 
         {/* Results — LocalGov gets special panel */}
-        {activeTab === "LocalGov" ? (
+        {activeTab === "localGov" ? (
           <LocalGovPanel />
         ) : filtered.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground">
             <User className="w-12 h-12 mx-auto mb-3 opacity-40" />
-            <p className="font-medium">Hakuna matokeo</p>
-            <p className="text-sm mt-1">Jaribu kubadilisha utafutaji au chuja</p>
+            <p className="font-medium">No results found</p>
+            <p className="text-sm mt-1">Try adjusting your search or filters</p>
           </div>
         ) : (
-          ngaziOrder
-            .filter((n) => grouped[n])
-            .map((ngazi) => (
-              <div key={ngazi} className="mb-8">
-                <h2 className="text-lg font-heading font-bold text-foreground mb-3 flex items-center gap-2">
-                  <Landmark className="w-4 h-4 text-gold" />
-                  {ngaziLabels[ngazi]}
-                  <span className="text-sm font-body font-normal text-muted-foreground">
-                    ({grouped[ngazi].length})
-                  </span>
-                </h2>
-                <div className="grid gap-3">
-                  {grouped[ngazi].map((kiongozi) => (
-                    <KiongoziCard key={kiongozi.id} kiongozi={kiongozi} />
-                  ))}
-                </div>
+          Object.entries(grouped).map(([groupLabel, items]) => (
+            <div key={groupLabel} className="mb-8">
+              <h2 className="text-lg font-heading font-bold text-foreground mb-3 flex items-center gap-2">
+                <Landmark className="w-4 h-4 text-gold" />
+                {groupLabel}
+                <span className="text-sm font-body font-normal text-muted-foreground">
+                  ({items.length})
+                </span>
+              </h2>
+              <div className="grid gap-3">
+                {items.map((official) => (
+                  <OfficialCard key={official.id} official={official} />
+                ))}
               </div>
-            ))
+            </div>
+          ))
         )}
 
         {/* Data source footer */}
         <div className="mt-8 text-center text-xs text-muted-foreground border-t border-border pt-6">
           <p>
-            Taarifa: v{serikaliMeta.version} · Imesasishwa: {serikaliMeta.last_updated} · Chanzo: {serikaliMeta.source}
+            Directory: {directoryStats.totalOfficials} officials · {directoryStats.totalMPs} MPs · {directoryStats.totalMinisters} Ministers · Last verified: 2026-03-08
           </p>
         </div>
       </div>

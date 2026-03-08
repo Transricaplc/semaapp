@@ -1,31 +1,30 @@
 import { useState } from "react";
-import { MapPin, Filter, Layers, AlertTriangle, Droplets, ShieldAlert, Landmark, Leaf, Sprout, PawPrint, GraduationCap, HeartPulse, X } from "lucide-react";
+import { MapPin, Filter, Layers, AlertTriangle, Droplets, ShieldAlert, Landmark, Leaf, Sprout, PawPrint, GraduationCap, HeartPulse } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const categories = [
-  { id: "all", label: "Zote", icon: Layers },
-  { id: "barabara", label: "Barabara", icon: AlertTriangle },
-  { id: "maji", label: "Maji", icon: Droplets },
-  { id: "afya", label: "Afya", icon: HeartPulse },
-  { id: "elimu", label: "Elimu", icon: GraduationCap },
-  { id: "mazingira", label: "Mazingira", icon: Leaf },
-  { id: "rushwa", label: "Rushwa", icon: Landmark },
-  { id: "kilimo", label: "Kilimo", icon: Sprout },
-  { id: "wanyamapori", label: "Wanyamapori", icon: PawPrint },
+  { id: "all", label: "All", icon: Layers },
+  { id: "barabara", label: "Roads", icon: AlertTriangle },
+  { id: "maji", label: "Water", icon: Droplets },
+  { id: "afya", label: "Health", icon: HeartPulse },
+  { id: "elimu", label: "Education", icon: GraduationCap },
+  { id: "mazingira", label: "Environment", icon: Leaf },
+  { id: "rushwa", label: "Corruption", icon: Landmark },
+  { id: "kilimo", label: "Agriculture", icon: Sprout },
+  { id: "wanyamapori", label: "Wildlife", icon: PawPrint },
 ];
 
 const mockPins = [
-  { id: 1, lat: -6.8, lng: 39.28, title: "Barabara imeharibika Temeke", category: "barabara", reports: 12 },
-  { id: 2, lat: -6.77, lng: 39.25, title: "Maji hayatoki siku 5", category: "maji", reports: 8 },
-  { id: 3, lat: -6.82, lng: 39.29, title: "Hospitali haina dawa", category: "afya", reports: 23 },
-  { id: 4, lat: -6.17, lng: 35.75, title: "Rushwa ofisi ya ardhi Dodoma", category: "rushwa", reports: 15 },
-  { id: 5, lat: -6.79, lng: 39.22, title: "Shule haina madawati", category: "elimu", reports: 6 },
+  { id: 1, lat: -6.8, lng: 39.28, title: "Damaged road in Temeke", category: "barabara", reports: 12 },
+  { id: 2, lat: -6.77, lng: 39.25, title: "No water for 5 days", category: "maji", reports: 8 },
+  { id: 3, lat: -6.82, lng: 39.29, title: "Hospital has no medicine", category: "afya", reports: 23 },
+  { id: 4, lat: -6.17, lng: 35.75, title: "Corruption at Dodoma land office", category: "rushwa", reports: 15 },
+  { id: 5, lat: -6.79, lng: 39.22, title: "School has no desks", category: "elimu", reports: 6 },
 ];
 
 export default function Ramani() {
   const [activeFilter, setActiveFilter] = useState("all");
-  const [showFilters, setShowFilters] = useState(false);
 
   const filtered = activeFilter === "all" ? mockPins : mockPins.filter(p => p.category === activeFilter);
 
@@ -35,9 +34,9 @@ export default function Ramani() {
       <section className="gradient-hero py-6">
         <div className="container text-center">
           <h1 className="text-xl md:text-2xl font-heading font-bold text-primary-foreground">
-            🗺️ Ramani ya Masuala
+            🗺️ Issue Map
           </h1>
-          <p className="text-primary-foreground/60 text-sm">Tazama ripoti zote kwenye ramani — View all reports on map</p>
+          <p className="text-primary-foreground/60 text-sm">View all reports on the map</p>
         </div>
       </section>
 
@@ -63,7 +62,6 @@ export default function Ramani() {
 
       {/* Map placeholder */}
       <div className="flex-1 relative bg-sema-cream">
-        {/* Simulated map background */}
         <div className="absolute inset-0 opacity-20" style={{
           backgroundImage: `
             linear-gradient(hsl(var(--border)) 1px, transparent 1px),
@@ -93,14 +91,14 @@ export default function Ramani() {
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 <div className="bg-card border border-border rounded-lg shadow-lg p-3 whitespace-nowrap text-xs">
                   <p className="font-semibold text-foreground">{pin.title}</p>
-                  <p className="text-muted-foreground mt-0.5">{pin.reports} ripoti</p>
+                  <p className="text-muted-foreground mt-0.5">{pin.reports} reports</p>
                 </div>
               </div>
             </div>
           </div>
         ))}
 
-        {/* OSM attribution placeholder */}
+        {/* Bottom info bar */}
         <div className="absolute bottom-4 left-4 right-4">
           <div className="bg-card/90 backdrop-blur-sm border border-border rounded-xl p-4 shadow-lg">
             <div className="flex items-center gap-3">
@@ -108,11 +106,11 @@ export default function Ramani() {
                 <MapPin className="w-5 h-5 text-sema-green" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-foreground">Ripoti {filtered.length} kwenye ramani</p>
-                <p className="text-xs text-muted-foreground">OpenStreetMap · Bonyeza pin kuona maelezo</p>
+                <p className="text-sm font-semibold text-foreground">{filtered.length} reports on map</p>
+                <p className="text-xs text-muted-foreground">OpenStreetMap · Click a pin for details</p>
               </div>
               <Button size="sm" className="bg-sema-red text-primary-foreground text-xs">
-                <Filter className="w-3 h-3 mr-1" /> Chuja
+                <Filter className="w-3 h-3 mr-1" /> Filter
               </Button>
             </div>
           </div>

@@ -1,7 +1,24 @@
-import { Phone, Shield, Flame, Heart, Scale, Users, Car, AlertTriangle, Building } from "lucide-react";
-import { emergencyContacts, type EmergencyContact } from "@/data/tanzania_directory";
+import { Phone, Shield, Flame, Heart, Scale, Users, Car, AlertTriangle } from "lucide-react";
 import { facilityStats } from "@/data/health_facilities";
 import { fireStats } from "@/data/fire_stations";
+
+interface EmergencyContact {
+  id: string;
+  name: string;
+  description: string;
+  phone: string;
+  category: "police" | "fire" | "medical" | "antigraft" | "gender" | "child" | "traffic";
+}
+
+const emergencyContacts: EmergencyContact[] = [
+  { id: "em-police", name: "Police Emergency", description: "National police emergency number", phone: "112", category: "police" },
+  { id: "em-fire", name: "Fire & Rescue", description: "Fire and Rescue Services", phone: "114", category: "fire" },
+  { id: "em-ambulance", name: "Ambulance", description: "Health emergency and ambulance services", phone: "115", category: "medical" },
+  { id: "em-pccb", name: "PCCB — Anti-Corruption", description: "Report corruption and abuse of power", phone: "113", category: "antigraft" },
+  { id: "em-gender", name: "Gender Desk", description: "Report gender-based and domestic violence", phone: "116", category: "gender" },
+  { id: "em-child", name: "Child Helpline", description: "Report child abuse", phone: "116", category: "child" },
+  { id: "em-traffic", name: "Traffic Police", description: "Report accidents and traffic violations", phone: "112", category: "traffic" },
+];
 
 const categoryIcons: Record<EmergencyContact["category"], React.ElementType> = {
   police: Shield,
@@ -24,7 +41,6 @@ const categoryColors: Record<EmergencyContact["category"], string> = {
 };
 
 export default function EmergencyBanner() {
-  // Show the top 4 most critical contacts as a compact bar
   const critical = emergencyContacts.filter((c) =>
     ["police", "antigraft", "fire", "medical"].includes(c.category)
   ).slice(0, 4);
@@ -34,7 +50,7 @@ export default function EmergencyBanner() {
       <div className="flex items-center gap-2 mb-3">
         <AlertTriangle className="w-4 h-4 text-destructive" />
         <h3 className="font-heading font-bold text-foreground text-sm">
-          Nambari za Dharura — Emergency Contacts
+          Emergency Contacts
         </h3>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -49,56 +65,25 @@ export default function EmergencyBanner() {
               <Icon className="w-4 h-4 shrink-0" />
               <div className="min-w-0">
                 <div className="font-bold text-base leading-tight">{contact.phone}</div>
-                <div className="text-[10px] opacity-70 truncate">{contact.name.split("—")[0].trim()}</div>
+                <div className="text-[10px] opacity-70 truncate">{contact.name}</div>
               </div>
             </a>
           );
         })}
       </div>
       <p className="text-[10px] text-muted-foreground mt-2">
-        TAKUKURU/PCCB: 113 · Polisi: 112/999 · Zimamoto: 114 · Ambulansi: 115 · Jinsia/Watoto: 116
+        PCCB: 113 · Police: 112/999 · Fire: 114 · Ambulance: 115 · Gender/Child: 116
       </p>
       <div className="flex flex-wrap gap-3 mt-2 text-[10px] text-muted-foreground">
         <span className="flex items-center gap-1">
           <Heart className="w-2.5 h-2.5 text-accent" />
-          Hospitali {facilityStats.total} kwenye mfumo
+          {facilityStats.total} hospitals in system
         </span>
         <span className="flex items-center gap-1">
           <Flame className="w-2.5 h-2.5 text-destructive" />
-          Vituo vya Zimamoto {fireStats.totalStations}
+          {fireStats.totalStations} fire stations
         </span>
       </div>
-    </div>
-  );
-}
-
-export function EmergencyContactsFull() {
-  return (
-    <div className="space-y-2">
-      {emergencyContacts.map((contact) => {
-        const Icon = categoryIcons[contact.category];
-        return (
-          <div
-            key={contact.id}
-            className={`flex items-center gap-3 px-4 py-3 rounded-xl border ${categoryColors[contact.category]}`}
-          >
-            <div className="w-10 h-10 rounded-lg bg-card/50 flex items-center justify-center shrink-0">
-              <Icon className="w-5 h-5" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h4 className="font-semibold text-sm">{contact.name}</h4>
-              <p className="text-xs opacity-70">{contact.description}</p>
-            </div>
-            <a
-              href={`tel:${contact.phone}`}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-card text-foreground border border-border text-sm font-bold hover:bg-secondary transition-colors shrink-0"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              {contact.phone}
-            </a>
-          </div>
-        );
-      })}
     </div>
   );
 }

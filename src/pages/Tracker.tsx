@@ -24,7 +24,7 @@ export default function Tracker() {
       <section className="gradient-navy py-10">
         <div className="container max-w-3xl text-center">
           <h1 className="text-2xl md:text-3xl font-heading font-bold text-primary-foreground mb-2">
-            Fuatilia Ripoti — Accountability Tracker
+            Accountability Tracker
           </h1>
           <p className="text-primary-foreground/60 text-sm">
             Track the status of your submitted reports
@@ -42,7 +42,7 @@ export default function Tracker() {
               <div key={status} className="glass-card rounded-xl p-4 text-center">
                 <config.icon className="w-5 h-5 mx-auto mb-2 text-accent" />
                 <div className="text-2xl font-heading font-bold text-foreground">{count}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{statusLabels[status].split(" (")[0]}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{statusLabels[status]}</div>
               </div>
             );
           })}
