@@ -21,6 +21,7 @@ import EmergencyBanner from "@/components/EmergencyContacts";
 import { directoryStats } from "@/data/tanzania_directory";
 import { facilityStats } from "@/data/health_facilities";
 import { fireStats } from "@/data/fire_stations";
+import { agencyStats } from "@/data/agencies";
 
 const categoryIcons: Record<ReportCategory, React.ReactNode> = {
   service_delivery: <Droplets className="w-4 h-4" />,
