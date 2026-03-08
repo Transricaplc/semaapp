@@ -84,7 +84,7 @@ export default function GlobalSearch() {
             <>
               <div className="p-3 border-b border-border/50">
                 <p className="text-xs text-muted-foreground">
-                  Matokeo {results.length + facilityResults.length + fireResults.length} yamepatikana
+                  Matokeo {results.length + facilityResults.length + fireResults.length + agencyResults.length} yamepatikana
                 </p>
               </div>
               <div className="max-h-[400px] overflow-y-auto">
