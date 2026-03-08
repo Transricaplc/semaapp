@@ -59,9 +59,9 @@ export const sectorLabels: Record<AgencySector, string> = {
 };
 
 export const sectorColors: Record<AgencySector, string> = {
-  Infrastructure: "bg-primary/10 text-primary border-primary/20",
-  Regulatory: "bg-destructive/10 text-destructive border-destructive/20",
-  Revenue: "bg-gold/15 text-foreground border-gold/30",
+  Infrastructure: "bg-primary/15 text-foreground border-primary/30",
+  Regulatory: "bg-yb-charcoal-mid text-white border-yb-charcoal-mid",
+  Revenue: "bg-primary text-primary-foreground border-primary",
   Tourism: "bg-accent/10 text-accent border-accent/20",
   Trade: "bg-secondary text-foreground border-border",
 };

@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-        body: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        heading: ['Inter', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,30 +51,34 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sema: {
-          red: "hsl(var(--sema-red))",
-          "red-light": "hsl(var(--sema-red-light))",
-          yellow: "hsl(var(--sema-yellow))",
-          "yellow-warm": "hsl(var(--sema-yellow-warm))",
-          green: "hsl(var(--sema-green))",
-          "green-light": "hsl(var(--sema-green-light))",
-          brown: "hsl(var(--sema-brown))",
-          "brown-light": "hsl(var(--sema-brown-light))",
-          earth: "hsl(var(--sema-earth))",
-          cream: "hsl(var(--sema-cream))",
-          sunrise: "hsl(var(--sema-sunrise))",
+        yb: {
+          yellow: "hsl(var(--yb-yellow))",
+          "yellow-deep": "hsl(var(--yb-yellow-deep))",
+          "yellow-soft": "hsl(var(--yb-yellow-soft))",
+          charcoal: "hsl(var(--yb-charcoal))",
+          "charcoal-dark": "hsl(var(--yb-charcoal-dark))",
+          "charcoal-mid": "hsl(var(--yb-charcoal-mid))",
+          "charcoal-soft": "hsl(var(--yb-charcoal-soft))",
+          "charcoal-muted": "hsl(var(--yb-charcoal-muted))",
+          offwhite: "hsl(var(--yb-offwhite))",
+          white: "hsl(var(--yb-white))",
+          gray: "hsl(var(--yb-gray))",
+          verified: "hsl(var(--yb-verified))",
+          pending: "hsl(var(--yb-pending))",
+          outdated: "hsl(var(--yb-outdated))",
+          info: "hsl(var(--yb-info))",
         },
         gold: "hsl(var(--gold))",
         warning: "hsl(var(--warning))",
         // Legacy aliases
         navy: {
-          DEFAULT: "hsl(var(--sema-earth))",
-          light: "hsl(var(--sema-brown-light))",
+          DEFAULT: "hsl(var(--yb-charcoal))",
+          light: "hsl(var(--yb-charcoal-mid))",
         },
         green: {
-          DEFAULT: "hsl(var(--sema-green))",
-          light: "hsl(var(--sema-green-light))",
-          dark: "hsl(var(--sema-green))",
+          DEFAULT: "hsl(var(--accent))",
+          light: "hsl(var(--accent))",
+          dark: "hsl(var(--accent))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -114,8 +118,8 @@ export default {
           "50%": { opacity: "0.7" },
         },
         "warm-pulse": {
-          "0%, 100%": { boxShadow: "0 0 15px hsl(48 100% 50% / 0.2)" },
-          "50%": { boxShadow: "0 0 25px hsl(48 100% 50% / 0.4), 0 0 50px hsl(20 90% 60% / 0.15)" },
+          "0%, 100%": { boxShadow: "0 0 15px hsla(47, 100%, 48%, 0.2)" },
+          "50%": { boxShadow: "0 0 25px hsla(47, 100%, 48%, 0.4), 0 0 50px hsla(47, 100%, 48%, 0.15)" },
         },
         "slide-up": {
           from: { opacity: "0", transform: "translateY(100%)" },

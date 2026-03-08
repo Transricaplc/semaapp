@@ -85,17 +85,17 @@ export const roleTypeLabels: Record<RoleType, string> = {
 };
 
 export const roleBadgeColors: Record<RoleType, string> = {
-  PRESIDENT: "bg-primary/15 text-primary border-primary/25",
-  MP: "bg-gold/15 text-foreground border-gold/30",
-  MINISTER: "bg-primary/15 text-primary border-primary/25",
-  DEPUTY_MINISTER: "bg-primary/10 text-primary border-primary/15",
+  PRESIDENT: "bg-primary/15 text-foreground border-primary/30",
+  MP: "bg-primary text-primary-foreground border-primary",
+  MINISTER: "bg-yb-charcoal text-primary border-yb-charcoal",
+  DEPUTY_MINISTER: "bg-yb-charcoal-mid text-white border-yb-charcoal-mid",
   PERMANENT_SECRETARY: "bg-secondary text-foreground border-border",
-  JUDGE: "bg-destructive/10 text-destructive border-destructive/20",
-  POLICE: "bg-destructive/10 text-destructive border-destructive/20",
-  COMMISSIONER: "bg-accent/10 text-accent border-accent/20",
-  MUNICIPAL_DIRECTOR: "bg-accent/10 text-accent border-accent/20",
-  SPEAKER: "bg-gold/15 text-foreground border-gold/30",
-  ANTI_CORRUPTION: "bg-gold/15 text-foreground border-gold/30",
+  JUDGE: "bg-yb-charcoal-mid text-white border-yb-charcoal-mid",
+  POLICE: "bg-yb-charcoal-dark text-primary border-yb-charcoal-dark",
+  COMMISSIONER: "bg-yb-yellow-deep text-primary-foreground border-yb-yellow-deep",
+  MUNICIPAL_DIRECTOR: "bg-yb-charcoal-soft text-white border-yb-charcoal-soft",
+  SPEAKER: "bg-primary/15 text-foreground border-primary/30",
+  ANTI_CORRUPTION: "bg-primary/15 text-foreground border-primary/30",
   EMERGENCY: "bg-destructive/15 text-destructive border-destructive/25",
 };
 

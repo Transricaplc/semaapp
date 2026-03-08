@@ -1,25 +1,10 @@
 import { useState } from "react";
 import {
-  MapPin,
-  Search,
-  ChevronRight,
-  Phone,
-  BadgeCheck,
-  AlertCircle,
-  Shield,
-  Heart,
-  Flame,
-  Building,
+  MapPin, Search, ChevronRight, Phone, BadgeCheck, AlertCircle, Shield, Heart, Flame, Building,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  allRegionNames,
-  districtsByRegion,
-  getYourOfficials,
-  roleTypeLabels,
-  roleBadgeColors,
-  getContact,
-  type Official,
+  allRegionNames, districtsByRegion, getYourOfficials, roleTypeLabels, roleBadgeColors, getContact, type Official,
 } from "@/data/unified_officials";
 import { getFacilitiesByRegion, getFacilitiesByDistrict, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
 import { getFireStationsByRegion, getFireStationsByDistrict, type FireStation } from "@/data/fire_stations";
@@ -38,37 +23,21 @@ export default function ConstituencyFinder() {
 
   const handleSearch = () => {
     if (!region) return;
-    const found = getYourOfficials(region, district || undefined);
-    setResults(found);
-
-    const hospitals = district
-      ? getFacilitiesByDistrict(region, district)
-      : getFacilitiesByRegion(region);
-    setNearbyHospitals(hospitals.slice(0, 5));
-
-    const fireStns = district
-      ? getFireStationsByDistrict(region, district)
-      : getFireStationsByRegion(region);
-    setNearbyFire(fireStns.slice(0, 3));
-
-    const agencyOffices = getAgenciesForRegion(region);
-    setNearbyAgencies(agencyOffices.slice(0, 4));
+    setResults(getYourOfficials(region, district || undefined));
+    setNearbyHospitals((district ? getFacilitiesByDistrict(region, district) : getFacilitiesByRegion(region)).slice(0, 5));
+    setNearbyFire((district ? getFireStationsByDistrict(region, district) : getFireStationsByRegion(region)).slice(0, 3));
+    setNearbyAgencies(getAgenciesForRegion(region).slice(0, 4));
   };
 
   const handleRegionChange = (val: string) => {
-    setRegion(val);
-    setDistrict("");
-    setResults(null);
-    setNearbyHospitals([]);
-    setNearbyFire([]);
-    setNearbyAgencies([]);
+    setRegion(val); setDistrict(""); setResults(null); setNearbyHospitals([]); setNearbyFire([]); setNearbyAgencies([]);
   };
 
   return (
-    <div className="glass-card rounded-xl p-5 md:p-6 mb-6 animate-fade-in">
+    <div className="yb-card p-5 md:p-6 mb-6 animate-fade-in">
       <div className="flex items-center gap-3 mb-5">
-        <div className="w-10 h-10 rounded-xl gradient-green flex items-center justify-center">
-          <MapPin className="w-5 h-5 text-accent-foreground" />
+        <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+          <MapPin className="w-5 h-5 text-primary-foreground" />
         </div>
         <div>
           <h3 className="font-heading font-bold text-foreground text-lg">Find Your Leaders</h3>
@@ -79,83 +48,54 @@ export default function ConstituencyFinder() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
         <div>
           <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Region</label>
-          <select
-            value={region}
-            onChange={(e) => handleRegionChange(e.target.value)}
-            className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm"
-          >
+          <select value={region} onChange={(e) => handleRegionChange(e.target.value)}
+            className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm">
             <option value="">— All 31 Regions —</option>
-            {allRegionNames.map((m) => (
-              <option key={m} value={m}>{m}</option>
-            ))}
+            {allRegionNames.map((m) => <option key={m} value={m}>{m}</option>)}
           </select>
         </div>
-
         <div>
           <label className="text-xs font-medium text-muted-foreground mb-1.5 block">District</label>
-          <select
-            value={district}
-            onChange={(e) => setDistrict(e.target.value)}
-            disabled={!region}
-            className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm disabled:opacity-50"
-          >
+          <select value={district} onChange={(e) => setDistrict(e.target.value)} disabled={!region}
+            className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm disabled:opacity-50">
             <option value="">{region ? "— All Districts —" : "Select region first"}</option>
-            {availableDistricts.map((w) => (
-              <option key={w} value={w}>{w}</option>
-            ))}
+            {availableDistricts.map((w) => <option key={w} value={w}>{w}</option>)}
           </select>
         </div>
-
-        <Button
-          onClick={handleSearch}
-          disabled={!region}
-          className="gap-2 gradient-green text-accent-foreground h-[42px]"
-        >
-          <Search className="w-4 h-4" />
-          Find Leaders
-          <ChevronRight className="w-4 h-4" />
+        <Button onClick={handleSearch} disabled={!region} className="gap-2 bg-primary text-primary-foreground h-[42px] font-bold hover:bg-yb-yellow-deep">
+          <Search className="w-4 h-4" /> Find Leaders <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
 
-      {/* Results */}
       {results !== null && (
         <div className="mt-6 pt-5 border-t border-border/50">
           {results.length === 0 ? (
             <div className="text-center py-6">
               <AlertCircle className="w-10 h-10 mx-auto text-muted-foreground/40 mb-2" />
               <p className="text-sm font-medium text-foreground">No officials found</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                We're still adding officials for this area
-              </p>
+              <p className="text-xs text-muted-foreground mt-1">We're still adding officials for this area</p>
             </div>
           ) : (
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Shield className="w-4 h-4 text-accent" />
-                <h4 className="font-heading font-bold text-foreground">
-                  Your Leaders — {region}{district ? `, ${district}` : ""}
-                </h4>
+                <Shield className="w-4 h-4 text-primary" />
+                <h4 className="font-heading font-bold text-foreground">Your Leaders — {region}{district ? `, ${district}` : ""}</h4>
                 <span className="text-xs text-muted-foreground">({results.length})</span>
               </div>
               <div className="grid gap-3">
-                {results.map((official) => (
-                  <OfficialCard key={official.id} official={official} />
-                ))}
+                {results.map((official) => <OfficialCard key={official.id} official={official} />)}
               </div>
 
-              {/* Nearby Emergency Services */}
               {(nearbyHospitals.length > 0 || nearbyFire.length > 0 || nearbyAgencies.length > 0) && (
                 <div className="mt-6 pt-4 border-t border-border/30">
                   <h4 className="font-heading font-bold text-foreground text-sm mb-3 flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 text-destructive" />
-                    Nearby Emergency Services
+                    <AlertCircle className="w-4 h-4 text-destructive" /> Nearby Emergency Services
                   </h4>
 
                   {nearbyHospitals.length > 0 && (
                     <div className="mb-3">
                       <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
-                        <Heart className="w-3 h-3 text-accent" />
-                        Hospitals ({nearbyHospitals.length})
+                        <Heart className="w-3 h-3 text-accent" /> Hospitals ({nearbyHospitals.length})
                       </p>
                       <div className="grid gap-2">
                         {nearbyHospitals.map((h) => (
@@ -181,8 +121,7 @@ export default function ConstituencyFinder() {
                   {nearbyFire.length > 0 && (
                     <div>
                       <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
-                        <Flame className="w-3 h-3 text-destructive" />
-                        Fire Stations ({nearbyFire.length})
+                        <Flame className="w-3 h-3 text-destructive" /> Fire Stations ({nearbyFire.length})
                       </p>
                       <div className="grid gap-2">
                         {nearbyFire.map((s) => (
@@ -206,8 +145,7 @@ export default function ConstituencyFinder() {
                   {nearbyAgencies.length > 0 && (
                     <div className="mt-3">
                       <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
-                        <Building className="w-3 h-3 text-primary" />
-                        Government Agencies ({nearbyAgencies.length})
+                        <Building className="w-3 h-3 text-primary" /> Government Agencies ({nearbyAgencies.length})
                       </p>
                       <div className="grid gap-2">
                         {nearbyAgencies.map(({ agency, office }) => (
