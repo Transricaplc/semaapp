@@ -10,6 +10,7 @@ import {
 } from "@/data/tanzania_directory";
 import { searchFacilities, facilityLevelLabels, type HealthFacility } from "@/data/health_facilities";
 import { searchFireStations, type FireStation } from "@/data/fire_stations";
+import { searchAgencies, type Agency } from "@/data/agencies";
 
 export default function GlobalSearch() {
   const [query, setQuery] = useState("");
