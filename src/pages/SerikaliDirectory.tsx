@@ -83,14 +83,14 @@ export default function SerikaliDirectory() {
       {/* Hero */}
       <section className="bg-yb-charcoal py-10 md:py-14">
         <div className="container max-w-5xl text-center">
-          <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-3 py-1 rounded-full text-badge font-heading uppercase tracking-wider mb-4">
             <BookOpen className="w-3.5 h-3.5" />
             Citizen Yellow Book
           </div>
-          <h1 className="text-3xl md:text-4xl font-heading font-bold text-white mb-2">
+          <h1 className="text-h1 md:text-h1-lg font-heading text-white mb-2">
             National Directory
           </h1>
-          <p className="text-yb-charcoal-muted mb-8 max-w-xl mx-auto">
+          <p className="text-body font-body text-yb-charcoal-muted mb-8 max-w-xl mx-auto">
             Find the right person or institution — no queues, no middlemen
           </p>
 
@@ -100,7 +100,7 @@ export default function SerikaliDirectory() {
               placeholder="Type a name, agency, ministry, or region..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-12 pr-10 h-12 bg-yb-charcoal-mid text-white border border-primary rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-yb-charcoal-muted"
+              className="w-full pl-12 pr-10 h-[52px] bg-yb-charcoal-mid text-white border border-primary rounded-xl text-body font-body focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-yb-charcoal-muted"
             />
             {search && (
               <button onClick={() => setSearch("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-yb-charcoal-muted hover:text-white">
@@ -121,7 +121,7 @@ export default function SerikaliDirectory() {
               <TabsTrigger
                 key={tab.value}
                 value={tab.value}
-                className="flex items-center gap-2 py-2.5 text-xs sm:text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg"
+                className="flex items-center gap-2 py-3 text-meta sm:text-body font-body font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg min-h-[48px]"
               >
                 <tab.icon className="w-4 h-4" />
                 <span className="hidden sm:inline">{tab.label}</span>
@@ -134,12 +134,13 @@ export default function SerikaliDirectory() {
         {/* SERIKALI */}
         {activeTab === "serikali" && (
           <>
-            <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
+            {/* Horizontal pill filters */}
+            <div className="flex gap-2 overflow-x-auto pb-2 mb-4 no-scrollbar">
               {serikaliSubTabs.map((sub) => (
                 <button
                   key={sub.value}
                   onClick={() => setSerikaliSub(sub.value)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap border transition-all ${
+                  className={`px-4 py-2 rounded-full text-meta font-body font-medium whitespace-nowrap border transition-all min-h-[40px] ${
                     serikaliSub === sub.value
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-card text-muted-foreground border-border hover:border-primary/30"
@@ -151,17 +152,17 @@ export default function SerikaliDirectory() {
             </div>
 
             <div className="flex flex-wrap items-center gap-3 mb-4">
-              <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2">
+              <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2 min-h-[40px]">
                 <Filter className="w-3.5 h-3.5" />
                 Region
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showFilters ? "rotate-180" : ""}`} />
               </Button>
               {hasFilters && (
-                <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-destructive text-xs">
+                <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-destructive text-meta">
                   <X className="w-3 h-3" /> Clear
                 </Button>
               )}
-              <span className="ml-auto text-xs text-muted-foreground">{filteredOfficials.length} officials</span>
+              <span className="ml-auto text-meta font-body text-muted-foreground">{filteredOfficials.length} officials</span>
             </div>
 
             {showFilters && (
@@ -169,7 +170,7 @@ export default function SerikaliDirectory() {
                 <select
                   value={selectedRegion}
                   onChange={(e) => setSelectedRegion(e.target.value)}
-                  className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-2.5 text-sm"
+                  className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-3 text-body font-body min-h-[48px]"
                 >
                   <option value="">All Regions</option>
                   {allRegionNames.map((r) => <option key={r} value={r}>{r}</option>)}
@@ -184,12 +185,12 @@ export default function SerikaliDirectory() {
             ) : (
               Object.entries(groupedOfficials).map(([label, items]) => (
                 <div key={label} className="mb-8">
-                  <div className="bg-yb-charcoal text-primary px-4 py-2.5 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                  <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
                     <Landmark className="w-4 h-4" />
-                    <h2 className="text-base font-heading font-bold">{label}</h2>
-                    <span className="text-sm font-normal text-yb-charcoal-muted ml-1">({items.length})</span>
+                    <h2 className="text-h3 font-heading">{label}</h2>
+                    <span className="text-meta font-body text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
-                  <div className="grid gap-3">
+                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                     {items.map((o) => (
                       <SecureActionCard
                         key={o.id}
@@ -214,12 +215,12 @@ export default function SerikaliDirectory() {
         {activeTab === "wakala" && (
           <>
             <div className="flex items-center justify-between mb-4">
-              <p className="text-xs text-muted-foreground">{filteredAgencies.length} agencies</p>
+              <p className="text-meta font-body text-muted-foreground">{filteredAgencies.length} agencies</p>
             </div>
             {filteredAgencies.length === 0 ? (
               <EmptyState />
             ) : (
-              <div className="grid gap-3">
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {filteredAgencies.map((a) => (
                   <SecureActionCard
                     key={a.id}
@@ -239,12 +240,12 @@ export default function SerikaliDirectory() {
         {activeTab === "benki" && (
           <>
             <div className="flex items-center justify-between mb-4">
-              <p className="text-xs text-muted-foreground">{filteredBanking.length} banking leaders</p>
+              <p className="text-meta font-body text-muted-foreground">{filteredBanking.length} banking leaders</p>
             </div>
             {filteredBanking.length === 0 ? (
               <EmptyState />
             ) : (
-              <div className="grid gap-3">
+              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                 {filteredBanking.map((b) => (
                   <SecureActionCard
                     key={b.id}
@@ -261,9 +262,9 @@ export default function SerikaliDirectory() {
         )}
 
         {/* Footer */}
-        <div className="mt-8 text-center text-xs text-muted-foreground border-t border-border pt-6">
+        <div className="mt-8 text-center text-meta font-body text-muted-foreground border-t border-border pt-6">
           <p>
-            Directory: {directoryStats.totalOfficials} officials · {agencies.length} agencies · {bankingCEOs.length} banks · Last verified: 2026-03-08
+            Directory: {directoryStats.totalOfficials} officials · {agencies.length} agencies · {bankingCEOs.length} banks · Last verified: Mar 2026
           </p>
         </div>
       </div>
@@ -277,9 +278,9 @@ function EmptyState() {
       <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-primary/10 flex items-center justify-center">
         <BookOpen className="w-8 h-8 text-primary opacity-60" />
       </div>
-      <p className="font-medium text-foreground">No officials found in this area yet</p>
-      <p className="text-sm mt-1">Help us grow — suggest an official</p>
-      <Button asChild className="mt-4 bg-primary text-primary-foreground hover:bg-yb-yellow-deep">
+      <p className="font-heading text-h3 text-foreground">No officials found in this area yet</p>
+      <p className="text-meta font-body mt-1">Help us grow — suggest an official</p>
+      <Button asChild className="mt-4 bg-primary text-primary-foreground hover:bg-yb-yellow-deep font-body font-semibold min-h-[48px]">
         <a href="/report">Suggest an Official</a>
       </Button>
     </div>

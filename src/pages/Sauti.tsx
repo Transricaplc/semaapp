@@ -50,38 +50,38 @@ export default function Sauti() {
     <div className="animate-fade-in">
       <section className="bg-yb-charcoal py-10">
         <div className="container max-w-3xl text-center">
-          <h1 className="text-2xl md:text-3xl font-heading font-bold text-white mb-2">People's Petitions</h1>
-          <p className="text-yb-charcoal-muted text-sm">Sign, share, or start petitions to demand change</p>
+          <h1 className="text-h1 md:text-h1-lg font-heading text-white mb-2">People's Petitions</h1>
+          <p className="text-body font-body text-yb-charcoal-muted">Sign, share, or start petitions to demand change</p>
         </div>
       </section>
 
       <div className="container max-w-3xl py-6">
         <Button onClick={() => setShowCreate(!showCreate)}
-          className="w-full mb-6 bg-primary hover:bg-yb-yellow-deep text-primary-foreground font-bold h-12 text-base gap-2">
+          className="w-full mb-6 bg-primary hover:bg-yb-yellow-deep text-primary-foreground font-body font-semibold min-h-[52px] text-body gap-2">
           <Plus className="w-5 h-5" /> Start a New Petition
         </Button>
 
         {showCreate && (
           <div className="yb-card p-6 mb-6 animate-fade-in">
-            <h3 className="font-heading font-bold text-foreground mb-4">New Petition</h3>
+            <h3 className="font-heading text-h2 text-foreground mb-4">New Petition</h3>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Title</label>
-                <Input placeholder="What do you want to change?" value={newTitle} onChange={e => setNewTitle(e.target.value)} />
+                <label className="text-meta font-body font-medium text-foreground mb-1 block">Title</label>
+                <Input placeholder="What do you want to change?" value={newTitle} onChange={e => setNewTitle(e.target.value)} className="min-h-[52px] text-body" />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Description</label>
-                <Textarea placeholder="Describe the issue and what you want done..." rows={4} value={newDesc} onChange={e => setNewDesc(e.target.value)} />
+                <label className="text-meta font-body font-medium text-foreground mb-1 block">Description</label>
+                <Textarea placeholder="Describe the issue and what you want done..." rows={4} value={newDesc} onChange={e => setNewDesc(e.target.value)} className="text-body" />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Target</label>
-                <Input placeholder="Who should act? e.g. Minister of Water" value={newTarget} onChange={e => setNewTarget(e.target.value)} />
+                <label className="text-meta font-body font-medium text-foreground mb-1 block">Target</label>
+                <Input placeholder="Who should act? e.g. Minister of Water" value={newTarget} onChange={e => setNewTarget(e.target.value)} className="min-h-[52px] text-body" />
               </div>
               <div className="flex gap-3">
-                <Button onClick={handleCreate} className="flex-1 bg-primary text-primary-foreground hover:bg-yb-yellow-deep gap-2 font-bold">
+                <Button onClick={handleCreate} className="flex-1 bg-primary text-primary-foreground hover:bg-yb-yellow-deep gap-2 font-body font-semibold min-h-[48px]">
                   <Target className="w-4 h-4" /> Submit Petition
                 </Button>
-                <Button variant="outline" onClick={() => setShowCreate(false)}>Cancel</Button>
+                <Button variant="outline" onClick={() => setShowCreate(false)} className="min-h-[48px] font-body">Cancel</Button>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function Sauti() {
 
         <div className="flex items-center gap-2 mb-4">
           <TrendingUp className="w-4 h-4 text-primary" />
-          <span className="text-sm font-semibold text-foreground">Trending Petitions</span>
+          <span className="text-body font-body font-semibold text-foreground">Trending Petitions</span>
         </div>
 
         <div className="space-y-4">
@@ -103,22 +103,22 @@ export default function Sauti() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      {petition.trending && <Badge className="bg-primary/15 text-foreground border-primary/30 text-[10px]">🔥 Trending</Badge>}
-                      <Badge variant="outline" className="text-[10px]">{petition.category}</Badge>
+                      {petition.trending && <Badge className="bg-primary/15 text-foreground border-primary/30 text-badge font-heading uppercase">🔥 Trending</Badge>}
+                      <Badge variant="outline" className="text-badge font-heading uppercase">{petition.category}</Badge>
                     </div>
-                    <h3 className="font-semibold text-foreground text-sm leading-snug">{petition.title}</h3>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{petition.description}</p>
+                    <h3 className="font-heading text-h3 text-foreground leading-snug">{petition.title}</h3>
+                    <p className="text-meta font-body text-muted-foreground mt-1 line-clamp-2">{petition.description}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3 pl-[52px]">
+                <div className="flex items-center gap-2 text-meta font-body text-muted-foreground mb-3 pl-[52px]">
                   <Target className="w-3 h-3" />
                   <span>To: <strong className="text-foreground">{petition.target}</strong> ({petition.targetRole})</span>
                 </div>
 
                 <div className="pl-[52px] mb-3">
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="font-bold text-primary">{petition.signatures.toLocaleString()} signatures</span>
+                  <div className="flex justify-between text-meta font-body mb-1">
+                    <span className="font-heading font-bold text-primary">{petition.signatures.toLocaleString()} signatures</span>
                     <span className="text-muted-foreground">Goal: {petition.goal.toLocaleString()}</span>
                   </div>
                   <div className="h-2 bg-secondary rounded-full overflow-hidden">
@@ -127,13 +127,13 @@ export default function Sauti() {
                 </div>
 
                 <div className="flex items-center gap-2 pl-[52px]">
-                  <Button size="sm" onClick={() => handleSign(petition.id)} className="bg-primary text-primary-foreground text-xs gap-1 flex-1 font-bold hover:bg-yb-yellow-deep">
+                  <Button size="sm" onClick={() => handleSign(petition.id)} className="bg-primary text-primary-foreground text-meta gap-1 flex-1 font-body font-semibold hover:bg-yb-yellow-deep min-h-[40px]">
                     <Heart className="w-3 h-3" /> Sign
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => handleShare(petition)} className="text-xs gap-1">
+                  <Button size="sm" variant="outline" onClick={() => handleShare(petition)} className="text-meta gap-1 font-body min-h-[40px]">
                     <Share2 className="w-3 h-3" /> WhatsApp
                   </Button>
-                  <Button size="sm" variant="outline" onClick={() => handleDonate(petition)} className="text-xs gap-1 text-accent border-accent/30">
+                  <Button size="sm" variant="outline" onClick={() => handleDonate(petition)} className="text-meta gap-1 text-accent border-accent/30 font-body min-h-[40px]">
                     <Phone className="w-3 h-3" /> M-Pesa
                   </Button>
                 </div>

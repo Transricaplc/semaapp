@@ -43,27 +43,27 @@ export default function EmergencyBanner() {
     <div className="bg-destructive/5 border border-destructive/15 rounded-xl p-4 mb-6">
       <div className="flex items-center gap-2 mb-3">
         <AlertTriangle className="w-4 h-4 text-destructive" />
-        <h3 className="font-heading font-bold text-foreground text-sm">Emergency Contacts</h3>
+        <h3 className="font-heading text-h3 text-foreground">Emergency Contacts</h3>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {critical.map((contact) => {
           const Icon = categoryIcons[contact.category];
           return (
             <a key={contact.id} href={`tel:${contact.phone}`}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-sm font-medium hover:opacity-90 transition-opacity ${categoryColors[contact.category]}`}>
+              className={`flex items-center gap-2 px-3 py-3 rounded-lg border font-body hover:opacity-90 transition-opacity min-h-[56px] ${categoryColors[contact.category]}`}>
               <Icon className="w-4 h-4 shrink-0" />
               <div className="min-w-0">
-                <div className="font-bold text-base leading-tight">{contact.phone}</div>
-                <div className="text-[10px] opacity-70 truncate">{contact.name}</div>
+                <div className="font-mono text-body font-bold leading-tight">{contact.phone}</div>
+                <div className="text-meta font-body opacity-70 truncate">{contact.name}</div>
               </div>
             </a>
           );
         })}
       </div>
-      <p className="text-[10px] text-muted-foreground mt-2">
+      <p className="text-meta font-body text-muted-foreground mt-2">
         PCCB: 113 · Police: 112/999 · Fire: 114 · Ambulance: 115 · Gender/Child: 116
       </p>
-      <div className="flex flex-wrap gap-3 mt-2 text-[10px] text-muted-foreground">
+      <div className="flex flex-wrap gap-3 mt-2 text-meta font-body text-muted-foreground">
         <span className="flex items-center gap-1"><Heart className="w-2.5 h-2.5 text-accent" />{facilityStats.total} hospitals in system</span>
         <span className="flex items-center gap-1"><Flame className="w-2.5 h-2.5 text-destructive" />{fireStats.totalStations} fire stations</span>
       </div>

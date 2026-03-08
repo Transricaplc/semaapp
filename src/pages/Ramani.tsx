@@ -34,16 +34,17 @@ export default function Ramani() {
     <div className="animate-fade-in flex flex-col h-[calc(100vh-5rem)]">
       <section className="bg-yb-charcoal py-6">
         <div className="container text-center">
-          <h1 className="text-xl md:text-2xl font-heading font-bold text-white">Issues Map</h1>
-          <p className="text-yb-charcoal-muted text-sm">See citizen reports near you</p>
+          <h1 className="text-h1 font-heading text-white">Issues Map</h1>
+          <p className="text-body font-body text-yb-charcoal-muted">See citizen reports near you</p>
         </div>
       </section>
 
+      {/* Horizontal filter pills */}
       <div className="bg-card border-b border-border px-4 py-2">
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
           {categories.map((cat) => (
             <button key={cat.id} onClick={() => setActiveFilter(cat.id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-meta font-body font-medium whitespace-nowrap transition-all min-h-[40px] ${
                 activeFilter === cat.id ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:bg-secondary/80"
               }`}>
               <cat.icon className="w-3 h-3" />
@@ -65,11 +66,11 @@ export default function Ramani() {
               <div className="w-10 h-10 rounded-full bg-destructive flex items-center justify-center shadow-lg animate-pulse-gentle">
                 <MapPin className="w-5 h-5 text-destructive-foreground" />
               </div>
-              <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-[10px] px-1.5 min-w-[20px] justify-center">{pin.reports}</Badge>
+              <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-badge px-1.5 min-w-[20px] justify-center font-heading">{pin.reports}</Badge>
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                <div className="bg-card border border-border rounded-lg shadow-lg p-3 whitespace-nowrap text-xs">
-                  <p className="font-semibold text-foreground">{pin.title}</p>
-                  <p className="text-muted-foreground mt-0.5">{pin.reports} reports</p>
+                <div className="bg-card border border-border rounded-lg shadow-lg p-3 whitespace-nowrap">
+                  <p className="font-heading text-h3 text-foreground">{pin.title}</p>
+                  <p className="text-meta font-body text-muted-foreground mt-0.5">{pin.reports} reports</p>
                 </div>
               </div>
             </div>
@@ -83,10 +84,10 @@ export default function Ramani() {
                 <MapPin className="w-5 h-5 text-primary" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-foreground">{filtered.length} reports on map</p>
-                <p className="text-xs text-muted-foreground">Click a pin for details</p>
+                <p className="font-heading text-h3 text-foreground">{filtered.length} reports on map</p>
+                <p className="text-meta font-body text-muted-foreground">Click a pin for details</p>
               </div>
-              <Button size="sm" className="bg-primary text-primary-foreground text-xs font-bold hover:bg-yb-yellow-deep">
+              <Button size="sm" className="bg-primary text-primary-foreground text-meta font-body font-semibold hover:bg-yb-yellow-deep min-h-[40px]">
                 <Filter className="w-3 h-3 mr-1" /> Filter
               </Button>
             </div>

@@ -21,9 +21,9 @@ const NotFound = () => {
             <X className="w-4 h-4 text-white" />
           </div>
         </div>
-        <h1 className="mb-2 text-4xl font-heading font-bold text-foreground">404</h1>
-        <p className="mb-6 text-lg text-muted-foreground">Page not found</p>
-        <Button asChild className="bg-primary text-primary-foreground hover:bg-yb-yellow-deep font-bold">
+        <h1 className="mb-2 text-display font-heading text-foreground">404</h1>
+        <p className="mb-6 text-body font-body text-muted-foreground">Page not found</p>
+        <Button asChild className="bg-primary text-primary-foreground hover:bg-yb-yellow-deep font-body font-semibold min-h-[48px]">
           <Link to="/saka-viongozi">Back to Directory</Link>
         </Button>
       </div>
