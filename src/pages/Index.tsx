@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/reports";
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
+import EmergencyBanner from "@/components/EmergencyContacts";
 
 const categoryIcons: Record<ReportCategory, React.ReactNode> = {
   service_delivery: <Droplets className="w-4 h-4" />,
