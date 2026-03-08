@@ -75,6 +75,8 @@ export default function ConstituencyFinder() {
     setMkoa(val);
     setWilaya("");
     setResults(null);
+    setNearbyHospitals([]);
+    setNearbyFire([]);
   };
 
   return (
