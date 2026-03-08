@@ -233,7 +233,7 @@ export const agencies: Agency[] = [
     agency: "Tanzania Revenue Authority",
     acronym: "TRA",
     sector: "Revenue",
-    head: "Commissioner General",
+    head: "Yusuph Juma Mwenda",
     headTitle: "Commissioner General",
     contacts: {
       email: "cg@tra.go.tz",
