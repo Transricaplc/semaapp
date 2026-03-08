@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Search, X, User, MapPin, ChevronRight, BadgeCheck, ExternalLink, Heart, Flame } from "lucide-react";
+import { Search, X, User, MapPin, ChevronRight, BadgeCheck, ExternalLink, Heart, Flame, Building } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import {
