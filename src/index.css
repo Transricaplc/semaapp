@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
 
 @layer base {
   :root {
@@ -35,7 +35,7 @@
     --input: 240 9% 91%;
     --ring: 47 100% 48%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
     /* Yellow Book palette tokens */
     --yb-yellow: 47 100% 48%;
@@ -108,10 +108,12 @@
   body {
     @apply bg-background text-foreground font-body antialiased;
     font-size: 15px;
+    line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
+    line-height: 1.2;
   }
 }
 
@@ -128,7 +130,7 @@
     @apply bg-warning/15 text-warning border border-warning/30;
   }
   .status-received {
-    @apply bg-primary/10 text-primary border border-primary/20;
+    @apply bg-primary/10 text-foreground border border-primary/20;
   }
   .status-investigating {
     @apply bg-gold/15 text-foreground border border-gold/30;
@@ -168,6 +170,39 @@
     @apply bg-foreground text-primary font-heading font-bold;
     border-bottom: 2px solid hsl(var(--primary));
   }
+
+  /* Phone numbers in monospace */
+  .font-phone {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+
+  /* Role badge typography */
+  .badge-role {
+    @apply font-heading font-bold uppercase;
+    font-size: 10px;
+    letter-spacing: 0.6px;
+  }
+
+  /* Meta/caption text */
+  .text-meta {
+    @apply font-body text-muted-foreground;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* Horizontal scroll pill row */
+  .pill-scroll {
+    @apply flex gap-2 overflow-x-auto pb-1;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .pill-scroll::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @layer utilities {
@@ -191,5 +226,14 @@
   .warm-glow-sm {
     box-shadow: 0 0 10px hsla(47, 100%, 48%, 0.2),
                 0 0 30px hsla(47, 100%, 48%, 0.1);
+  }
+
+  /* Hide scrollbar utility */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }

@@ -25,8 +25,8 @@ export default function Tracker() {
     <div className="animate-fade-in">
       <section className="bg-yb-charcoal py-10">
         <div className="container max-w-3xl text-center">
-          <h1 className="text-2xl md:text-3xl font-heading font-bold text-white mb-2">{t("tracker.title")}</h1>
-          <p className="text-yb-charcoal-muted text-sm">{t("tracker.subtitle")}</p>
+          <h1 className="text-h1 md:text-h1-lg font-heading text-white mb-2">{t("tracker.title")}</h1>
+          <p className="text-body font-body text-yb-charcoal-muted">{t("tracker.subtitle")}</p>
         </div>
       </section>
 
@@ -36,10 +36,10 @@ export default function Tracker() {
             const count = mockReports.filter((r) => r.status === status).length;
             const config = statusConfig[status];
             return (
-              <div key={status} className="yb-card p-4 text-center">
+              <div key={status} className="yb-card p-4 text-center min-h-[80px]">
                 <config.icon className="w-5 h-5 mx-auto mb-2 text-primary" />
-                <div className="text-2xl font-heading font-bold text-foreground">{count}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{statusLabelsLocal[status]}</div>
+                <div className="text-h2 font-heading text-foreground">{count}</div>
+                <div className="text-meta font-body text-muted-foreground mt-0.5">{statusLabelsLocal[status]}</div>
               </div>
             );
           })}
@@ -55,16 +55,16 @@ export default function Tracker() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       {report.anonymous && (
-                        <span className="flex items-center gap-1 text-[10px] bg-secondary text-muted-foreground px-2 py-0.5 rounded-md">
+                        <span className="flex items-center gap-1 text-badge font-heading uppercase bg-secondary text-muted-foreground px-2 py-0.5 rounded-md">
                           <Eye className="w-3 h-3" /> Anonymous
                         </span>
                       )}
-                      <span className="text-xs text-muted-foreground">{report.id}</span>
+                      <span className="text-meta font-mono text-muted-foreground">{report.id}</span>
                     </div>
-                    <h3 className="font-semibold text-foreground">{report.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{report.description}</p>
+                    <h3 className="font-heading text-h3 text-foreground">{report.title}</h3>
+                    <p className="text-body font-body text-muted-foreground mt-1 line-clamp-2">{report.description}</p>
                   </div>
-                  <span className={`${config.className} px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap`}>
+                  <span className={`${config.className} px-3 py-1 rounded-lg text-badge font-heading uppercase whitespace-nowrap`}>
                     {statusLabelsLocal[report.status]}
                   </span>
                 </div>
@@ -77,7 +77,7 @@ export default function Tracker() {
                   ))}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-4 text-meta font-body text-muted-foreground">
                   <span className="flex items-center gap-1"><AlertTriangle className="w-3 h-3" />{categoryLabels[report.category]}</span>
                   <span>{report.location}</span>
                   <span>{report.createdAt}</span>

@@ -7,15 +7,45 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "1rem",
+      padding: {
+        DEFAULT: "1rem",
+        sm: "1.5rem",
+        lg: "2rem",
+      },
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px",
       },
     },
     extend: {
       fontFamily: {
-        heading: ['Inter', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ["'Sora'", "system-ui", "sans-serif"],
+        body: ["'DM Sans'", "system-ui", "sans-serif"],
+        mono: ["'JetBrains Mono'", "monospace"],
+      },
+      fontSize: {
+        // Display — hero only
+        display: ["36px", { lineHeight: "1.1", letterSpacing: "-0.5px", fontWeight: "800" }],
+        "display-lg": ["52px", { lineHeight: "1.1", letterSpacing: "-0.5px", fontWeight: "800" }],
+        // H1 — page titles
+        "h1": ["26px", { lineHeight: "1.2", fontWeight: "700" }],
+        "h1-lg": ["32px", { lineHeight: "1.2", fontWeight: "700" }],
+        // H2 — section headers
+        "h2": ["20px", { lineHeight: "1.3", fontWeight: "700" }],
+        "h2-lg": ["24px", { lineHeight: "1.3", fontWeight: "700" }],
+        // H3 — card titles
+        "h3": ["16px", { lineHeight: "1.4", fontWeight: "700" }],
+        "h3-lg": ["18px", { lineHeight: "1.4", fontWeight: "700" }],
+        // Body
+        "body": ["15px", { lineHeight: "1.6", fontWeight: "400" }],
+        "body-lg": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+        // Small/meta
+        "meta": ["12px", { lineHeight: "1.5", fontWeight: "400" }],
+        "meta-lg": ["13px", { lineHeight: "1.5", fontWeight: "400" }],
+        // Badge/label
+        "badge": ["10px", { lineHeight: "1", fontWeight: "700", letterSpacing: "0.6px" }],
+        "badge-lg": ["11px", { lineHeight: "1", fontWeight: "700", letterSpacing: "0.6px" }],
+        // Nav
+        "nav": ["11px", { lineHeight: "1", fontWeight: "500" }],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -70,7 +100,6 @@ export default {
         },
         gold: "hsl(var(--gold))",
         warning: "hsl(var(--warning))",
-        // Legacy aliases
         navy: {
           DEFAULT: "hsl(var(--yb-charcoal))",
           light: "hsl(var(--yb-charcoal-mid))",
@@ -127,8 +156,8 @@ export default {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "accordion-down": "accordion-down 0.3s ease-out",
+        "accordion-up": "accordion-up 0.3s ease-out",
         "fade-in": "fade-in 0.4s ease-out",
         "slide-in": "slide-in-right 0.3s ease-out",
         "pulse-gentle": "pulse-gentle 2s ease-in-out infinite",

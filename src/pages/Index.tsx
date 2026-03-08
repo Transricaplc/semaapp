@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import {
   AlertTriangle, BookOpen, TrendingUp, Users, ArrowRight, Droplets, ShieldAlert, Landmark,
-  HeartPulse, Heart, Flame, Award, Megaphone, Share2, Map, Search, CheckCircle2,
+  Heart, Flame, Award, Megaphone, Share2, Map, Search, CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,26 +29,24 @@ export default function Index() {
 
   return (
     <div className="animate-fade-in">
-      {/* ── HERO — Yellow Book identity ── */}
-      <section className="bg-yb-charcoal py-20 md:py-28 relative overflow-hidden min-h-[480px] flex items-center">
+      {/* ── HERO ── */}
+      <section className="bg-yb-charcoal py-16 md:py-24 relative overflow-hidden min-h-[420px] flex items-center">
         <KilimanjaroHero />
         <div className="container relative z-10 text-center max-w-3xl mx-auto">
-          {/* Overline */}
-          <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider mb-6 backdrop-blur-sm border border-primary/20">
+          <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-4 py-1.5 rounded-full text-badge uppercase tracking-wider mb-6 backdrop-blur-sm border border-primary/20 font-heading">
             <BookOpen className="w-3.5 h-3.5" />
             Citizen Yellow Book
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-heading font-extrabold text-white mb-5 leading-tight">
+          <h1 className="text-display md:text-display-lg font-heading text-white mb-5">
             Every Government Contact.{" "}
             <br className="hidden md:block" />
             <span className="text-primary">One Place. Verified.</span>
           </h1>
-          <p className="text-base md:text-lg text-yb-charcoal-muted mb-10 max-w-xl mx-auto">
+          <p className="text-body md:text-body-lg text-yb-charcoal-muted mb-10 max-w-xl mx-auto font-body">
             Tanzania's official citizen directory — find any public servant, agency, or government office instantly.
           </p>
 
-          {/* Search */}
           <GlobalSearch />
 
           {/* Quick pill filters */}
@@ -57,7 +55,7 @@ export default function Index() {
               <Link
                 key={filter}
                 to="/saka-viongozi"
-                className="px-3 py-1.5 rounded-full text-xs font-medium border border-primary/30 text-primary/80 hover:bg-primary/10 hover:text-primary transition-colors"
+                className="px-3 py-1.5 rounded-full text-badge font-heading uppercase tracking-wider border border-primary/30 text-primary/80 hover:bg-primary/10 hover:text-primary transition-colors"
               >
                 {filter}
               </Link>
@@ -66,13 +64,13 @@ export default function Index() {
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-            <Button asChild size="lg" className="bg-primary hover:bg-yb-yellow-deep text-primary-foreground font-bold text-base px-8 h-13 shadow-lg border-0">
+            <Button asChild size="lg" className="bg-primary hover:bg-yb-yellow-deep text-primary-foreground font-body font-semibold text-body px-8 h-[52px] shadow-lg border-0 rounded-xl">
               <Link to="/saka-viongozi">
                 <Search className="w-5 h-5 mr-2" />
                 Search Directory
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-primary/30 text-primary bg-transparent hover:bg-primary/10 font-bold text-base px-8 h-13">
+            <Button asChild size="lg" variant="outline" className="border-primary/30 text-primary bg-transparent hover:bg-primary/10 font-body font-semibold text-body px-8 h-[52px] rounded-xl">
               <Link to="/report">
                 <AlertTriangle className="w-5 h-5 mr-2" />
                 Report an Issue
@@ -81,7 +79,7 @@ export default function Index() {
           </div>
 
           {/* Social proof */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8 text-xs text-yb-charcoal-muted">
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-8 text-meta text-yb-charcoal-muted font-body">
             <span className="flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3 text-accent" />
               {directoryStats.totalOfficials}+ officials listed
@@ -115,16 +113,16 @@ export default function Index() {
             {[
               { value: String(directoryStats.totalOfficials), label: "Officials", sub: "Listed in directory", icon: Users, color: "text-primary" },
               { value: String(facilityStats.total), label: "Hospitals", sub: "Health facilities", icon: Heart, color: "text-accent" },
-              { value: String(agencyStats.totalAgencies), label: "Agencies", sub: "Government agencies", icon: Landmark, color: "text-yb-charcoal" },
+              { value: String(agencyStats.totalAgencies), label: "Agencies", sub: "Government agencies", icon: Landmark, color: "text-foreground" },
               { value: String(fireStats.totalStations), label: "Fire Stations", sub: "Fire & rescue", icon: Flame, color: "text-destructive" },
             ].map((stat) => (
               <div key={stat.sub} className="text-center">
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-card border border-border ${stat.color} mb-3`}>
                   <stat.icon className="w-6 h-6" />
                 </div>
-                <div className="text-2xl md:text-3xl font-heading font-bold text-foreground">{stat.value}</div>
-                <div className="text-sm font-medium text-foreground mt-0.5">{stat.label}</div>
-                <div className="text-xs text-muted-foreground">{stat.sub}</div>
+                <div className="text-h2 md:text-h2-lg font-heading text-foreground">{stat.value}</div>
+                <div className="text-body font-body font-medium text-foreground mt-0.5">{stat.label}</div>
+                <div className="text-meta font-body text-muted-foreground">{stat.sub}</div>
               </div>
             ))}
           </div>
@@ -135,22 +133,22 @@ export default function Index() {
       <section className="py-8 bg-background">
         <div className="container max-w-3xl">
           <div className="grid grid-cols-2 gap-3">
-            <Link to="/ramani" className="yb-card p-4 flex items-center gap-3">
+            <Link to="/ramani" className="yb-card p-4 flex items-center gap-3 min-h-[64px]">
               <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
                 <Map className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <p className="font-semibold text-sm text-foreground">Issues Map</p>
-                <p className="text-[10px] text-muted-foreground">See reports near you</p>
+                <p className="font-heading text-h3 text-foreground">Issues Map</p>
+                <p className="text-meta font-body text-muted-foreground">See reports near you</p>
               </div>
             </Link>
-            <Link to="/sauti" className="yb-card p-4 flex items-center gap-3">
+            <Link to="/sauti" className="yb-card p-4 flex items-center gap-3 min-h-[64px]">
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Megaphone className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <p className="font-semibold text-sm text-foreground">Petitions</p>
-                <p className="text-[10px] text-muted-foreground">Sign or start petitions</p>
+                <p className="font-heading text-h3 text-foreground">Petitions</p>
+                <p className="text-meta font-body text-muted-foreground">Sign or start petitions</p>
               </div>
             </Link>
           </div>
@@ -165,8 +163,8 @@ export default function Index() {
               <TrendingUp className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h2 className="text-xl font-heading font-bold text-foreground">{t("trending.title")}</h2>
-              <p className="text-sm text-muted-foreground">{t("trending.subtitle")}</p>
+              <h2 className="text-h2 font-heading text-foreground">{t("trending.title")}</h2>
+              <p className="text-meta font-body text-muted-foreground">{t("trending.subtitle")}</p>
             </div>
           </div>
           <div className="space-y-3">
@@ -176,21 +174,21 @@ export default function Index() {
                   {categoryIcons[concern.category]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{concern.text}</p>
-                  <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                  <p className="text-body font-body font-medium text-foreground truncate">{concern.text}</p>
+                  <div className="flex items-center gap-3 mt-1 text-meta font-body text-muted-foreground">
                     <span>{categoryLabels[concern.category]}</span>
                     <span>·</span>
                     <span>{concern.region}</span>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1 shrink-0">
-                  <div className="text-lg font-heading font-bold text-primary">{concern.count}</div>
+                  <div className="text-h2 font-heading text-primary">{concern.count}</div>
                   <button
                     onClick={() => {
                       const msg = encodeURIComponent(`📢 ${concern.text} — ${concern.count} reports\n\n#Sema #CitizenYellowBook`);
                       window.open(`https://wa.me/?text=${msg}`, "_blank");
                     }}
-                    className="text-[10px] text-accent flex items-center gap-0.5 hover:underline"
+                    className="text-meta text-accent flex items-center gap-0.5 hover:underline font-body"
                   >
                     <Share2 className="w-3 h-3" /> Share
                   </button>
@@ -199,7 +197,7 @@ export default function Index() {
             ))}
           </div>
           <div className="text-center mt-6">
-            <Button asChild variant="outline" className="gap-2 border-primary/30 text-primary hover:bg-primary/5">
+            <Button asChild variant="outline" className="gap-2 border-primary/30 text-primary hover:bg-primary/5 font-body font-semibold">
               <Link to="/report">Report Now <ArrowRight className="w-4 h-4" /></Link>
             </Button>
           </div>
@@ -214,8 +212,8 @@ export default function Index() {
               <Award className="w-5 h-5 text-accent" />
             </div>
             <div>
-              <h2 className="text-xl font-heading font-bold text-foreground">{t("success.title")}</h2>
-              <p className="text-sm text-muted-foreground">{t("success.subtitle")}</p>
+              <h2 className="text-h2 font-heading text-foreground">{t("success.title")}</h2>
+              <p className="text-meta font-body text-muted-foreground">{t("success.subtitle")}</p>
             </div>
           </div>
           <div className="grid gap-3">
@@ -224,13 +222,13 @@ export default function Index() {
               { title: "Mbagala road construction has begun", impact: "50,000+", emoji: "🛣️" },
               { title: "Medicine supplies reached Mwananyamala Hospital", impact: "3,000+", emoji: "🏥" },
             ].map((story, i) => (
-              <div key={i} className="flex items-center gap-3 yb-card p-4">
+              <div key={i} className="flex items-center gap-3 yb-card p-4 min-h-[56px]">
                 <span className="text-2xl">{story.emoji}</span>
                 <div className="flex-1">
-                  <p className="font-semibold text-sm text-foreground">{story.title}</p>
-                  <p className="text-[10px] text-muted-foreground">{story.impact} citizens benefited</p>
+                  <p className="font-heading text-h3 text-foreground">{story.title}</p>
+                  <p className="text-meta font-body text-muted-foreground">{story.impact} citizens benefited</p>
                 </div>
-                <Badge className="bg-accent/10 text-accent border-accent/20 text-[10px]">Resolved</Badge>
+                <Badge className="bg-accent/10 text-accent border-accent/20 text-badge badge-role">Resolved</Badge>
               </div>
             ))}
           </div>
