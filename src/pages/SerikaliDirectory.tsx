@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import {
-  Search, User, MapPin, Landmark, Building2, Scale, Shield,
-  ChevronDown, X, Filter, Banknote, Building, BookOpen,
+  Search, MapPin, Landmark, Building2, Scale, Shield, Banknote, BookOpen,
+  GraduationCap, Heart, X, ChevronDown, ChevronRight, BadgeCheck,
+  Send, Tag, Share2, Phone, Users, Filter,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,97 +11,97 @@ import {
   directoryStats, allRegionNames, districtsByRegion,
   type Official, type RoleType,
 } from "@/data/unified_officials";
-import { agencies, searchAgencies, sectorLabels, sectorColors, type Agency } from "@/data/agencies";
+import { agencies, searchAgencies, sectorColors, type Agency, type AgencySector } from "@/data/agencies";
 import { bankingCEOs, searchBanking, type BankingCEO } from "@/data/banking";
+import { hospitals, searchHospitals, hospitalTypeLabels, type Hospital, type HospitalType } from "@/data/hospitali";
+import { courts, searchCourts, courtLevelLabels, type Court } from "@/data/mahakama";
+import { eduInstitutions, searchEdu, elimuTypeLabels, type EduInstitution } from "@/data/elimu";
 import SecureActionCard from "@/components/SecureActionCard";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import LocalGovPanel from "@/components/LocalGovPanel";
 
-type DirectoryTab = "serikali" | "wakala" | "benki";
+type DirectoryTab = "mikoa" | "wilaya" | "hospitali" | "wakala" | "benki" | "mahakama" | "bunge" | "elimu";
 
-const tabs: { value: DirectoryTab; label: string; shortLabel: string; icon: React.ElementType }[] = [
-  { value: "serikali", label: "Government Officials", shortLabel: "Officials", icon: Landmark },
-  { value: "wakala", label: "Government Agencies", shortLabel: "Agencies", icon: Building },
-  { value: "benki", label: "Banking Institutions", shortLabel: "Banking", icon: Banknote },
+const tabs: { value: DirectoryTab; label: string; icon: React.ElementType }[] = [
+  { value: "mikoa", label: "Mikoa", icon: MapPin },
+  { value: "wilaya", label: "Wilaya", icon: Building2 },
+  { value: "hospitali", label: "Hospitali", icon: Heart },
+  { value: "wakala", label: "Wakala", icon: Landmark },
+  { value: "benki", label: "Benki", icon: Banknote },
+  { value: "mahakama", label: "Mahakama", icon: Scale },
+  { value: "bunge", label: "Bunge", icon: Users },
+  { value: "elimu", label: "Elimu", icon: GraduationCap },
 ];
 
-type SerikaliSubTab = "executive" | "parliament" | "localGov" | "judiciary";
-const serikaliSubTabs: { value: SerikaliSubTab; label: string; roleTypes: RoleType[] }[] = [
-  { value: "executive", label: "Executive", roleTypes: ["PRESIDENT", "MINISTER", "DEPUTY_MINISTER", "PERMANENT_SECRETARY", "COMMISSIONER"] },
-  { value: "parliament", label: "Parliament", roleTypes: ["MP", "SPEAKER"] },
-  { value: "localGov", label: "Local Govt", roleTypes: ["MUNICIPAL_DIRECTOR"] },
-  { value: "judiciary", label: "Judiciary & Security", roleTypes: ["JUDGE", "POLICE", "ANTI_CORRUPTION"] },
+type BungeSubTab = "wabunge" | "mawaziri" | "spika" | "executive";
+const bungeSubTabs: { value: BungeSubTab; label: string; roleTypes: RoleType[] }[] = [
+  { value: "executive", label: "Utendaji", roleTypes: ["PRESIDENT", "PERMANENT_SECRETARY", "COMMISSIONER"] },
+  { value: "mawaziri", label: "Mawaziri", roleTypes: ["MINISTER", "DEPUTY_MINISTER"] },
+  { value: "wabunge", label: "Wabunge", roleTypes: ["MP"] },
+  { value: "spika", label: "Uongozi & Mahakama", roleTypes: ["SPEAKER", "JUDGE", "POLICE", "ANTI_CORRUPTION"] },
 ];
 
 export default function SerikaliDirectory() {
-  const [activeTab, setActiveTab] = useState<DirectoryTab>("serikali");
-  const [serikaliSub, setSerikaliSub] = useState<SerikaliSubTab>("executive");
+  const [activeTab, setActiveTab] = useState<DirectoryTab>("mikoa");
+  const [bungeSubTab, setBungeSubTab] = useState<BungeSubTab>("executive");
   const [search, setSearch] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("");
-  const [showFilters, setShowFilters] = useState(false);
 
   const clearFilters = () => { setSearch(""); setSelectedRegion(""); };
   const hasFilters = !!search || !!selectedRegion;
 
-  const currentSubTab = serikaliSubTabs.find((t) => t.value === serikaliSub)!;
+  // ── Bunge officials ──
+  const currentBungeSub = bungeSubTabs.find((t) => t.value === bungeSubTab)!;
   const filteredOfficials = useMemo(() => {
     return officials.filter((o) => {
-      if (!currentSubTab.roleTypes.includes(o.role_type)) return false;
+      if (!currentBungeSub.roleTypes.includes(o.role_type)) return false;
       const q = search.toLowerCase();
-      if (q && !(
-        o.full_name.toLowerCase().includes(q) ||
-        o.role_title.toLowerCase().includes(q) ||
-        o.institution.ministry.toLowerCase().includes(q) ||
-        o.location.region.toLowerCase().includes(q)
-      )) return false;
+      if (q && !(o.full_name.toLowerCase().includes(q) || o.role_title.toLowerCase().includes(q) || o.institution.ministry.toLowerCase().includes(q) || o.location.region.toLowerCase().includes(q))) return false;
       if (selectedRegion && o.location.region !== selectedRegion) return false;
       return true;
     });
-  }, [serikaliSub, search, selectedRegion, currentSubTab.roleTypes]);
+  }, [bungeSubTab, search, selectedRegion, currentBungeSub.roleTypes]);
 
   const groupedOfficials = useMemo(() => {
     const groups: Record<string, Official[]> = {};
-    filteredOfficials.forEach((o) => {
-      const key = roleTypeLabels[o.role_type];
-      if (!groups[key]) groups[key] = [];
-      groups[key].push(o);
-    });
+    filteredOfficials.forEach((o) => { const key = roleTypeLabels[o.role_type]; if (!groups[key]) groups[key] = []; groups[key].push(o); });
     return groups;
   }, [filteredOfficials]);
 
-  const filteredAgencies = useMemo(() => {
-    if (!search) return agencies;
-    return searchAgencies(search);
+  // ── Mikoa (Regional Commissioners) ──
+  const regionalCommissioners = useMemo(() => {
+    let rcs = officials.filter((o) => o.role_type === "COMMISSIONER" && o.role_title.includes("Regional"));
+    if (search) { const q = search.toLowerCase(); rcs = rcs.filter((o) => o.full_name.toLowerCase().includes(q) || o.location.region.toLowerCase().includes(q)); }
+    return rcs.sort((a, b) => a.location.region.localeCompare(b.location.region));
   }, [search]);
 
-  const filteredBanking = useMemo(() => {
-    if (!search) return bankingCEOs;
-    return searchBanking(search);
-  }, [search]);
+  // ── Agencies, Banking, Hospitals, Courts, Edu ──
+  const filteredAgencies = useMemo(() => search ? searchAgencies(search) : agencies, [search]);
+  const filteredBanking = useMemo(() => search ? searchBanking(search) : bankingCEOs, [search]);
+  const filteredHospitals = useMemo(() => search ? searchHospitals(search) : hospitals, [search]);
+  const filteredCourts = useMemo(() => search ? searchCourts(search) : courts, [search]);
+  const filteredEdu = useMemo(() => search ? searchEdu(search) : eduInstitutions, [search]);
 
   return (
     <div className="animate-fade-in">
       {/* Hero */}
       <section className="bg-yb-charcoal py-10 md:py-14">
-        <div className="container max-w-5xl text-center">
-          <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-3 py-1 rounded-full text-badge font-heading uppercase tracking-wider mb-4">
+        <div className="max-w-[1200px] mx-auto px-4 text-center">
+          <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-4">
             <BookOpen className="w-3.5 h-3.5" />
-            Citizen Yellow Book
+            Saraka ya Taifa
           </div>
-          <h1 className="text-h1 md:text-h1-lg font-heading text-white mb-2">
-            National Directory
-          </h1>
-          <p className="text-body font-body text-yb-charcoal-muted mb-8 max-w-xl mx-auto">
-            Find the right person or institution — no queues, no middlemen
+          <h1 className="text-[26px] md:text-[32px] font-bold text-white mb-2">Saraka — Kitabu cha Njano</h1>
+          <p className="text-[15px] text-yb-charcoal-muted mb-8 max-w-xl mx-auto">
+            Tafuta mtu au taasisi sahihi — bila foleni, bila dalali
           </p>
-
           <div className="relative max-w-xl mx-auto">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary" />
             <input
-              placeholder="Type a name, agency, ministry, or region..."
+              placeholder="Andika jina, taasisi, wizara, au mkoa..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-12 pr-10 h-[52px] bg-yb-charcoal-mid text-white border border-primary rounded-xl text-body font-body focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-yb-charcoal-muted"
+              className="w-full pl-12 pr-10 h-[52px] bg-yb-charcoal-mid text-white border border-primary rounded-xl text-[15px] focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-yb-charcoal-muted"
             />
             {search && (
               <button onClick={() => setSearch("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-yb-charcoal-muted hover:text-white">
@@ -111,37 +112,165 @@ export default function SerikaliDirectory() {
         </div>
       </section>
 
-      <div className="container max-w-5xl py-6">
-        <ConstituencyFinder />
+      <div className="max-w-[1200px] mx-auto px-4 py-6">
+        {/* ── 8-Tab Navigation ── */}
+        <div className="flex gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar">
+          {tabs.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-[13px] font-semibold whitespace-nowrap border transition-all min-h-[44px] ${
+                activeTab === tab.value
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : "bg-card text-muted-foreground border-border hover:border-primary/30"
+              }`}
+            >
+              <tab.icon className="w-4 h-4" />
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-        {/* Main tabs */}
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as DirectoryTab)} className="mb-6">
-          <TabsList className="w-full grid grid-cols-3 h-auto gap-1 bg-secondary p-1 rounded-xl">
-            {tabs.map((tab) => (
-              <TabsTrigger
-                key={tab.value}
-                value={tab.value}
-                className="flex items-center gap-2 py-3 text-meta sm:text-body font-body font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg min-h-[48px]"
-              >
-                <tab.icon className="w-4 h-4" />
-                <span className="hidden sm:inline">{tab.label}</span>
-                <span className="sm:hidden">{tab.shortLabel}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+        {/* ═══ MIKOA ═══ */}
+        {activeTab === "mikoa" && (
+          <div>
+            <p className="text-[13px] text-muted-foreground mb-4">{regionalCommissioners.length} Wakuu wa Mikoa</p>
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {regionalCommissioners.map((rc) => (
+                <SecureActionCard
+                  key={rc.id}
+                  name={rc.full_name}
+                  position={rc.role_title}
+                  organization={`Mkoa wa ${rc.location.region}`}
+                  area={rc.location.region}
+                  verified={rc.verified_status === "VERIFIED"}
+                  badgeColor={roleBadgeColors[rc.role_type]}
+                  badgeLabel="RC"
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
-        {/* SERIKALI */}
-        {activeTab === "serikali" && (
+        {/* ═══ WILAYA ═══ */}
+        {activeTab === "wilaya" && <LocalGovPanel />}
+
+        {/* ═══ HOSPITALI ═══ */}
+        {activeTab === "hospitali" && (
+          <div>
+            <p className="text-[13px] text-muted-foreground mb-4">{filteredHospitals.length} hospitali</p>
+            {(["Hospitali ya Taifa", "Rufaa ya Kanda", "Rufaa ya Mkoa"] as HospitalType[]).map((type) => {
+              const items = filteredHospitals.filter((h) => h.type === type);
+              if (items.length === 0) return null;
+              return (
+                <div key={type} className="mb-8">
+                  <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                    <Heart className="w-4 h-4" />
+                    <h2 className="text-[16px] font-bold">{type}</h2>
+                    <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                    {items.map((h) => (
+                      <SecureActionCard
+                        key={h.id}
+                        name={h.director.name}
+                        position={h.director.position}
+                        organization={h.name}
+                        area={h.location}
+                        verified={h.verified}
+                        badgeColor="bg-accent/10 text-accent border-accent/20"
+                        badgeLabel={hospitalTypeLabels[h.type]}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ═══ WAKALA ═══ */}
+        {activeTab === "wakala" && (
+          <div>
+            <p className="text-[13px] text-muted-foreground mb-4">{filteredAgencies.length} wakala</p>
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {filteredAgencies.map((a) => (
+                <SecureActionCard
+                  key={a.id}
+                  name={a.head}
+                  position={a.headTitle}
+                  organization={`${a.acronym} — ${a.agency}`}
+                  badgeColor={sectorColors[a.sector]}
+                  badgeLabel={a.sector}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ BENKI ═══ */}
+        {activeTab === "benki" && (
+          <div>
+            <p className="text-[13px] text-muted-foreground mb-4">{filteredBanking.length} viongozi wa benki</p>
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {filteredBanking.map((b) => (
+                <SecureActionCard
+                  key={b.id}
+                  name={b.name}
+                  position={b.position}
+                  organization={b.organization}
+                  badgeColor="bg-primary/15 text-foreground border-primary/30"
+                  badgeLabel="Benki"
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ═══ MAHAKAMA ═══ */}
+        {activeTab === "mahakama" && (
+          <div>
+            <p className="text-[13px] text-muted-foreground mb-4">{filteredCourts.length} mahakama</p>
+            {(["Mahakama ya Juu", "Mahakama Kuu", "Mahakama ya Hakimu Mkazi"] as const).map((level) => {
+              const items = filteredCourts.filter((c) => c.level === level);
+              if (items.length === 0) return null;
+              return (
+                <div key={level} className="mb-8">
+                  <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                    <Scale className="w-4 h-4" />
+                    <h2 className="text-[16px] font-bold">{level}</h2>
+                    <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                    {items.map((c) => (
+                      <SecureActionCard
+                        key={c.id}
+                        name={c.head.name}
+                        position={c.head.position}
+                        organization={c.name}
+                        area={c.location}
+                        verified={c.verified}
+                        badgeColor="bg-yb-charcoal-mid text-white border-yb-charcoal-mid"
+                        badgeLabel={courtLevelLabels[c.level]}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ═══ BUNGE ═══ */}
+        {activeTab === "bunge" && (
           <>
-            {/* Horizontal pill filters */}
             <div className="flex gap-2 overflow-x-auto pb-2 mb-4 no-scrollbar">
-              {serikaliSubTabs.map((sub) => (
+              {bungeSubTabs.map((sub) => (
                 <button
                   key={sub.value}
-                  onClick={() => setSerikaliSub(sub.value)}
-                  className={`px-4 py-2 rounded-full text-meta font-body font-medium whitespace-nowrap border transition-all min-h-[40px] ${
-                    serikaliSub === sub.value
+                  onClick={() => setBungeSubTab(sub.value)}
+                  className={`px-4 py-2 rounded-full text-[13px] font-medium whitespace-nowrap border transition-all min-h-[40px] ${
+                    bungeSubTab === sub.value
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-card text-muted-foreground border-border hover:border-primary/30"
                   }`}
@@ -151,44 +280,19 @@ export default function SerikaliDirectory() {
               ))}
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2 min-h-[40px]">
-                <Filter className="w-3.5 h-3.5" />
-                Region
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showFilters ? "rotate-180" : ""}`} />
-              </Button>
-              {hasFilters && (
-                <Button variant="ghost" size="sm" onClick={clearFilters} className="gap-1.5 text-destructive text-meta">
-                  <X className="w-3 h-3" /> Clear
-                </Button>
-              )}
-              <span className="ml-auto text-meta font-body text-muted-foreground">{filteredOfficials.length} officials</span>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[13px] text-muted-foreground">{filteredOfficials.length} viongozi</span>
             </div>
 
-            {showFilters && (
-              <div className="yb-card p-4 mb-4 animate-fade-in">
-                <select
-                  value={selectedRegion}
-                  onChange={(e) => setSelectedRegion(e.target.value)}
-                  className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-3 text-body font-body min-h-[48px]"
-                >
-                  <option value="">All Regions</option>
-                  {allRegionNames.map((r) => <option key={r} value={r}>{r}</option>)}
-                </select>
-              </div>
-            )}
-
-            {serikaliSub === "localGov" ? (
-              <LocalGovPanel />
-            ) : filteredOfficials.length === 0 ? (
+            {filteredOfficials.length === 0 ? (
               <EmptyState />
             ) : (
               Object.entries(groupedOfficials).map(([label, items]) => (
                 <div key={label} className="mb-8">
                   <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
                     <Landmark className="w-4 h-4" />
-                    <h2 className="text-h3 font-heading">{label}</h2>
-                    <span className="text-meta font-body text-yb-charcoal-muted ml-1">({items.length})</span>
+                    <h2 className="text-[16px] font-bold">{label}</h2>
+                    <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
                   <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
                     {items.map((o) => (
@@ -196,10 +300,9 @@ export default function SerikaliDirectory() {
                         key={o.id}
                         name={o.full_name}
                         position={o.role_title}
-                        organization={o.institution.ministry || o.institution.office_address || "Government of Tanzania"}
+                        organization={o.institution.ministry || "Government of Tanzania"}
                         area={o.location.region || undefined}
                         verified={o.verified_status === "VERIFIED"}
-                        photoUrl={o.profile_photo_url || undefined}
                         badgeColor={roleBadgeColors[o.role_type]}
                         badgeLabel={roleTypeLabels[o.role_type]}
                       />
@@ -211,61 +314,43 @@ export default function SerikaliDirectory() {
           </>
         )}
 
-        {/* WAKALA */}
-        {activeTab === "wakala" && (
-          <>
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-meta font-body text-muted-foreground">{filteredAgencies.length} agencies</p>
-            </div>
-            {filteredAgencies.length === 0 ? (
-              <EmptyState />
-            ) : (
-              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-                {filteredAgencies.map((a) => (
-                  <SecureActionCard
-                    key={a.id}
-                    name={a.head}
-                    position={a.headTitle}
-                    organization={`${a.acronym} — ${a.agency}`}
-                    badgeColor={sectorColors[a.sector]}
-                    badgeLabel={a.sector}
-                  />
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* BENKI */}
-        {activeTab === "benki" && (
-          <>
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-meta font-body text-muted-foreground">{filteredBanking.length} banking leaders</p>
-            </div>
-            {filteredBanking.length === 0 ? (
-              <EmptyState />
-            ) : (
-              <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-                {filteredBanking.map((b) => (
-                  <SecureActionCard
-                    key={b.id}
-                    name={b.name}
-                    position={b.position}
-                    organization={b.organization}
-                    badgeColor="bg-primary/15 text-foreground border-primary/30"
-                    badgeLabel="Banking"
-                  />
-                ))}
-              </div>
-            )}
-          </>
+        {/* ═══ ELIMU ═══ */}
+        {activeTab === "elimu" && (
+          <div>
+            <p className="text-[13px] text-muted-foreground mb-4">{filteredEdu.length} taasisi za elimu</p>
+            {(["Chuo Kikuu cha Umma", "Taasisi ya Serikali"] as const).map((type) => {
+              const items = filteredEdu.filter((e) => e.type === type);
+              if (items.length === 0) return null;
+              return (
+                <div key={type} className="mb-8">
+                  <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                    <GraduationCap className="w-4 h-4" />
+                    <h2 className="text-[16px] font-bold">{elimuTypeLabels[type]}</h2>
+                    <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                    {items.map((e) => (
+                      <SecureActionCard
+                        key={e.id}
+                        name={e.head?.name || e.name}
+                        position={e.head?.position || e.mandate || ""}
+                        organization={e.name}
+                        area={e.location}
+                        verified={e.head?.verified}
+                        badgeColor="bg-primary/15 text-foreground border-primary/30"
+                        badgeLabel={elimuTypeLabels[e.type]}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )}
 
         {/* Footer */}
-        <div className="mt-8 text-center text-meta font-body text-muted-foreground border-t border-border pt-6">
-          <p>
-            Directory: {directoryStats.totalOfficials} officials · {agencies.length} agencies · {bankingCEOs.length} banks · Last verified: Mar 2026
-          </p>
+        <div className="mt-8 text-center text-[13px] text-muted-foreground border-t border-border pt-6">
+          <p>Saraka: {directoryStats.totalOfficials} viongozi · {agencies.length} wakala · {hospitals.length} hospitali · {courts.length} mahakama · Ilisasishwa: Mar 2026</p>
         </div>
       </div>
     </div>
@@ -278,11 +363,8 @@ function EmptyState() {
       <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-primary/10 flex items-center justify-center">
         <BookOpen className="w-8 h-8 text-primary opacity-60" />
       </div>
-      <p className="font-heading text-h3 text-foreground">No officials found in this area yet</p>
-      <p className="text-meta font-body mt-1">Help us grow — suggest an official</p>
-      <Button asChild className="mt-4 bg-primary text-primary-foreground hover:bg-yb-yellow-deep font-body font-semibold min-h-[48px]">
-        <a href="/report">Suggest an Official</a>
-      </Button>
+      <p className="text-[16px] font-bold text-foreground">Hakuna viongozi waliopatikana</p>
+      <p className="text-[13px] mt-1">Jaribu kubadilisha utafutaji wako</p>
     </div>
   );
 }

@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap');
-
 @layer base {
   :root {
     /* Yellow Book — Light Mode */
@@ -106,13 +104,15 @@
   }
 
   body {
-    @apply bg-background text-foreground font-body antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 15px;
     line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
+    font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 700;
     line-height: 1.2;
   }
 }
@@ -167,28 +167,29 @@
 
   /* Tier/Accordion header */
   .yb-tier-header {
-    @apply bg-foreground text-primary font-heading font-bold;
+    @apply bg-foreground text-primary font-bold;
     border-bottom: 2px solid hsl(var(--primary));
   }
 
   /* Phone numbers in monospace */
   .font-phone {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
     font-weight: 500;
     letter-spacing: 0.2px;
   }
 
   /* Role badge typography */
   .badge-role {
-    @apply font-heading font-bold uppercase;
+    font-weight: 700;
+    text-transform: uppercase;
     font-size: 10px;
     letter-spacing: 0.6px;
   }
 
   /* Meta/caption text */
   .text-meta {
-    @apply font-body text-muted-foreground;
-    font-size: 12px;
+    @apply text-muted-foreground;
+    font-size: 13px;
     line-height: 1.5;
   }
 

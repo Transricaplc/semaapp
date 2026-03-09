@@ -1,41 +1,43 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, Building, AlertTriangle, Info, Search } from "lucide-react";
+import { Home, BookOpen, AlertTriangle, Map, User, Search, Phone } from "lucide-react";
+import { useState } from "react";
+import EmergencyDrawer from "@/components/EmergencyDrawer";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const [emergencyOpen, setEmergencyOpen] = useState(false);
 
   const mobileNav = [
-    { path: "/", label: "Home", icon: Home },
-    { path: "/saka-viongozi", label: "Directory", icon: BookOpen },
-    { path: "/directory", label: "Agencies", icon: Building },
-    { path: "/report", label: "Issues", icon: AlertTriangle, center: true },
-    { path: "/mimi", label: "About", icon: Info },
+    { path: "/", label: "Nyumbani", icon: Home },
+    { path: "/saka-viongozi", label: "Saraka", icon: BookOpen },
+    { path: "/report", label: "Ripoti", icon: AlertTriangle, center: true },
+    { path: "/ramani", label: "Ramani", icon: Map },
+    { path: "/mimi", label: "Mimi", icon: User },
   ];
 
   const desktopNav = [
-    { path: "/", label: "Home" },
-    { path: "/saka-viongozi", label: "Directory" },
-    { path: "/directory", label: "Yellow Book" },
-    { path: "/ramani", label: "Map" },
-    { path: "/sauti", label: "Petitions" },
-    { path: "/report", label: "Report" },
-    { path: "/tracker", label: "Tracker" },
-    { path: "/mimi", label: "Profile" },
+    { path: "/", label: "Nyumbani" },
+    { path: "/saka-viongozi", label: "Saraka" },
+    { path: "/report", label: "Ripoti" },
+    { path: "/ramani", label: "Ramani" },
+    { path: "/sauti", label: "Maombi" },
+    { path: "/tracker", label: "Fuatilia" },
+    { path: "/mimi", label: "Mimi" },
   ];
 
   return (
     <div className="min-h-screen flex flex-col bg-background pb-[80px] md:pb-0">
       {/* ── Desktop / Tablet Top Nav ── */}
       <header className="hidden md:block bg-yb-charcoal-dark sticky top-0 z-50 shadow-md">
-        <div className="container flex items-center justify-between h-14">
+        <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-14">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-lg font-heading font-extrabold text-primary-foreground">S</span>
+              <span className="text-lg font-extrabold text-primary-foreground">S</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-base font-heading font-extrabold text-white leading-tight tracking-tight">SEMA</span>
-              <span className="text-[9px] text-primary font-heading font-bold uppercase tracking-wider leading-none">
-                Citizen Yellow Book
+              <span className="text-base font-extrabold text-white leading-tight tracking-tight">SEMA</span>
+              <span className="text-[9px] text-primary font-bold uppercase tracking-wider leading-none">
+                Sauti ya Mwananchi
               </span>
             </div>
           </Link>
@@ -47,7 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-3 py-2 rounded-lg font-body text-sm font-medium transition-all ${
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                     active
                       ? "text-primary border-t-2 border-primary"
                       : "text-white/60 hover:text-white hover:bg-white/5"
@@ -59,9 +61,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             })}
           </nav>
 
-          <Link to="/saka-viongozi" className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors">
-            <Search className="w-5 h-5" />
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link to="/saka-viongozi" className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/5 transition-colors">
+              <Search className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -70,13 +74,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex items-center justify-between px-4 h-12">
           <Link to="/" className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
-              <span className="text-sm font-heading font-extrabold text-primary-foreground">S</span>
+              <span className="text-sm font-extrabold text-primary-foreground">S</span>
             </div>
-            <span className="font-heading font-extrabold text-white text-sm tracking-tight">SEMA</span>
+            <span className="font-extrabold text-white text-sm tracking-tight">SEMA</span>
           </Link>
-          <Link to="/saka-viongozi" className="p-2 rounded-lg text-white/60 hover:text-white transition-colors">
-            <Search className="w-5 h-5" />
-          </Link>
+          <div className="flex items-center gap-1">
+            <Link to="/saka-viongozi" className="p-2 rounded-lg text-white/60 hover:text-white transition-colors">
+              <Search className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -84,14 +90,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* ── Desktop Footer ── */}
       <footer className="hidden md:block bg-yb-charcoal-dark py-6">
-        <div className="container text-center text-white/40 text-meta">
-          <p className="font-heading font-bold text-primary mb-1">SEMA</p>
-          <p className="font-body">Tanzania's Citizen Yellow Book — Every public servant. Every agency. Verified.</p>
+        {/* Tanzanian accent strip */}
+        <div className="h-1 flex">
+          <div className="flex-1 bg-[#E30613]" />
+          <div className="flex-1 bg-[#FFCC00]" />
+          <div className="flex-1 bg-[#006600]" />
+        </div>
+        <div className="max-w-[1200px] mx-auto px-6 text-center mt-4 text-muted-foreground text-[13px]">
+          <p className="font-bold text-primary mb-1">SEMA — Sauti ya Mwananchi</p>
+          <p>Tanzania's Citizen Yellow Book — Every public servant. Every agency. Verified.</p>
         </div>
       </footer>
 
       {/* ── Mobile Bottom Tab Bar ── */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-yb-charcoal-dark shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
+        {/* Tanzanian accent strip */}
+        <div className="h-0.5 flex">
+          <div className="flex-1 bg-[#E30613]" />
+          <div className="flex-1 bg-[#FFCC00]" />
+          <div className="flex-1 bg-[#006600]" />
+        </div>
         <div className="flex items-end justify-around px-2 pt-1 pb-[max(0.5rem,env(safe-area-inset-bottom))]" style={{ height: "64px" }}>
           {mobileNav.map((item) => {
             const active = location.pathname === item.path;
@@ -105,7 +123,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   }`}>
                     <item.icon className="w-6 h-6 text-primary-foreground" />
                   </div>
-                  <span className={`text-nav font-body mt-1 ${active ? "text-primary" : "text-yb-charcoal-muted"}`}>{item.label}</span>
+                  <span className={`text-[11px] font-medium mt-1 ${active ? "text-primary" : "text-yb-charcoal-muted"}`}>{item.label}</span>
                 </Link>
               );
             }
@@ -117,7 +135,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 }`}>
                   <item.icon className={`w-5 h-5 ${active ? "stroke-[2.5px]" : ""}`} />
                 </div>
-                <span className={`text-nav font-body mt-0.5 ${active ? "text-primary" : "text-yb-charcoal-muted"}`}>{item.label}</span>
+                <span className={`text-[11px] font-medium mt-0.5 ${active ? "text-primary" : "text-yb-charcoal-muted"}`}>{item.label}</span>
                 {active && <div className="w-4 h-0.5 bg-primary rounded-full mt-0.5" />}
               </Link>
             );
@@ -126,13 +144,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </nav>
 
       {/* ── Floating Emergency Button ── */}
-      <a
-        href="tel:112"
+      <button
+        onClick={() => setEmergencyOpen(true)}
         className="md:hidden fixed bottom-[80px] right-4 z-50 w-12 h-12 rounded-full bg-destructive flex items-center justify-center shadow-lg animate-pulse-gentle"
-        aria-label="Emergency call"
+        aria-label="Dharura"
       >
-        <AlertTriangle className="w-5 h-5 text-destructive-foreground" />
-      </a>
+        <Phone className="w-5 h-5 text-destructive-foreground" />
+      </button>
+
+      {/* Emergency Drawer */}
+      <EmergencyDrawer open={emergencyOpen} onClose={() => setEmergencyOpen(false)} />
     </div>
   );
 }
