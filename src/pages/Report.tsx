@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   AlertTriangle, Droplets, Landmark, MapPin, Camera, EyeOff, Eye, ChevronRight, ChevronLeft, CheckCircle2, Send,
-  HeartPulse, GraduationCap, Leaf, Sprout, PawPrint, Mic, MicOff,
+  HeartPulse, GraduationCap, Leaf, Sprout, PawPrint, Mic, MicOff, User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,13 +15,22 @@ import { supabase } from "@/integrations/supabase/client";
 
 export default function Report() {
   const { t, lang } = useLanguage();
+  const [searchParams] = useSearchParams();
+  const targetOfficialName = searchParams.get("official_name") || "";
+
   const [step, setStep] = useState(1);
   const [category, setCategory] = useState<ReportCategory | "">("");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(targetOfficialName ? `Kwa ${targetOfficialName}: ` : "");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (targetOfficialName) {
+      setTitle((prev) => prev || `Kwa ${targetOfficialName}: `);
+    }
+  }, [targetOfficialName]);
 
   const voice = useVoiceInput({
     lang: lang === "sw" ? "sw-TZ" : "en-US",
