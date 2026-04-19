@@ -109,22 +109,27 @@
 }
 
 @layer base {
-  * { @apply border-border; }
+  * { @apply border-border; -webkit-font-smoothing: antialiased; }
 
-  html { -webkit-tap-highlight-color: transparent; }
+  html {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-size: 16px;
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Sora', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     font-weight: 700;
     line-height: 1.2;
+    letter-spacing: -0.02em;
   }
 }
 

@@ -18,9 +18,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ["'Sora'", "system-ui", "sans-serif"],
-        body: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
+        sans: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
+        heading: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
+        body: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
       },
       fontSize: {
         // Display — hero only
