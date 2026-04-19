@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, AlertTriangle, Map, User, Search, Phone } from "lucide-react";
+import { Home, BookOpen, AlertTriangle, Map, User, Search, Phone, Megaphone } from "lucide-react";
 import { useState } from "react";
 import EmergencyDrawer from "@/components/EmergencyDrawer";
 
