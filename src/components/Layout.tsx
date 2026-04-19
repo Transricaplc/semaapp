@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, BookOpen, AlertTriangle, Map, User, Search, Phone, Megaphone } from "lucide-react";
 import { useState } from "react";
 import EmergencyDrawer from "@/components/EmergencyDrawer";
+import AppBackground from "@/components/AppBackground";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -26,7 +27,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-background pb-[80px] md:pb-0">
+    <div className="relative min-h-screen flex flex-col bg-background pb-[80px] md:pb-0">
+      <AppBackground />
       {/* ── Desktop / Tablet Top Nav ── */}
       <header className="hidden md:block sticky top-0 z-50 border-b border-border/40 bg-yb-charcoal-dark/95 backdrop-blur-md">
         <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-14">
