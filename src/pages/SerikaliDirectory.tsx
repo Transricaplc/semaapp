@@ -22,6 +22,8 @@ import LocalGovPanel from "@/components/LocalGovPanel";
 
 type DirectoryTab = "mikoa" | "wilaya" | "hospitali" | "wakala" | "benki" | "mahakama" | "bunge" | "elimu";
 
+const ZANZIBAR_REGIONS = ["Mjini Magharibi", "Kaskazini Unguja", "Kusini Unguja", "Kaskazini Pemba", "Kusini Pemba"];
+
 const tabs: { value: DirectoryTab; label: string; icon: React.ElementType }[] = [
   { value: "mikoa", label: "Mikoa", icon: MapPin },
   { value: "wilaya", label: "Wilaya", icon: Building2 },
@@ -70,10 +72,13 @@ export default function SerikaliDirectory() {
 
   // ── Mikoa (Regional Commissioners) ──
   const regionalCommissioners = useMemo(() => {
-    let rcs = officials.filter((o) => o.role_type === "COMMISSIONER" && o.role_title.includes("Regional"));
+    let rcs = officials.filter((o) => (o.role_type === "COMMISSIONER" && o.role_title.includes("Regional")) || o.role_type === "REGIONAL_COMMISSIONER");
     if (search) { const q = search.toLowerCase(); rcs = rcs.filter((o) => o.full_name.toLowerCase().includes(q) || o.location.region.toLowerCase().includes(q)); }
+    if (selectedRegion) rcs = rcs.filter((o) => o.location.region === selectedRegion);
     return rcs.sort((a, b) => a.location.region.localeCompare(b.location.region));
-  }, [search]);
+  }, [search, selectedRegion]);
+
+  const isZanzibarSelected = ZANZIBAR_REGIONS.includes(selectedRegion);
 
   // ── Agencies, Banking, Hospitals, Courts, Edu ──
   const filteredAgencies = useMemo(() => search ? searchAgencies(search) : agencies, [search]);
@@ -134,7 +139,46 @@ export default function SerikaliDirectory() {
         {/* ═══ MIKOA ═══ */}
         {activeTab === "mikoa" && (
           <div>
-            <p className="text-[13px] text-muted-foreground mb-4">{regionalCommissioners.length} Wakuu wa Mikoa</p>
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <select
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
+                className="rounded-lg border border-border bg-card text-foreground px-3 py-2 text-[13px] min-h-[40px]"
+              >
+                <option value="">— All Regions —</option>
+                <optgroup label="MAINLAND TANZANIA">
+                  {allRegionNames.filter((m) => !ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+                </optgroup>
+                <optgroup label="ZANZIBAR">
+                  {allRegionNames.filter((m) => ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+                </optgroup>
+              </select>
+              <p className="text-[13px] text-muted-foreground">{regionalCommissioners.length} Wakuu wa Mikoa</p>
+            </div>
+
+            {isZanzibarSelected && (
+              <>
+                <div className="flex gap-0 w-20 h-1 mx-auto mb-4 rounded-full overflow-hidden">
+                  <div className="flex-1 bg-[#1EB2E0]" />
+                  <div className="flex-1 bg-[#1C1C1E]" />
+                  <div className="flex-1 bg-[#006B3F]" />
+                </div>
+                <div className="flex items-start gap-3 px-4 py-3 bg-[#1EB2E0]/10 border border-[#1EB2E0]/20 rounded-xl mb-4">
+                  <span className="text-2xl shrink-0">🏝️</span>
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-bold text-foreground">Zanzibar Revolutionary Government</p>
+                    <p className="text-[12px] text-muted-foreground">
+                      Zanzibar operates under a semi-autonomous government (Serikali ya Mapinduzi Zanzibar). For Union matters, Union officials also apply.
+                    </p>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5 text-[12px] font-medium">
+                      <a href="https://hor.go.tz" target="_blank" rel="noopener noreferrer" className="text-[#1EB2E0] hover:underline">House of Representatives →</a>
+                      <a href="https://zanzibarstate.go.tz" target="_blank" rel="noopener noreferrer" className="text-[#1EB2E0] hover:underline">State House Zanzibar →</a>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
             <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {regionalCommissioners.map((rc) => (
                 <SecureActionCard
