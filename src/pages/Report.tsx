@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   AlertTriangle, Droplets, Landmark, MapPin, Camera, EyeOff, Eye, ChevronRight, ChevronLeft, CheckCircle2, Send,
-  HeartPulse, GraduationCap, Leaf, Sprout, PawPrint, Mic, MicOff, User,
+  HeartPulse, GraduationCap, Leaf, Sprout, PawPrint, Mic, MicOff,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
