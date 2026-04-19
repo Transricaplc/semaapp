@@ -2,9 +2,11 @@ import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import {
   Search, X, User, MapPin, ChevronRight, BadgeCheck, ExternalLink,
   Heart, Flame, Building, Send, Tag, MessageSquare, Shield, Users,
-  Landmark, Globe, AlertTriangle, Droplets, BookOpen,
+  Landmark, Globe, AlertTriangle, Droplets, BookOpen, Mic, MicOff,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useVoiceInput } from "@/hooks/useVoiceInput";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   searchOfficials,
   getOfficialsByRole,
@@ -101,6 +103,11 @@ export default function GlobalSearch() {
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { lang } = useLanguage();
+  const voice = useVoiceInput({
+    lang: lang === "sw" ? "sw-TZ" : "en-US",
+    onResult: (text) => setQuery(text),
+  });
 
   // ── Unified search results ──
   const officialResults = useMemo(() => {
@@ -198,14 +205,26 @@ export default function GlobalSearch() {
           onFocus={() => setFocused(true)}
           className="w-full pl-12 pr-10 h-14 bg-card text-foreground border border-border rounded-2xl text-base shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 placeholder:text-muted-foreground/60"
         />
-        {query && (
+        {query ? (
           <button
             onClick={() => { setQuery(""); inputRef.current?.focus(); }}
             className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
-        )}
+        ) : voice.isSupported ? (
+          <button
+            onClick={voice.isListening ? voice.stopListening : voice.startListening}
+            className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors ${
+              voice.isListening
+                ? "bg-primary text-primary-foreground animate-pulse"
+                : "text-yb-charcoal-muted hover:text-primary"
+            }`}
+            aria-label={voice.isListening ? "Simamisha" : "Tafuta kwa sauti"}
+          >
+            {voice.isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+          </button>
+        ) : null}
       </div>
 
       {/* Filter chips */}
