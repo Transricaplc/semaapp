@@ -323,9 +323,9 @@ const coreOfficials: Official[] = [
   mkOfficial("dc-kigamboni", "John Osmund Nchimbi", "DISTRICT_COMMISSIONER", "District Commissioner — Kigamboni", { region: "Dar es Salaam", district: "Kigamboni", email: "dc.kigamboni@tamisemi.go.tz", office_address: "District Commissioner's Office, Kigamboni", source: "kigambonimc.go.tz" }),
 
   // ── RAS ──
-  mkOfficial("ras-dsm", "Abdul Rajab Mhinte", "REGIONAL_COMMISSIONER", "Regional Administrative Secretary — Dar es Salaam", { region: "Dar es Salaam", phone: "+255-22-220-3156", email: "ras@dsm.go.tz", office_address: "Regional Commissioner's Office, Dar es Salaam", verified: true, source: "dsm.go.tz" }),
-  mkOfficial("ras-arusha", "Missaile Albano Musa", "REGIONAL_COMMISSIONER", "Regional Administrative Secretary — Arusha", { region: "Arusha", email: "ras.arusha@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Arusha", verified: true, source: "arusha.go.tz" }),
-  mkOfficial("ras-mwanza", "Balandya Mayuganya Elikana", "REGIONAL_COMMISSIONER", "Regional Administrative Secretary — Mwanza", { region: "Mwanza", email: "ras.mwanza@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mwanza", verified: true, source: "mwanza.go.tz" }),
+  mkOfficial("ras-dsm", "Abdul Rajab Mhinte", "REGIONAL_ADMIN_SECRETARY", "Regional Administrative Secretary — Dar es Salaam", { region: "Dar es Salaam", phone: "+255-22-220-3156", email: "ras@dsm.go.tz", office_address: "Regional Commissioner's Office, Dar es Salaam", verified: true, source: "dsm.go.tz" }),
+  mkOfficial("ras-arusha", "Missaile Albano Musa", "REGIONAL_ADMIN_SECRETARY", "Regional Administrative Secretary — Arusha", { region: "Arusha", email: "ras.arusha@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Arusha", verified: true, source: "arusha.go.tz" }),
+  mkOfficial("ras-mwanza", "Balandya Mayuganya Elikana", "REGIONAL_ADMIN_SECRETARY", "Regional Administrative Secretary — Mwanza", { region: "Mwanza", email: "ras.mwanza@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mwanza", verified: true, source: "mwanza.go.tz" }),
 
   // ── JUDGES ──
   mkOfficial("judge-dsm", "Resident Judge — Dar es Salaam", "JUDGE", "Resident Judge — High Court", { region: "Dar es Salaam", phone: "+255-22-211-2758", email: "hc.dsm@judiciary.go.tz", office_address: "High Court, Dar es Salaam", court_name: "High Court, Dar es Salaam", verified: true, source: "judiciary.go.tz" }),
