@@ -164,8 +164,10 @@ function mkOfficial(
   opts: {
     region?: string;
     district?: string;
+    division?: string;
     constituency?: string;
     ward?: string;
+    village_mtaa?: string;
     ministry?: string;
     court_name?: string;
     police_station?: string;
@@ -197,8 +199,10 @@ function mkOfficial(
     location: {
       region: opts.region || "",
       district: opts.district || "",
-      constituency: opts.constituency || "",
+      division: opts.division || "",
       ward: opts.ward || "",
+      village_mtaa: opts.village_mtaa || "",
+      constituency: opts.constituency || "",
     },
     institution: {
       ministry: opts.ministry || "",
