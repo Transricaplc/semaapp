@@ -57,7 +57,7 @@ export default function Index() {
   return (
     <div className="animate-fade-in">
       {/* ── HERO ── */}
-      <section className="bg-yb-charcoal py-16 md:py-24 relative overflow-hidden min-h-[420px] flex items-center">
+      <section className="bg-yb-charcoal py-6 md:py-24 relative overflow-hidden md:min-h-[420px] flex items-center">
         <KilimanjaroHero />
         <div className="max-w-[1200px] mx-auto px-4 relative z-10 text-center max-w-3xl">
           {/* Tanzanian accent strip */}
