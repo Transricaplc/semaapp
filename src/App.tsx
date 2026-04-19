@@ -25,7 +25,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/saka-viongozi" element={<SerikaliDirectory />} />
-            <Route path="/directory" element={<Directory />} />
+            <Route path="/directory" element={<Navigate to="/saka-viongozi" replace />} />
             <Route path="/report" element={<Report />} />
             <Route path="/tracker" element={<Tracker />} />
             <Route path="/ramani" element={<Ramani />} />
