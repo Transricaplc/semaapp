@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      data_corrections: {
+        Row: {
+          created_at: string
+          field_incorrect: string
+          id: string
+          official_id: string
+          official_name: string
+          status: string
+          submitted_by: string | null
+          suggested_value: string
+        }
+        Insert: {
+          created_at?: string
+          field_incorrect: string
+          id?: string
+          official_id: string
+          official_name: string
+          status?: string
+          submitted_by?: string | null
+          suggested_value: string
+        }
+        Update: {
+          created_at?: string
+          field_incorrect?: string
+          id?: string
+          official_id?: string
+          official_name?: string
+          status?: string
+          submitted_by?: string | null
+          suggested_value?: string
+        }
+        Relationships: []
+      }
       petition_signatures: {
         Row: {
           created_at: string
