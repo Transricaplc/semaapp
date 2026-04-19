@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   AlertTriangle, BookOpen, TrendingUp, Users, ArrowRight, Droplets,
   Heart, Flame, Award, Megaphone, Share2, Map, Search, CheckCircle2,
-  Building2, Scale, Shield, GraduationCap, MapPin,
+  Building2, Scale, Shield, GraduationCap, MapPin, X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +11,8 @@ import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/re
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import EmergencyBanner from "@/components/EmergencyContacts";
-import { directoryStats } from "@/data/unified_officials";
+import { directoryStats, getYourOfficials } from "@/data/unified_officials";
+import OfficialCard from "@/components/OfficialCard";
 import { hospitals } from "@/data/hospitali";
 import { agencies } from "@/data/agencies";
 import KilimanjaroHero from "@/components/KilimanjaroHero";
@@ -31,6 +33,27 @@ const quickCategories = [
 ];
 
 export default function Index() {
+  const [savedRegion, setSavedRegion] = useState("");
+  const [savedDistrict, setSavedDistrict] = useState("");
+
+  useEffect(() => {
+    const read = () => {
+      setSavedRegion(localStorage.getItem("sema_selected_region") || "");
+      setSavedDistrict(localStorage.getItem("sema_selected_district") || "");
+    };
+    read();
+    window.addEventListener("sema_location_changed", read);
+    return () => window.removeEventListener("sema_location_changed", read);
+  }, []);
+
+  const yourOfficials = savedRegion ? getYourOfficials(savedRegion, savedDistrict || undefined) : [];
+
+  const clearLocation = () => {
+    localStorage.removeItem("sema_selected_region");
+    localStorage.removeItem("sema_selected_district");
+    setSavedRegion(""); setSavedDistrict("");
+  };
+
   return (
     <div className="animate-fade-in">
       {/* ── HERO ── */}
@@ -97,6 +120,40 @@ export default function Index() {
           <ConstituencyFinder />
         </div>
       </section>
+
+      {/* ── PERSONALISED: VIONGOZI WAKO ── */}
+      {savedRegion && yourOfficials.length > 0 && (
+        <section className="py-6 bg-yb-yellow-soft border-y border-border">
+          <div className="max-w-[1200px] mx-auto px-4">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0">
+                  <MapPin className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <div className="min-w-0">
+                  <h2 className="text-[20px] font-bold text-foreground truncate">
+                    Viongozi Wako — {savedRegion}{savedDistrict ? ` · ${savedDistrict}` : ""}
+                  </h2>
+                  <p className="text-[13px] text-muted-foreground">{yourOfficials.length} viongozi wa eneo lako</p>
+                </div>
+              </div>
+              <button
+                onClick={clearLocation}
+                className="inline-flex items-center gap-1 text-[13px] text-muted-foreground hover:text-primary underline-offset-2 hover:underline shrink-0"
+              >
+                <X className="w-3 h-3" /> Badilisha eneo
+              </button>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 snap-x">
+              {yourOfficials.map((o) => (
+                <div key={`saved-${o.id}`} className="min-w-[300px] max-w-[300px] snap-start">
+                  <OfficialCard official={o} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── EMERGENCY ── */}
       <section className="bg-background px-4">

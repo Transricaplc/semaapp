@@ -11,6 +11,7 @@ import Tracker from "./pages/Tracker";
 import Ramani from "./pages/Ramani";
 import Sauti from "./pages/Sauti";
 import Mimi from "./pages/Mimi";
+import OfficialProfile from "./pages/OfficialProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/ramani" element={<Ramani />} />
             <Route path="/sauti" element={<Sauti />} />
             <Route path="/mimi" element={<Mimi />} />
+            <Route path="/kiongozi/:id" element={<OfficialProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
