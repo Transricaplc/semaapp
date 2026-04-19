@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   AlertTriangle, BookOpen, TrendingUp, Users, ArrowRight, Droplets,
   Heart, Flame, Award, Megaphone, Share2, Map, Search, CheckCircle2,
-  Building2, Scale, Shield, GraduationCap, MapPin,
+  Building2, Scale, Shield, GraduationCap, MapPin, X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +11,8 @@ import { trendingConcerns, categoryLabels, type ReportCategory } from "@/data/re
 import GlobalSearch from "@/components/GlobalSearch";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import EmergencyBanner from "@/components/EmergencyContacts";
-import { directoryStats } from "@/data/unified_officials";
+import { directoryStats, getYourOfficials } from "@/data/unified_officials";
+import OfficialCard from "@/components/OfficialCard";
 import { hospitals } from "@/data/hospitali";
 import { agencies } from "@/data/agencies";
 import KilimanjaroHero from "@/components/KilimanjaroHero";

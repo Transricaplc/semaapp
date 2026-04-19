@@ -30,6 +30,11 @@ export default function ConstituencyFinder() {
     setNearbyHospitals((district ? getFacilitiesByDistrict(region, district) : getFacilitiesByRegion(region)).slice(0, 5));
     setNearbyFire((district ? getFireStationsByDistrict(region, district) : getFireStationsByRegion(region)).slice(0, 3));
     setNearbyAgencies(getAgenciesForRegion(region).slice(0, 4));
+    try {
+      localStorage.setItem("sema_selected_region", region);
+      localStorage.setItem("sema_selected_district", district || "");
+      window.dispatchEvent(new Event("sema_location_changed"));
+    } catch {}
   };
 
   const handleRegionChange = (val: string) => {
