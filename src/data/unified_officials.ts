@@ -425,18 +425,30 @@ export function getOfficialsByRole(role: RoleType): Official[] {
   return officials.filter((o) => o.role_type === role);
 }
 
-/** Get "Your Officials" for a region+district */
-export function getYourOfficials(region: string, district?: string): Official[] {
+/** Get "Your Officials" for a region+district+ward */
+export function getYourOfficials(region: string, district?: string, ward?: string): Official[] {
   const result: Official[] = [];
-  
+
   // RC
-  const rc = officials.find((o) => o.location.region === region && o.role_type === "COMMISSIONER" && o.role_title.includes("Regional Commissioner"));
+  const rc = officials.find((o) => o.location.region === region && o.role_type === "REGIONAL_COMMISSIONER");
   if (rc) result.push(rc);
+
+  // RAS
+  const ras = officials.find((o) => o.location.region === region && o.role_type === "REGIONAL_ADMIN_SECRETARY");
+  if (ras) result.push(ras);
 
   // DC
   if (district) {
-    const dc = officials.find((o) => o.location.region === region && o.location.district === district && o.role_type === "COMMISSIONER" && o.role_title.includes("District Commissioner"));
+    const dc = officials.find((o) => o.location.region === region && o.location.district === district && o.role_type === "DISTRICT_COMMISSIONER");
     if (dc) result.push(dc);
+  }
+
+  // WEO + Ward Councillor
+  if (ward) {
+    const weo = officials.find((o) => o.location.ward === ward && o.role_type === "WARD_EXECUTIVE_OFFICER");
+    if (weo) result.push(weo);
+    const councillor = officials.find((o) => o.location.ward === ward && o.role_type === "WARD_COUNCILLOR");
+    if (councillor) result.push(councillor);
   }
 
   // MPs
@@ -459,10 +471,6 @@ export function getYourOfficials(region: string, district?: string): Official[] 
   // Judge
   const judge = officials.find((o) => o.location.region === region && o.role_type === "JUDGE");
   if (judge) result.push(judge);
-
-  // RAS
-  const ras = officials.find((o) => o.location.region === region && o.role_type === "COMMISSIONER" && o.role_title.includes("Administrative Secretary"));
-  if (ras) result.push(ras);
 
   // TAMISEMI Minister
   const tamisemi = officials.find((o) => o.role_type === "MINISTER" && o.institution.ministry === "TAMISEMI");
