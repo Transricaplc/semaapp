@@ -364,8 +364,20 @@ export default function SerikaliDirectory() {
         {/* ═══ ELIMU ═══ */}
         {activeTab === "elimu" && (
           <div>
+            <div className="flex items-start gap-3 px-4 py-3 bg-primary/5 border border-primary/20 rounded-xl mb-4">
+              <GraduationCap className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <div className="min-w-0">
+                <p className="text-[13px] font-bold text-foreground">Vyuo Vikuu na Taasisi za Elimu</p>
+                <p className="text-[12px] text-muted-foreground">
+                  Chanzo: Tume ya Vyuo Vikuu Tanzania (TCU) — kufikia 26 Machi, 2026.{" "}
+                  <a href="https://www.tcu.go.tz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">tcu.go.tz →</a>
+                  {" · "}
+                  <a href="https://www.necta.go.tz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Mashule ya Sekondari (NECTA) →</a>
+                </p>
+              </div>
+            </div>
             <p className="text-[13px] text-muted-foreground mb-4">{filteredEdu.length} taasisi za elimu</p>
-            {(["Chuo Kikuu cha Umma", "Taasisi ya Serikali"] as const).map((type) => {
+            {(["Chuo Kikuu cha Umma", "Chuo Kikuu Binafsi", "Chuo Kishiriki cha Umma", "Chuo Kishiriki Binafsi", "Taasisi ya Serikali"] as const).map((type) => {
               const items = filteredEdu.filter((e) => e.type === type);
               if (items.length === 0) return null;
               return (
@@ -379,9 +391,9 @@ export default function SerikaliDirectory() {
                     {items.map((e) => (
                       <SecureActionCard
                         key={e.id}
-                        name={e.head?.name || e.name}
-                        position={e.head?.position || e.mandate || ""}
-                        organization={e.name}
+                        name={e.acronym || e.name}
+                        position={e.acronym ? e.name : (e.mandate || e.status || "")}
+                        organization={e.affiliation ? `Affiliated: ${e.affiliation}` : (e.status || e.name)}
                         area={e.location}
                         verified={e.head?.verified}
                         badgeColor="bg-primary/15 text-foreground border-primary/30"
@@ -392,6 +404,7 @@ export default function SerikaliDirectory() {
                 </div>
               );
             })}
+            {filteredEdu.length === 0 && <EmptyState />}
           </div>
         )}
 
