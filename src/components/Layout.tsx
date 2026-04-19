@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { path: "/", label: "Nyumbani", icon: Home },
     { path: "/saka-viongozi", label: "Saraka", icon: BookOpen },
     { path: "/report", label: "Ripoti", icon: AlertTriangle, center: true },
-    { path: "/ramani", label: "Ramani", icon: Map },
+    { path: "/sauti", label: "Maombi", icon: Megaphone },
     { path: "/mimi", label: "Mimi", icon: User },
   ];
 
