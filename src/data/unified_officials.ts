@@ -378,7 +378,8 @@ function generatePoliceOfficials(): Official[] {
   const result: Official[] = [];
   // Generate PCCB regional offices
   tanzaniaRegions.forEach((r) => {
-    if (r.name.startsWith("Unguja") || r.name.startsWith("Pemba")) return;
+    // Skip Zanzibar regions — explicit TAKUKURU entries added in coreOfficials
+    if (r.name.endsWith("Unguja") || r.name.endsWith("Pemba") || r.name === "Mjini Magharibi") return;
     result.push(mkOfficial(
       `pccb-${r.name.toLowerCase().replace(/\s/g, "-")}`,
       `PCCB Office — ${r.name}`,
