@@ -88,6 +88,7 @@ export default function SerikaliDirectory() {
   const filteredHospitals = useMemo(() => search ? searchHospitals(search) : hospitals, [search]);
   const filteredCourts = useMemo(() => search ? searchCourts(search) : courts, [search]);
   const filteredEdu = useMemo(() => search ? searchEdu(search) : eduInstitutions, [search]);
+  const filteredParties = useMemo(() => searchParties(search), [search]);
 
   return (
     <div className="animate-fade-in">
