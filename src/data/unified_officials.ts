@@ -96,6 +96,8 @@ export interface Official {
 
 export const roleTypeLabels: Record<RoleType, string> = {
   PRESIDENT: "Head of State",
+  VICE_PRESIDENT: "Makamu wa Rais",
+  PRIME_MINISTER: "Waziri Mkuu",
   MP: "Member of Parliament",
   MINISTER: "Minister",
   DEPUTY_MINISTER: "Deputy Minister",
@@ -107,10 +109,24 @@ export const roleTypeLabels: Record<RoleType, string> = {
   SPEAKER: "Speaker of Parliament",
   ANTI_CORRUPTION: "Anti-Corruption (PCCB)",
   EMERGENCY: "Emergency Services",
+  REGIONAL_COMMISSIONER: "Mkuu wa Mkoa (RC)",
+  REGIONAL_ADMIN_SECRETARY: "Katibu Tawala wa Mkoa (RAS)",
+  REGIONAL_POLICE_COMMANDER: "Kamanda wa Polisi — Mkoa",
+  DISTRICT_COMMISSIONER: "Mkuu wa Wilaya (DC)",
+  DISTRICT_EXECUTIVE_DIRECTOR: "Mkurugenzi wa Halmashauri (DED)",
+  MUNICIPAL_MAYOR: "Meya / Mwenyekiti wa Manispaa",
+  DISTRICT_POLICE_COMMANDER: "Kamanda wa Polisi — Wilaya",
+  DIVISION_OFFICER: "Afisa Tarafa (DO)",
+  WARD_EXECUTIVE_OFFICER: "Mtendaji wa Kata (WEO)",
+  WARD_COUNCILLOR: "Diwani wa Kata",
+  VILLAGE_EXECUTIVE_OFFICER: "Mtendaji wa Kijiji (VEO)",
+  VILLAGE_CHAIRMAN: "Mwenyekiti wa Kijiji/Mtaa",
 };
 
 export const roleBadgeColors: Record<RoleType, string> = {
   PRESIDENT: "bg-primary/15 text-foreground border-primary/30",
+  VICE_PRESIDENT: "bg-primary/15 text-foreground border-primary/30",
+  PRIME_MINISTER: "bg-primary/15 text-foreground border-primary/30",
   MP: "bg-primary text-primary-foreground border-primary",
   MINISTER: "bg-yb-charcoal text-primary border-yb-charcoal",
   DEPUTY_MINISTER: "bg-yb-charcoal-mid text-white border-yb-charcoal-mid",
@@ -122,6 +138,18 @@ export const roleBadgeColors: Record<RoleType, string> = {
   SPEAKER: "bg-primary/15 text-foreground border-primary/30",
   ANTI_CORRUPTION: "bg-primary/15 text-foreground border-primary/30",
   EMERGENCY: "bg-destructive/15 text-destructive border-destructive/25",
+  REGIONAL_COMMISSIONER: "bg-yb-yellow-deep text-primary-foreground border-yb-yellow-deep",
+  REGIONAL_ADMIN_SECRETARY: "bg-secondary text-foreground border-border",
+  REGIONAL_POLICE_COMMANDER: "bg-yb-charcoal-dark text-primary border-yb-charcoal-dark",
+  DISTRICT_COMMISSIONER: "bg-yb-yellow-deep text-primary-foreground border-yb-yellow-deep",
+  DISTRICT_EXECUTIVE_DIRECTOR: "bg-secondary text-foreground border-border",
+  MUNICIPAL_MAYOR: "bg-primary/15 text-foreground border-primary/30",
+  DISTRICT_POLICE_COMMANDER: "bg-yb-charcoal-dark text-primary border-yb-charcoal-dark",
+  DIVISION_OFFICER: "bg-secondary text-foreground border-border",
+  WARD_EXECUTIVE_OFFICER: "bg-secondary text-foreground border-border",
+  WARD_COUNCILLOR: "bg-primary/15 text-foreground border-primary/30",
+  VILLAGE_EXECUTIVE_OFFICER: "bg-secondary text-foreground border-border",
+  VILLAGE_CHAIRMAN: "bg-primary/15 text-foreground border-primary/30",
 };
 
 // ============================================================
