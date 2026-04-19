@@ -201,6 +201,22 @@
     letter-spacing: 0.5px;
   }
 
+  /* ── CONSTITUENCY & PARTY BADGES (MP cards) ── */
+  .badge-constituency {
+    @apply inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full;
+    font-family: 'JetBrains Mono', monospace;
+    background: hsl(var(--primary) / 0.12);
+    color: hsl(var(--primary));
+    border: 1px solid hsl(var(--primary) / 0.2);
+  }
+  .badge-party {
+    @apply inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-ccm     { background: hsl(0 80% 50% / 0.12); color: hsl(0 75% 45%); border-color: hsl(0 80% 50% / 0.25); }
+  .badge-chadema { background: hsl(210 90% 50% / 0.12); color: hsl(210 85% 45%); border-color: hsl(210 90% 50% / 0.25); }
+  .badge-other   { @apply bg-muted text-muted-foreground border-border; }
+
   /* ── CAPTION / META ── */
   .text-meta {
     @apply text-muted-foreground;
