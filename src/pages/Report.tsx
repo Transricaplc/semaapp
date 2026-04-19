@@ -50,15 +50,40 @@ export default function Report() {
     return true;
   };
 
-  const handleSubmit = () => { setSubmitted(true); toast.success("Report submitted successfully!"); };
+  const handleSubmit = async () => {
+    try {
+      const { error } = await supabase.from("reports").insert({
+        title,
+        description,
+        category,
+        location,
+        anonymous,
+        status: "sent",
+      });
+      if (error) throw error;
+      setSubmitted(true);
+      toast.success(lang === "sw" ? "Ripoti imetumwa!" : "Report submitted!");
+    } catch (err) {
+      toast.error(lang === "sw" ? "Hitilafu. Jaribu tena." : "Error. Please try again.");
+    }
+  };
 
   const handleGetLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        () => setLocation("Dar es Salaam (GPS)"),
-        () => toast.error("Unable to detect location")
-      );
+    if (!navigator.geolocation) {
+      toast.error("GPS haipatikani kwenye kifaa hiki");
+      return;
     }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude.toFixed(5);
+        const lng = pos.coords.longitude.toFixed(5);
+        setLocation(`${lat}, ${lng}`);
+        toast.success("Mahali pako kumegunduliwa");
+      },
+      () => {
+        toast.error("Haiwezi kupata mahali. Andika jina la mtaa.");
+      }
+    );
   };
 
   if (submitted) {
