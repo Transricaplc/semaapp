@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, FileText, TrendingUp, Award, EyeOff, Star, LogOut } from "lucide-react";
+import { User, FileText, TrendingUp, Award, EyeOff, Star, LogOut, BookOpen, Landmark, Download, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { mockReports, statusLabels, categoryLabels, type ReportStatus } from "@/data/reports";
@@ -155,6 +155,83 @@ export default function Mimi() {
             </div>
           ))}
         </div>
+
+        {/* ── RASILIMALI (Civic Resources) ── */}
+        <section className="mt-10">
+          <div className="flex items-center gap-2 mb-1">
+            <BookOpen className="w-4 h-4 text-primary" />
+            <h2 className="text-h2 font-heading text-foreground">Rasilimali</h2>
+          </div>
+          <p className="text-meta font-body text-muted-foreground mb-4">
+            Nyaraka rasmi za kiraia — Constitution &amp; political parties
+          </p>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {/* Constitution */}
+            <a
+              href="/docs/katiba-ya-tanzania-2000.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="yb-card p-4 flex items-start gap-3 min-h-[88px] group"
+            >
+              <div className="w-11 h-11 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <Landmark className="w-5 h-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-body font-semibold text-body text-foreground">
+                  Katiba ya Jamhuri ya Muungano
+                </p>
+                <p className="text-meta font-body text-muted-foreground">
+                  Toleo la mwaka 2000 · Kiswahili · PDF
+                </p>
+                <div className="flex items-center gap-1.5 mt-1.5 text-meta font-body text-primary">
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Pakua / Soma</span>
+                </div>
+              </div>
+            </a>
+
+            {/* Political parties */}
+            <a
+              href="/docs/orodha-ya-vyama-vya-siasa-2025.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="yb-card p-4 flex items-start gap-3 min-h-[88px] group"
+            >
+              <div className="w-11 h-11 rounded-lg bg-accent/10 text-accent flex items-center justify-center shrink-0">
+                <FileText className="w-5 h-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-body font-semibold text-body text-foreground">
+                  Orodha ya Vyama vya Siasa
+                </p>
+                <p className="text-meta font-body text-muted-foreground">
+                  Vyama vilivyosajiliwa · Machi 2025 · PDF
+                </p>
+                <div className="flex items-center gap-1.5 mt-1.5 text-meta font-body text-primary">
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Pakua / Soma</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          {/* External authoritative sources */}
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-meta font-body">
+            <a href="https://bunge.go.tz" target="_blank" rel="noopener noreferrer"
+               className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary">
+              bunge.go.tz <ExternalLink className="w-3 h-3" />
+            </a>
+            <a href="https://www.ikulu.go.tz" target="_blank" rel="noopener noreferrer"
+               className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary">
+              ikulu.go.tz <ExternalLink className="w-3 h-3" />
+            </a>
+            <a href="https://www.orpp.go.tz" target="_blank" rel="noopener noreferrer"
+               className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary">
+              Msajili wa Vyama (orpp.go.tz) <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+        </section>
       </div>
     </div>
   );
