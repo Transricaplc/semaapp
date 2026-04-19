@@ -33,8 +33,8 @@ export const tanzaniaRegions: TzRegion[] = [
   { name: "Mtwara", capital: "Mtwara", districts: ["Masasi DC", "Masasi TC", "Mtwara DC", "Mtwara MC", "Nanyumbu", "Newala DC", "Newala TC", "Tandahimba"] },
   { name: "Mwanza", capital: "Mwanza", districts: ["Ilemela", "Kwimba", "Magu", "Misungwi", "Nyamagana", "Sengerema", "Ukerewe"] },
   { name: "Njombe", capital: "Njombe", districts: ["Ludewa", "Makambako TC", "Makete", "Njombe DC", "Njombe TC", "Wanging'ombe"] },
-  { name: "Pemba Kaskazini", capital: "Wete", districts: ["Micheweni", "Wete"] },
-  { name: "Pemba Kusini", capital: "Chake Chake", districts: ["Chake Chake", "Mkoani"] },
+  { name: "Kaskazini Pemba", capital: "Wete", districts: ["Micheweni", "Wete"] },
+  { name: "Kusini Pemba", capital: "Chake Chake", districts: ["Chake Chake", "Mkoani"] },
   { name: "Pwani", capital: "Kibaha", districts: ["Bagamoyo", "Chalinze", "Kibaha DC", "Kibaha TC", "Kisarawe", "Mafia", "Mkuranga", "Rufiji"] },
   { name: "Rukwa", capital: "Sumbawanga", districts: ["Kalambo", "Nkasi", "Sumbawanga DC", "Sumbawanga MC"] },
   { name: "Ruvuma", capital: "Songea", districts: ["Mbinga DC", "Mbinga TC", "Namtumbo", "Nyasa", "Songea DC", "Songea MC", "Tunduru"] },
@@ -44,9 +44,9 @@ export const tanzaniaRegions: TzRegion[] = [
   { name: "Songwe", capital: "Vwawa", districts: ["Ileje", "Mbozi", "Momba", "Songwe DC", "Tunduma TC"] },
   { name: "Tabora", capital: "Tabora", districts: ["Igunga", "Kaliua", "Nzega DC", "Nzega TC", "Sikonge", "Tabora MC", "Urambo", "Uyui"] },
   { name: "Tanga", capital: "Tanga", districts: ["Handeni DC", "Handeni TC", "Kilindi", "Korogwe DC", "Korogwe TC", "Lushoto", "Mkinga", "Muheza", "Pangani", "Tanga City"] },
-  { name: "Unguja Kaskazini", capital: "Mkokotoni", districts: ["Kaskazini A", "Kaskazini B"] },
-  { name: "Unguja Kusini", capital: "Makunduchi", districts: ["Kati", "Kusini"] },
-  { name: "Unguja Mjini Magharibi", capital: "Zanzibar City", districts: ["Magharibi A", "Magharibi B", "Mjini"] },
+  { name: "Kaskazini Unguja", capital: "Mkokotoni", districts: ["Kaskazini A", "Kaskazini B"] },
+  { name: "Kusini Unguja", capital: "Makunduchi", districts: ["Kati", "Kusini"] },
+  { name: "Mjini Magharibi", capital: "Zanzibar City", districts: ["Magharibi A", "Magharibi B", "Mjini"] },
 ];
 
 /** Flat list of all region names */
@@ -212,11 +212,11 @@ const policeRegions: PoliceRegionDef[] = [
   { policeRegion: "Tabora", adminRegion: "Tabora", rpcId: "rpc-tabora", rpcName: "RPC Tabora", phone: "112", email: "rpc.tabora@polisi.go.tz", districts: [{ name: "Tabora MC", ocdId: "ocd-tabora-mc" }, { name: "Igunga", ocdId: "ocd-igunga" }, { name: "Kaliua", ocdId: "ocd-kaliua" }, { name: "Nzega DC", ocdId: "ocd-nzega-dc" }, { name: "Nzega TC", ocdId: "ocd-nzega-tc" }, { name: "Sikonge", ocdId: "ocd-sikonge" }, { name: "Urambo", ocdId: "ocd-urambo" }, { name: "Uyui", ocdId: "ocd-uyui" }] },
   { policeRegion: "Tanga", adminRegion: "Tanga", rpcId: "rpc-tanga", rpcName: "RPC Tanga", phone: "112", email: "rpc.tanga@polisi.go.tz", districts: [{ name: "Tanga City", ocdId: "ocd-tanga-city" }, { name: "Handeni DC", ocdId: "ocd-handeni-dc" }, { name: "Handeni TC", ocdId: "ocd-handeni-tc" }, { name: "Kilindi", ocdId: "ocd-kilindi" }, { name: "Korogwe DC", ocdId: "ocd-korogwe-dc" }, { name: "Korogwe TC", ocdId: "ocd-korogwe-tc" }, { name: "Lushoto", ocdId: "ocd-lushoto" }, { name: "Mkinga", ocdId: "ocd-mkinga" }, { name: "Muheza", ocdId: "ocd-muheza" }, { name: "Pangani", ocdId: "ocd-pangani" }] },
   // ── Zanzibar Police Regions ──
-  { policeRegion: "Zanzibar Mjini", adminRegion: "Unguja Mjini Magharibi", rpcId: "rpc-znz-mjini", rpcName: "RPC Zanzibar Mjini", phone: "112", email: "rpc.zanzibar@polisi.go.tz", districts: [{ name: "Mjini", ocdId: "ocd-mjini" }, { name: "Magharibi A", ocdId: "ocd-magharibi-a" }, { name: "Magharibi B", ocdId: "ocd-magharibi-b" }] },
-  { policeRegion: "Zanzibar Kaskazini", adminRegion: "Unguja Kaskazini", rpcId: "rpc-znz-kaskazini", rpcName: "RPC Zanzibar Kaskazini", phone: "112", email: "rpc.znzkaskazini@polisi.go.tz", districts: [{ name: "Kaskazini A", ocdId: "ocd-kaskazini-a" }, { name: "Kaskazini B", ocdId: "ocd-kaskazini-b" }] },
-  { policeRegion: "Zanzibar Kusini", adminRegion: "Unguja Kusini", rpcId: "rpc-znz-kusini", rpcName: "RPC Zanzibar Kusini", phone: "112", email: "rpc.znzkusini@polisi.go.tz", districts: [{ name: "Kati", ocdId: "ocd-kati" }, { name: "Kusini", ocdId: "ocd-kusini" }] },
-  { policeRegion: "Pemba Kaskazini", adminRegion: "Pemba Kaskazini", rpcId: "rpc-pemba-kaskazini", rpcName: "RPC Pemba Kaskazini", phone: "112", email: "rpc.pembakaskazini@polisi.go.tz", districts: [{ name: "Micheweni", ocdId: "ocd-micheweni" }, { name: "Wete", ocdId: "ocd-wete" }] },
-  { policeRegion: "Pemba Kusini", adminRegion: "Pemba Kusini", rpcId: "rpc-pemba-kusini", rpcName: "RPC Pemba Kusini", phone: "112", email: "rpc.pembakusini@polisi.go.tz", districts: [{ name: "Chake Chake", ocdId: "ocd-chake-chake" }, { name: "Mkoani", ocdId: "ocd-mkoani" }] },
+  { policeRegion: "Zanzibar Mjini", adminRegion: "Mjini Magharibi", rpcId: "rpc-znz-mjini", rpcName: "RPC Zanzibar Mjini", phone: "112", email: "rpc.zanzibar@polisi.go.tz", districts: [{ name: "Mjini", ocdId: "ocd-mjini" }, { name: "Magharibi A", ocdId: "ocd-magharibi-a" }, { name: "Magharibi B", ocdId: "ocd-magharibi-b" }] },
+  { policeRegion: "Zanzibar Kaskazini", adminRegion: "Kaskazini Unguja", rpcId: "rpc-znz-kaskazini", rpcName: "RPC Zanzibar Kaskazini", phone: "112", email: "rpc.znzkaskazini@polisi.go.tz", districts: [{ name: "Kaskazini A", ocdId: "ocd-kaskazini-a" }, { name: "Kaskazini B", ocdId: "ocd-kaskazini-b" }] },
+  { policeRegion: "Zanzibar Kusini", adminRegion: "Kusini Unguja", rpcId: "rpc-znz-kusini", rpcName: "RPC Zanzibar Kusini", phone: "112", email: "rpc.znzkusini@polisi.go.tz", districts: [{ name: "Kati", ocdId: "ocd-kati" }, { name: "Kusini", ocdId: "ocd-kusini" }] },
+  { policeRegion: "Pemba Kaskazini", adminRegion: "Kaskazini Pemba", rpcId: "rpc-pemba-kaskazini", rpcName: "RPC Pemba Kaskazini", phone: "112", email: "rpc.pembakaskazini@polisi.go.tz", districts: [{ name: "Micheweni", ocdId: "ocd-micheweni" }, { name: "Wete", ocdId: "ocd-wete" }] },
+  { policeRegion: "Pemba Kusini", adminRegion: "Kusini Pemba", rpcId: "rpc-pemba-kusini", rpcName: "RPC Pemba Kusini", phone: "112", email: "rpc.pembakusini@polisi.go.tz", districts: [{ name: "Chake Chake", ocdId: "ocd-chake-chake" }, { name: "Mkoani", ocdId: "ocd-mkoani" }] },
 ];
 
 // ============================================================
