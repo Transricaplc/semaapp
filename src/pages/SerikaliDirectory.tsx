@@ -12,7 +12,7 @@ import {
   type Official, type RoleType,
 } from "@/data/unified_officials";
 import { agencies, searchAgencies, sectorColors, type Agency, type AgencySector } from "@/data/agencies";
-import { bankingCEOs, searchBanking, type BankingCEO } from "@/data/banking";
+import { bankingCEOs, searchBanking, botRegisteredBanks, searchBotBanks, bureauxDeChange, searchBureaux, type BankingCEO } from "@/data/banking";
 import { hospitals, searchHospitals, hospitalTypeLabels, type Hospital, type HospitalType } from "@/data/hospitali";
 import { courts, searchCourts, courtLevelLabels, type Court } from "@/data/mahakama";
 import { eduInstitutions, searchEdu, elimuTypeLabels, type EduInstitution } from "@/data/elimu";
@@ -85,6 +85,8 @@ export default function SerikaliDirectory() {
   // ── Agencies, Banking, Hospitals, Courts, Edu ──
   const filteredAgencies = useMemo(() => search ? searchAgencies(search) : agencies, [search]);
   const filteredBanking = useMemo(() => search ? searchBanking(search) : bankingCEOs, [search]);
+  const filteredBotBanks = useMemo(() => searchBotBanks(search), [search]);
+  const filteredBureaux = useMemo(() => searchBureaux(search), [search]);
   const filteredHospitals = useMemo(() => search ? searchHospitals(search) : hospitals, [search]);
   const filteredCourts = useMemo(() => search ? searchCourts(search) : courts, [search]);
   const filteredEdu = useMemo(() => search ? searchEdu(search) : eduInstitutions, [search]);
@@ -258,19 +260,87 @@ export default function SerikaliDirectory() {
         {/* ═══ BENKI ═══ */}
         {activeTab === "benki" && (
           <div>
-            <p className="text-[13px] text-muted-foreground mb-4">{filteredBanking.length} viongozi wa benki</p>
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-              {filteredBanking.map((b) => (
-                <SecureActionCard
-                  key={b.id}
-                  name={b.name}
-                  position={b.position}
-                  organization={b.organization}
-                  badgeColor="bg-primary/15 text-foreground border-primary/30"
-                  badgeLabel="Benki"
-                />
-              ))}
+            <div className="flex items-start gap-3 px-4 py-3 bg-primary/5 border border-primary/20 rounded-xl mb-4">
+              <Banknote className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <div className="min-w-0">
+                <p className="text-[13px] font-bold text-foreground">Taasisi za Fedha Tanzania</p>
+                <p className="text-[12px] text-muted-foreground">
+                  Chanzo: Benki Kuu ya Tanzania (BOT).{" "}
+                  <a href="https://www.bot.go.tz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">bot.go.tz →</a>
+                </p>
+              </div>
             </div>
+
+            {/* Section 1: CEOs */}
+            {filteredBanking.length > 0 && (
+              <div className="mb-8">
+                <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                  <Banknote className="w-4 h-4" />
+                  <h2 className="text-[16px] font-bold">Viongozi wa Benki Kuu (CEOs)</h2>
+                  <span className="text-[13px] text-yb-charcoal-muted ml-1">({filteredBanking.length})</span>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredBanking.map((b) => (
+                    <SecureActionCard
+                      key={b.id}
+                      name={b.name}
+                      position={b.position}
+                      organization={b.organization}
+                      badgeColor="bg-primary/15 text-foreground border-primary/30"
+                      badgeLabel="CEO"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Section 2: Other BOT-registered commercial banks */}
+            {filteredBotBanks.length > 0 && (
+              <div className="mb-8">
+                <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                  <Banknote className="w-4 h-4" />
+                  <h2 className="text-[16px] font-bold">Benki Nyingine za Biashara</h2>
+                  <span className="text-[13px] text-yb-charcoal-muted ml-1">({filteredBotBanks.length})</span>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredBotBanks.map((b) => (
+                    <div key={b.id} className="yb-card p-4 flex flex-col gap-2">
+                      <div>
+                        <h3 className="text-[14px] font-bold text-foreground leading-tight">{b.organization}</h3>
+                        <p className="text-[12px] text-muted-foreground mt-0.5">Mawasiliano: {b.name}</p>
+                      </div>
+                      <div className="text-[12px] text-muted-foreground border-t border-border pt-2 space-y-1">
+                        {b.phone && <p className="flex items-center gap-1.5"><Phone className="w-3 h-3 shrink-0" /> {b.phone}</p>}
+                        {b.email && <p className="truncate"><a href={`mailto:${b.email}`} className="text-primary hover:underline">{b.email}</a></p>}
+                        {b.address && <p className="text-[11px] text-muted-foreground/80 leading-snug">{b.address}</p>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Section 3: Bureaux de Change */}
+            {filteredBureaux.length > 0 && (
+              <div className="mb-8">
+                <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                  <Banknote className="w-4 h-4" />
+                  <h2 className="text-[16px] font-bold">Bureau de Change (Forex)</h2>
+                  <span className="text-[13px] text-yb-charcoal-muted ml-1">({filteredBureaux.length})</span>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  {filteredBureaux.map((b) => (
+                    <div key={b.id} className="yb-card p-3 flex flex-col gap-1">
+                      <h3 className="text-[13px] font-bold text-foreground leading-tight">{b.name}</h3>
+                      <p className="text-[12px] text-primary font-medium flex items-center gap-1"><MapPin className="w-3 h-3" /> {b.region}</p>
+                      <p className="text-[11px] text-muted-foreground leading-snug">{b.address}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {filteredBanking.length === 0 && filteredBotBanks.length === 0 && filteredBureaux.length === 0 && <EmptyState />}
           </div>
         )}
 
