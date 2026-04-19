@@ -395,9 +395,56 @@ export default function SerikaliDirectory() {
           </div>
         )}
 
+        {/* ═══ VYAMA (Political Parties) ═══ */}
+        {activeTab === "vyama" && (
+          <div>
+            <div className="flex items-start gap-3 px-4 py-3 bg-primary/5 border border-primary/20 rounded-xl mb-4">
+              <Landmark className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <div className="min-w-0">
+                <p className="text-[13px] font-bold text-foreground">Vyama vya Siasa Vilivyosajiliwa</p>
+                <p className="text-[12px] text-muted-foreground">
+                  Chanzo: Ofisi ya Msajili wa Vyama vya Siasa (ORPP) — kufikia 17 Machi, 2025.{" "}
+                  <a href="https://www.orpp.go.tz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">orpp.go.tz →</a>
+                </p>
+              </div>
+            </div>
+            <p className="text-[13px] text-muted-foreground mb-4">{filteredParties.length} vyama vilivyosajiliwa kabisa</p>
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {filteredParties.map((p) => (
+                <div key={p.registrationNo} className="yb-card p-4 flex flex-col gap-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <h3 className="text-[16px] font-bold text-foreground leading-tight">{p.acronym}</h3>
+                      <p className="text-[12px] text-muted-foreground leading-snug mt-0.5">{p.name}</p>
+                    </div>
+                    <span className="badge-constituency shrink-0">№ {p.registrationNo}</span>
+                  </div>
+                  <div className="text-[12px] text-muted-foreground border-t border-border pt-2 mt-1 space-y-1">
+                    <p><span className="font-semibold text-foreground">Mwenyekiti:</span> {p.chairperson}</p>
+                    <p><span className="font-semibold text-foreground">Katibu Mkuu:</span> {p.secretaryGeneral}</p>
+                    <p className="flex items-center gap-1.5 pt-1">
+                      <BadgeCheck className="w-3.5 h-3.5 text-primary shrink-0" />
+                      Imesajiliwa: {p.registeredOn}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground/80 pt-1 leading-snug">{p.hqAddress}</p>
+                    {(p.phone || p.email || p.website) && (
+                      <div className="flex flex-wrap gap-x-3 gap-y-0.5 pt-1 text-[11px]">
+                        {p.phone && <span className="text-muted-foreground">📞 {p.phone}</span>}
+                        {p.email && <a href={`mailto:${p.email}`} className="text-primary hover:underline truncate max-w-full">{p.email}</a>}
+                        {p.website && <a href={`https://${p.website.replace(/^https?:\/\//, "")}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{p.website} →</a>}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {filteredParties.length === 0 && <EmptyState />}
+          </div>
+        )}
+
         {/* Footer */}
         <div className="mt-8 text-center text-[13px] text-muted-foreground border-t border-border pt-6">
-          <p>Saraka: {directoryStats.totalOfficials} viongozi · {agencies.length} wakala · {hospitals.length} hospitali · {courts.length} mahakama · Ilisasishwa: Mar 2026</p>
+          <p>Saraka: {directoryStats.totalOfficials} viongozi · {agencies.length} wakala · {hospitals.length} hospitali · {courts.length} mahakama · {politicalParties.length} vyama · Ilisasishwa: Mar 2026</p>
         </div>
       </div>
     </div>
