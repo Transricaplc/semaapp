@@ -1,5 +1,6 @@
 import serikaliData from "./serikali_data.json";
 import { mpData } from "./mps_data";
+import { mpContactLookup, normalizeConstituency } from "./mp_contacts";
 
 // ============================================================
 // TYPE DEFINITIONS — Schema for the National Directory
@@ -39,24 +40,27 @@ export interface SerikaliMeta {
 
 export const serikaliMeta: SerikaliMeta = serikaliData._meta as unknown as SerikaliMeta;
 
-// Convert MP data to Kiongozi format for the Bunge tab
-const mpViongozi: Kiongozi[] = mpData.map((mp) => ({
-  id: `mp-${mp.constituency.toLowerCase().replace(/[^a-z0-9]/g, "-")}`,
-  jina: mp.name,
-  wadhifa: `Mbunge — ${mp.constituency}`,
-  mhimili: "Legislature" as Mhimili,
-  ngazi: "Jimbo/Kata" as Ngazi,
-  mkoa: mp.region,
-  wilaya: mp.district,
-  jimbo: mp.constituency,
-  chama: mp.party,
-  simu: "",
-  barua_pepe: `${mp.name.split(" ").pop()?.toLowerCase() || "mp"}@bunge.go.tz`,
-  ofisi: `Bunge la Tanzania / Jimbo la ${mp.constituency}`,
-  picha_url: "",
-  chanzo: "bunge.go.tz / Wikipedia",
-  tarehe_uhakiki: "2026-03-08",
-}));
+// Convert MP data to Kiongozi format for the Bunge tab; enrich with PDF phone/SLP
+const mpViongozi: Kiongozi[] = mpData.map((mp) => {
+  const contact = mpContactLookup[normalizeConstituency(mp.constituency)];
+  return {
+    id: `mp-${mp.constituency.toLowerCase().replace(/[^a-z0-9]/g, "-")}`,
+    jina: contact?.name ? `Mhe. ${contact.name}` : mp.name,
+    wadhifa: `Mbunge — ${mp.constituency}`,
+    mhimili: "Legislature" as Mhimili,
+    ngazi: "Jimbo/Kata" as Ngazi,
+    mkoa: mp.region,
+    wilaya: mp.district,
+    jimbo: mp.constituency,
+    chama: contact?.party || mp.party,
+    simu: contact?.phone || "",
+    barua_pepe: `${(contact?.name || mp.name).split(" ").pop()?.toLowerCase().replace(/[^a-z]/g,'') || "mp"}@bunge.go.tz`,
+    ofisi: contact?.slp ? `S.L.P. ${contact.slp}` : `Bunge la Tanzania / Jimbo la ${mp.constituency}`,
+    picha_url: "",
+    chanzo: "Bunge la Tanzania — Kitabu cha Wabunge, Aprili 2026",
+    tarehe_uhakiki: "2026-04-01",
+  };
+});
 
 // Merge static JSON data with generated MP data (dedup by ID)
 const jsonViongozi = serikaliData.viongozi as unknown as Kiongozi[];
