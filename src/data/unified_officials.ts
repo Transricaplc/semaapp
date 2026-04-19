@@ -330,6 +330,42 @@ const coreOfficials: Official[] = [
   // ── JUDGES ──
   mkOfficial("judge-dsm", "Resident Judge — Dar es Salaam", "JUDGE", "Resident Judge — High Court", { region: "Dar es Salaam", phone: "+255-22-211-2758", email: "hc.dsm@judiciary.go.tz", office_address: "High Court, Dar es Salaam", court_name: "High Court, Dar es Salaam", verified: true, source: "judiciary.go.tz" }),
   mkOfficial("judge-dodoma", "Resident Judge — Dodoma", "JUDGE", "Resident Judge — High Court", { region: "Dodoma", email: "hc.dodoma@judiciary.go.tz", office_address: "High Court, Dodoma", court_name: "High Court, Dodoma", source: "judiciary.go.tz" }),
+
+  // ── ZANZIBAR REVOLUTIONARY GOVERNMENT (ZRG) ──
+  mkOfficial("znz-president", "H.E. Hussein Ali Mwinyi", "PRESIDENT", "President of Zanzibar & Chairman of the Revolutionary Council",
+    { party: "CCM", phone: "024-223-0310", email: "info@zanzibarstate.go.tz", office_address: "State House (Beit el-Ajaib), Zanzibar City", verified: true, source: "zanzibarstate.go.tz", region: "Mjini Magharibi" }),
+  mkOfficial("znz-first-vp", "Othman Masoud Othman", "VICE_PRESIDENT", "First Vice President of Zanzibar",
+    { party: "CCM", email: "info@zanzibarstate.go.tz", office_address: "State House, Zanzibar City", verified: true, source: "zanzibarstate.go.tz", region: "Mjini Magharibi" }),
+  mkOfficial("znz-second-vp", "Hemed Suleiman Abdulla", "VICE_PRESIDENT", "Second Vice President of Zanzibar",
+    { party: "CCM", email: "info@zanzibarstate.go.tz", office_address: "State House, Zanzibar City", verified: true, source: "zanzibarstate.go.tz", region: "Mjini Magharibi" }),
+  mkOfficial("znz-hor-speaker", "Zubeir Ali Maulid", "SPEAKER", "Speaker — House of Representatives of Zanzibar",
+    { party: "CCM", phone: "024-223-6670", email: "speaker@hor.go.tz", office_address: "House of Representatives, Zanzibar City", verified: true, source: "hor.go.tz", region: "Mjini Magharibi" }),
+  mkOfficial("znz-ag", "Attorney General — Zanzibar", "JUDGE", "Attorney General of Zanzibar",
+    { phone: "024-223-1817", email: "ag@zanzibarstate.go.tz", office_address: "Attorney General's Chambers, Zanzibar City", source: "zanzibarstate.go.tz", region: "Mjini Magharibi" }),
+
+  // ── ZANZIBAR REGIONAL COMMISSIONERS ──
+  mkOfficial("rc-mjini-magharibi", "RC — Mjini Magharibi", "REGIONAL_COMMISSIONER", "Regional Commissioner — Mjini Magharibi",
+    { region: "Mjini Magharibi", email: "rc.mjini@tamisemi.go.tz", office_address: "RC Office, Zanzibar City", source: "TAMISEMI" }),
+  mkOfficial("rc-kaskazini-unguja", "RC — Kaskazini Unguja", "REGIONAL_COMMISSIONER", "Regional Commissioner — Kaskazini Unguja",
+    { region: "Kaskazini Unguja", email: "rc.kaskazini.unguja@tamisemi.go.tz", office_address: "RC Office, Mkokotoni", source: "TAMISEMI" }),
+  mkOfficial("rc-kusini-unguja", "RC — Kusini Unguja", "REGIONAL_COMMISSIONER", "Regional Commissioner — Kusini Unguja",
+    { region: "Kusini Unguja", email: "rc.kusini.unguja@tamisemi.go.tz", office_address: "RC Office, Makunduchi", source: "TAMISEMI" }),
+  mkOfficial("rc-kaskazini-pemba", "RC — Kaskazini Pemba", "REGIONAL_COMMISSIONER", "Regional Commissioner — Kaskazini Pemba",
+    { region: "Kaskazini Pemba", email: "rc.kaskazini.pemba@tamisemi.go.tz", office_address: "RC Office, Wete", source: "TAMISEMI" }),
+  mkOfficial("rc-kusini-pemba", "RC — Kusini Pemba", "REGIONAL_COMMISSIONER", "Regional Commissioner — Kusini Pemba",
+    { region: "Kusini Pemba", email: "rc.kusini.pemba@tamisemi.go.tz", office_address: "RC Office, Chake Chake", source: "TAMISEMI" }),
+
+  // ── ZANZIBAR PCCB / TAKUKURU ──
+  mkOfficial("pccb-znz-mjini", "TAKUKURU — Mjini Magharibi", "ANTI_CORRUPTION", "Anti-Corruption Office — Zanzibar City",
+    { region: "Mjini Magharibi", phone: "024-223-3031", email: "pccb.zanzibar@pccb.go.tz", office_address: "TAKUKURU Office, Zanzibar City", source: "pccb.go.tz" }),
+  mkOfficial("pccb-znz-kaskazini-unguja", "TAKUKURU — Kaskazini Unguja", "ANTI_CORRUPTION", "Anti-Corruption Office — Kaskazini Unguja",
+    { region: "Kaskazini Unguja", phone: "024-224-0015", email: "pccb.kaskazini.unguja@pccb.go.tz", office_address: "TAKUKURU Office, Mkokotoni", source: "pccb.go.tz" }),
+  mkOfficial("pccb-znz-kusini-unguja", "TAKUKURU — Kusini Unguja", "ANTI_CORRUPTION", "Anti-Corruption Office — Kusini Unguja",
+    { region: "Kusini Unguja", phone: "024-224-5210", email: "pccb.kusini.unguja@pccb.go.tz", office_address: "TAKUKURU Office, Makunduchi", source: "pccb.go.tz" }),
+  mkOfficial("pccb-znz-kaskazini-pemba", "TAKUKURU — Kaskazini Pemba", "ANTI_CORRUPTION", "Anti-Corruption Office — Kaskazini Pemba",
+    { region: "Kaskazini Pemba", phone: "024-245-4002", email: "pccb.kaskazini.pemba@pccb.go.tz", office_address: "TAKUKURU Office, Wete", source: "pccb.go.tz" }),
+  mkOfficial("pccb-znz-kusini-pemba", "TAKUKURU — Kusini Pemba", "ANTI_CORRUPTION", "Anti-Corruption Office — Kusini Pemba",
+    { region: "Kusini Pemba", phone: "024-245-2001", email: "pccb.kusini.pemba@pccb.go.tz", office_address: "TAKUKURU Office, Chake Chake", source: "pccb.go.tz" }),
 ];
 
 // ============================================================
@@ -342,7 +378,8 @@ function generatePoliceOfficials(): Official[] {
   const result: Official[] = [];
   // Generate PCCB regional offices
   tanzaniaRegions.forEach((r) => {
-    if (r.name.startsWith("Unguja") || r.name.startsWith("Pemba")) return;
+    // Skip Zanzibar regions — explicit TAKUKURU entries added in coreOfficials
+    if (r.name.endsWith("Unguja") || r.name.endsWith("Pemba") || r.name === "Mjini Magharibi") return;
     result.push(mkOfficial(
       `pccb-${r.name.toLowerCase().replace(/\s/g, "-")}`,
       `PCCB Office — ${r.name}`,

@@ -2350,6 +2350,191 @@ export const localGovData: LocalRegion[] = [
       },
     ],
   },
+,
+{
+  region_en: "Mjini Magharibi",
+  region_sw: "Mjini Magharibi (Zanzibar City)",
+  districts: [
+    {
+      district_en: "Mjini", district_sw: "Mjini",
+      council_type: "MC",
+      ded_name: "DED — Mjini District Council",
+      dc_name: "DC — Mjini",
+      ded_phone: "024-223-0720", ded_email: "ded.mjini@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Mchangani", ward_sw: "Mchangani", diwani_name: "Diwani Mchangani", weo_name: "WEO Mchangani" },
+        { ward_en: "Forodhani", ward_sw: "Forodhani", diwani_name: "Diwani Forodhani", weo_name: "WEO Forodhani" },
+        { ward_en: "Malindi", ward_sw: "Malindi", diwani_name: "Diwani Malindi", weo_name: "WEO Malindi" },
+        { ward_en: "Gulioni", ward_sw: "Gulioni", diwani_name: "Diwani Gulioni", weo_name: "WEO Gulioni" },
+        { ward_en: "Amani", ward_sw: "Amani", diwani_name: "Diwani Amani", weo_name: "WEO Amani" },
+        { ward_en: "Kwahani", ward_sw: "Kwahani", diwani_name: "Diwani Kwahani", weo_name: "WEO Kwahani" },
+        { ward_en: "Mwanakwerekwe", ward_sw: "Mwanakwerekwe", diwani_name: "Diwani Mwanakwerekwe", weo_name: "WEO Mwanakwerekwe" },
+        { ward_en: "Magogoni", ward_sw: "Magogoni", diwani_name: "Diwani Magogoni", weo_name: "WEO Magogoni" },
+        { ward_en: "Kikwajuni", ward_sw: "Kikwajuni", diwani_name: "Diwani Kikwajuni", weo_name: "WEO Kikwajuni" },
+        { ward_en: "Rahaleo", ward_sw: "Rahaleo", diwani_name: "Diwani Rahaleo", weo_name: "WEO Rahaleo" },
+      ]
+    },
+    {
+      district_en: "Magharibi A", district_sw: "Magharibi A",
+      council_type: "DC",
+      ded_name: "DED — Magharibi A",
+      dc_name: "DC — Magharibi A",
+      ded_phone: "024-223-1560", ded_email: "ded.magharibi.a@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Bububu", ward_sw: "Bububu", diwani_name: "Diwani Bububu", weo_name: "WEO Bububu" },
+        { ward_en: "Fuoni", ward_sw: "Fuoni", diwani_name: "Diwani Fuoni", weo_name: "WEO Fuoni" },
+        { ward_en: "Mahonda", ward_sw: "Mahonda", diwani_name: "Diwani Mahonda", weo_name: "WEO Mahonda" },
+        { ward_en: "Kibele", ward_sw: "Kibele", diwani_name: "Diwani Kibele", weo_name: "WEO Kibele" },
+        { ward_en: "Kinuni", ward_sw: "Kinuni", diwani_name: "Diwani Kinuni", weo_name: "WEO Kinuni" },
+      ]
+    },
+    {
+      district_en: "Magharibi B", district_sw: "Magharibi B",
+      council_type: "DC",
+      ded_name: "DED — Magharibi B",
+      dc_name: "DC — Magharibi B",
+      ded_phone: "024-223-2890", ded_email: "ded.magharibi.b@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Kiembe Samaki", ward_sw: "Kiembe Samaki", diwani_name: "Diwani Kiembe Samaki", weo_name: "WEO Kiembe Samaki" },
+        { ward_en: "Chukwani", ward_sw: "Chukwani", diwani_name: "Diwani Chukwani", weo_name: "WEO Chukwani" },
+        { ward_en: "Tunguu", ward_sw: "Tunguu", diwani_name: "Diwani Tunguu", weo_name: "WEO Tunguu" },
+        { ward_en: "Kwaacha", ward_sw: "Kwaacha", diwani_name: "Diwani Kwaacha", weo_name: "WEO Kwaacha" },
+        { ward_en: "Sogea", ward_sw: "Sogea", diwani_name: "Diwani Sogea", weo_name: "WEO Sogea" },
+      ]
+    }
+  ]
+},
+{
+  region_en: "Kaskazini Unguja",
+  region_sw: "Kaskazini Unguja (North Unguja)",
+  districts: [
+    {
+      district_en: "Kaskazini A", district_sw: "Kaskazini A",
+      council_type: "DC",
+      ded_name: "DED — Kaskazini A",
+      dc_name: "DC — Kaskazini A",
+      ded_phone: "024-224-0110", ded_email: "ded.kaskazini.a@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Mkokotoni", ward_sw: "Mkokotoni", diwani_name: "Diwani Mkokotoni", weo_name: "WEO Mkokotoni" },
+        { ward_en: "Donge", ward_sw: "Donge", diwani_name: "Diwani Donge", weo_name: "WEO Donge" },
+        { ward_en: "Chaani", ward_sw: "Chaani", diwani_name: "Diwani Chaani", weo_name: "WEO Chaani" },
+        { ward_en: "Matemwe", ward_sw: "Matemwe", diwani_name: "Diwani Matemwe", weo_name: "WEO Matemwe" },
+        { ward_en: "Nungwi", ward_sw: "Nungwi", diwani_name: "Diwani Nungwi", weo_name: "WEO Nungwi" },
+      ]
+    },
+    {
+      district_en: "Kaskazini B", district_sw: "Kaskazini B",
+      council_type: "DC",
+      ded_name: "DED — Kaskazini B",
+      dc_name: "DC — Kaskazini B",
+      ded_phone: "024-224-0222", ded_email: "ded.kaskazini.b@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Kivunge", ward_sw: "Kivunge", diwani_name: "Diwani Kivunge", weo_name: "WEO Kivunge" },
+        { ward_en: "Tumbatu", ward_sw: "Tumbatu", diwani_name: "Diwani Tumbatu", weo_name: "WEO Tumbatu" },
+        { ward_en: "Mwambao", ward_sw: "Mwambao", diwani_name: "Diwani Mwambao", weo_name: "WEO Mwambao" },
+        { ward_en: "Mkwajuni", ward_sw: "Mkwajuni", diwani_name: "Diwani Mkwajuni", weo_name: "WEO Mkwajuni" },
+      ]
+    }
+  ]
+},
+{
+  region_en: "Kusini Unguja",
+  region_sw: "Kusini Unguja (South Unguja)",
+  districts: [
+    {
+      district_en: "Kati", district_sw: "Kati",
+      council_type: "DC",
+      ded_name: "DED — Kati",
+      dc_name: "DC — Kati",
+      ded_phone: "024-224-5010", ded_email: "ded.kati@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Makunduchi", ward_sw: "Makunduchi", diwani_name: "Diwani Makunduchi", weo_name: "WEO Makunduchi" },
+        { ward_en: "Paje", ward_sw: "Paje", diwani_name: "Diwani Paje", weo_name: "WEO Paje" },
+        { ward_en: "Jambiani", ward_sw: "Jambiani", diwani_name: "Diwani Jambiani", weo_name: "WEO Jambiani" },
+        { ward_en: "Kizimkazi", ward_sw: "Kizimkazi", diwani_name: "Diwani Kizimkazi", weo_name: "WEO Kizimkazi" },
+        { ward_en: "Pete", ward_sw: "Pete", diwani_name: "Diwani Pete", weo_name: "WEO Pete" },
+      ]
+    },
+    {
+      district_en: "Kusini", district_sw: "Kusini",
+      council_type: "DC",
+      ded_name: "DED — Kusini",
+      dc_name: "DC — Kusini",
+      ded_phone: "024-224-5220", ded_email: "ded.kusini@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Muyuni", ward_sw: "Muyuni", diwani_name: "Diwani Muyuni", weo_name: "WEO Muyuni" },
+        { ward_en: "Kombeni", ward_sw: "Kombeni", diwani_name: "Diwani Kombeni", weo_name: "WEO Kombeni" },
+        { ward_en: "Kibuteni", ward_sw: "Kibuteni", diwani_name: "Diwani Kibuteni", weo_name: "WEO Kibuteni" },
+        { ward_en: "Uzini", ward_sw: "Uzini", diwani_name: "Diwani Uzini", weo_name: "WEO Uzini" },
+      ]
+    }
+  ]
+},
+{
+  region_en: "Kaskazini Pemba",
+  region_sw: "Kaskazini Pemba (North Pemba)",
+  districts: [
+    {
+      district_en: "Micheweni", district_sw: "Micheweni",
+      council_type: "DC",
+      ded_name: "DED — Micheweni",
+      dc_name: "DC — Micheweni",
+      ded_phone: "024-245-4101", ded_email: "ded.micheweni@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Wingwi", ward_sw: "Wingwi", diwani_name: "Diwani Wingwi", weo_name: "WEO Wingwi" },
+        { ward_en: "Shumba Viamboni", ward_sw: "Shumba Viamboni", diwani_name: "Diwani Shumba Viamboni", weo_name: "WEO Shumba Viamboni" },
+        { ward_en: "Kojani", ward_sw: "Kojani", diwani_name: "Diwani Kojani", weo_name: "WEO Kojani" },
+        { ward_en: "Tumbe", ward_sw: "Tumbe", diwani_name: "Diwani Tumbe", weo_name: "WEO Tumbe" },
+      ]
+    },
+    {
+      district_en: "Wete", district_sw: "Wete",
+      council_type: "TC",
+      ded_name: "DED — Wete TC",
+      dc_name: "DC — Wete",
+      ded_phone: "024-245-4230", ded_email: "ded.wete@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Wete", ward_sw: "Wete", diwani_name: "Diwani Wete", weo_name: "WEO Wete" },
+        { ward_en: "Fidel Castro", ward_sw: "Fidel Castro", diwani_name: "Diwani Fidel Castro", weo_name: "WEO Fidel Castro" },
+        { ward_en: "Ziwani", ward_sw: "Ziwani", diwani_name: "Diwani Ziwani", weo_name: "WEO Ziwani" },
+        { ward_en: "Konde", ward_sw: "Konde", diwani_name: "Diwani Konde", weo_name: "WEO Konde" },
+      ]
+    }
+  ]
+},
+{
+  region_en: "Kusini Pemba",
+  region_sw: "Kusini Pemba (South Pemba)",
+  districts: [
+    {
+      district_en: "Chake Chake", district_sw: "Chake Chake",
+      council_type: "TC",
+      ded_name: "DED — Chake Chake TC",
+      dc_name: "DC — Chake Chake",
+      ded_phone: "024-245-2011", ded_email: "ded.chake@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Chake Chake", ward_sw: "Chake Chake", diwani_name: "Diwani Chake Chake", weo_name: "WEO Chake Chake" },
+        { ward_en: "Pujini", ward_sw: "Pujini", diwani_name: "Diwani Pujini", weo_name: "WEO Pujini" },
+        { ward_en: "Tibirinzi", ward_sw: "Tibirinzi", diwani_name: "Diwani Tibirinzi", weo_name: "WEO Tibirinzi" },
+        { ward_en: "Ole", ward_sw: "Ole", diwani_name: "Diwani Ole", weo_name: "WEO Ole" },
+        { ward_en: "Kilindi", ward_sw: "Kilindi", diwani_name: "Diwani Kilindi", weo_name: "WEO Kilindi" },
+      ]
+    },
+    {
+      district_en: "Mkoani", district_sw: "Mkoani",
+      council_type: "DC",
+      ded_name: "DED — Mkoani",
+      dc_name: "DC — Mkoani",
+      ded_phone: "024-245-5301", ded_email: "ded.mkoani@tamisemi.go.tz",
+      wards: [
+        { ward_en: "Mkoani", ward_sw: "Mkoani", diwani_name: "Diwani Mkoani", weo_name: "WEO Mkoani" },
+        { ward_en: "Shengejuu", ward_sw: "Shengejuu", diwani_name: "Diwani Shengejuu", weo_name: "WEO Shengejuu" },
+        { ward_en: "Kengeja", ward_sw: "Kengeja", diwani_name: "Diwani Kengeja", weo_name: "WEO Kengeja" },
+        { ward_en: "Mtambwe Kaskazini", ward_sw: "Mtambwe Kaskazini", diwani_name: "Diwani Mtambwe Kaskazini", weo_name: "WEO Mtambwe Kaskazini" },
+      ]
+    }
+  ]
+},
 ];
 
 // ============================================================
