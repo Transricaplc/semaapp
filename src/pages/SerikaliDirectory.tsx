@@ -34,6 +34,7 @@ const tabs: { value: DirectoryTab; label: string; icon: React.ElementType }[] = 
   { value: "mahakama", label: "Mahakama", icon: Scale },
   { value: "bunge", label: "Bunge", icon: Users },
   { value: "elimu", label: "Elimu", icon: GraduationCap },
+  { value: "vyama", label: "Vyama", icon: Landmark },
 ];
 
 type BungeSubTab = "wabunge" | "mawaziri" | "spika" | "executive";
