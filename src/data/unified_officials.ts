@@ -15,18 +15,39 @@ import { mpData } from "./mps_data";
 // ============================================================
 
 export type RoleType =
+  // ── NATIONAL (Taifa) ──
   | "PRESIDENT"
-  | "MP"
+  | "VICE_PRESIDENT"
+  | "PRIME_MINISTER"
+  | "SPEAKER"
+  | "MP"                       // Constituency-level elected
   | "MINISTER"
   | "DEPUTY_MINISTER"
   | "PERMANENT_SECRETARY"
   | "JUDGE"
-  | "POLICE"
-  | "COMMISSIONER"
-  | "MUNICIPAL_DIRECTOR"
-  | "SPEAKER"
-  | "ANTI_CORRUPTION"
-  | "EMERGENCY";
+  // ── REGIONAL (Mkoa) ──
+  | "REGIONAL_COMMISSIONER"    // RC — political appointee, security mandate
+  | "REGIONAL_ADMIN_SECRETARY" // RAS — administrative, TAMISEMI chain
+  | "REGIONAL_POLICE_COMMANDER"
+  // ── DISTRICT / MUNICIPALITY / CITY (Wilaya / Manispaa / Jiji) ──
+  | "DISTRICT_COMMISSIONER"    // DC — political appointee
+  | "DISTRICT_EXECUTIVE_DIRECTOR" // DED — technical head of council
+  | "MUNICIPAL_MAYOR"          // Mayor/Chairman of municipality or city
+  | "DISTRICT_POLICE_COMMANDER"
+  // ── DIVISION (Tarafa) ──
+  | "DIVISION_OFFICER"         // DO — rarely contacted but officially exists
+  // ── WARD (Kata) ── most locally relevant
+  | "WARD_EXECUTIVE_OFFICER"   // WEO — appointed civil servant
+  | "WARD_COUNCILLOR"          // Elected representative
+  // ── VILLAGE / MTAA (Kijiji / Mtaa) ──
+  | "VILLAGE_EXECUTIVE_OFFICER" // VEO — appointed
+  | "VILLAGE_CHAIRMAN"         // Mwenyekiti — elected
+  // ── CROSS-CUTTING ──
+  | "ANTI_CORRUPTION"          // PCCB
+  | "EMERGENCY"
+  | "POLICE"                   // Generic police role (legacy)
+  | "MUNICIPAL_DIRECTOR"       // Legacy — kept for backward compat
+  | "COMMISSIONER";            // Keep for backward compat during migration — deprecate later
 
 export type VerifiedStatus = "VERIFIED" | "PENDING" | "UNVERIFIED" | "OUTDATED";
 
@@ -37,10 +58,14 @@ export interface OfficialContact {
 }
 
 export interface OfficialLocation {
-  region: string;
-  district: string;
-  constituency: string;
-  ward: string;
+  // Administrative chain (TAMISEMI)
+  region: string;           // Mkoa (e.g. "Dar es Salaam")
+  district: string;         // Wilaya/Manispaa (e.g. "Ilala")
+  division: string;         // Tarafa (e.g. "Ilala Urban") — often empty
+  ward: string;             // Kata (e.g. "Kariakoo") — most locally specific
+  village_mtaa: string;     // Kijiji/Mtaa — most granular, often empty
+  // Electoral chain (Bunge/Baraza)
+  constituency: string;     // Electoral constituency for MP mapping (e.g. "Ukonga")
 }
 
 export interface OfficialInstitution {
@@ -71,6 +96,8 @@ export interface Official {
 
 export const roleTypeLabels: Record<RoleType, string> = {
   PRESIDENT: "Head of State",
+  VICE_PRESIDENT: "Makamu wa Rais",
+  PRIME_MINISTER: "Waziri Mkuu",
   MP: "Member of Parliament",
   MINISTER: "Minister",
   DEPUTY_MINISTER: "Deputy Minister",
@@ -82,10 +109,24 @@ export const roleTypeLabels: Record<RoleType, string> = {
   SPEAKER: "Speaker of Parliament",
   ANTI_CORRUPTION: "Anti-Corruption (PCCB)",
   EMERGENCY: "Emergency Services",
+  REGIONAL_COMMISSIONER: "Mkuu wa Mkoa (RC)",
+  REGIONAL_ADMIN_SECRETARY: "Katibu Tawala wa Mkoa (RAS)",
+  REGIONAL_POLICE_COMMANDER: "Kamanda wa Polisi — Mkoa",
+  DISTRICT_COMMISSIONER: "Mkuu wa Wilaya (DC)",
+  DISTRICT_EXECUTIVE_DIRECTOR: "Mkurugenzi wa Halmashauri (DED)",
+  MUNICIPAL_MAYOR: "Meya / Mwenyekiti wa Manispaa",
+  DISTRICT_POLICE_COMMANDER: "Kamanda wa Polisi — Wilaya",
+  DIVISION_OFFICER: "Afisa Tarafa (DO)",
+  WARD_EXECUTIVE_OFFICER: "Mtendaji wa Kata (WEO)",
+  WARD_COUNCILLOR: "Diwani wa Kata",
+  VILLAGE_EXECUTIVE_OFFICER: "Mtendaji wa Kijiji (VEO)",
+  VILLAGE_CHAIRMAN: "Mwenyekiti wa Kijiji/Mtaa",
 };
 
 export const roleBadgeColors: Record<RoleType, string> = {
   PRESIDENT: "bg-primary/15 text-foreground border-primary/30",
+  VICE_PRESIDENT: "bg-primary/15 text-foreground border-primary/30",
+  PRIME_MINISTER: "bg-primary/15 text-foreground border-primary/30",
   MP: "bg-primary text-primary-foreground border-primary",
   MINISTER: "bg-yb-charcoal text-primary border-yb-charcoal",
   DEPUTY_MINISTER: "bg-yb-charcoal-mid text-white border-yb-charcoal-mid",
@@ -97,6 +138,18 @@ export const roleBadgeColors: Record<RoleType, string> = {
   SPEAKER: "bg-primary/15 text-foreground border-primary/30",
   ANTI_CORRUPTION: "bg-primary/15 text-foreground border-primary/30",
   EMERGENCY: "bg-destructive/15 text-destructive border-destructive/25",
+  REGIONAL_COMMISSIONER: "bg-yb-yellow-deep text-primary-foreground border-yb-yellow-deep",
+  REGIONAL_ADMIN_SECRETARY: "bg-secondary text-foreground border-border",
+  REGIONAL_POLICE_COMMANDER: "bg-yb-charcoal-dark text-primary border-yb-charcoal-dark",
+  DISTRICT_COMMISSIONER: "bg-yb-yellow-deep text-primary-foreground border-yb-yellow-deep",
+  DISTRICT_EXECUTIVE_DIRECTOR: "bg-secondary text-foreground border-border",
+  MUNICIPAL_MAYOR: "bg-primary/15 text-foreground border-primary/30",
+  DISTRICT_POLICE_COMMANDER: "bg-yb-charcoal-dark text-primary border-yb-charcoal-dark",
+  DIVISION_OFFICER: "bg-secondary text-foreground border-border",
+  WARD_EXECUTIVE_OFFICER: "bg-secondary text-foreground border-border",
+  WARD_COUNCILLOR: "bg-primary/15 text-foreground border-primary/30",
+  VILLAGE_EXECUTIVE_OFFICER: "bg-secondary text-foreground border-border",
+  VILLAGE_CHAIRMAN: "bg-primary/15 text-foreground border-primary/30",
 };
 
 // ============================================================
@@ -111,8 +164,10 @@ function mkOfficial(
   opts: {
     region?: string;
     district?: string;
+    division?: string;
     constituency?: string;
     ward?: string;
+    village_mtaa?: string;
     ministry?: string;
     court_name?: string;
     police_station?: string;
@@ -144,8 +199,10 @@ function mkOfficial(
     location: {
       region: opts.region || "",
       district: opts.district || "",
-      constituency: opts.constituency || "",
+      division: opts.division || "",
       ward: opts.ward || "",
+      village_mtaa: opts.village_mtaa || "",
+      constituency: opts.constituency || "",
     },
     institution: {
       ministry: opts.ministry || "",
@@ -231,44 +288,44 @@ const coreOfficials: Official[] = [
   mkOfficial("min-youth", "Joel Arthur Nanauka", "MINISTER", "Minister of Youth Development", { party: "CCM", email: "info@vijana.go.tz", ministry: "Ministry of Youth Development", office_address: "Ministry of Youth, Dodoma", verified: true, source: "vijana.go.tz" }),
 
   // ── REGIONAL COMMISSIONERS (All 31 Regions) ──
-  mkOfficial("rc-dsm", "Albert John Chalamila", "COMMISSIONER", "Regional Commissioner — Dar es Salaam", { region: "Dar es Salaam", phone: "+255-22-220-3158", email: "rc.dsm@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Dar es Salaam", verified: true, source: "dsm.go.tz" }),
-  mkOfficial("rc-dodoma", "Rosemary S. Senyamule", "COMMISSIONER", "Regional Commissioner — Dodoma", { region: "Dodoma", phone: "+255-26-232-4343", email: "rc.dodoma@tamisemi.go.tz", office_address: "Mkapa Building, Dodoma", verified: true, source: "dodoma.go.tz" }),
-  mkOfficial("rc-arusha", "Amos Gabriel Makalla", "COMMISSIONER", "Regional Commissioner — Arusha", { region: "Arusha", email: "rc.arusha@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Arusha", verified: true, source: "arusha.go.tz" }),
-  mkOfficial("rc-mwanza", "Said Mohamed Mtanda", "COMMISSIONER", "Regional Commissioner — Mwanza", { region: "Mwanza", email: "rc.mwanza@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mwanza", verified: true, source: "mwanza.go.tz" }),
-  mkOfficial("rc-tanga", "Dr. Batilda Burian", "COMMISSIONER", "Regional Commissioner — Tanga", { region: "Tanga", phone: "027-264-2421", email: "rc.tanga@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Tanga", verified: true, source: "tanga.go.tz" }),
-  mkOfficial("rc-kilimanjaro", "Nurdin Hassan Babu", "COMMISSIONER", "Regional Commissioner — Kilimanjaro", { region: "Kilimanjaro", email: "rc.kilimanjaro@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Moshi", verified: true, source: "kilimanjaro.go.tz" }),
-  mkOfficial("rc-mbeya", "Beno Moris Malisa", "COMMISSIONER", "Regional Commissioner — Mbeya", { region: "Mbeya", email: "rc.mbeya@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mbeya", verified: true, source: "mbeya.go.tz" }),
-  mkOfficial("rc-morogoro", "Adam Kighoma Malima", "COMMISSIONER", "Regional Commissioner — Morogoro", { region: "Morogoro", email: "rc.morogoro@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Morogoro", verified: true, source: "morogoro.go.tz" }),
-  mkOfficial("rc-kagera", "Col. Yahya Ramadhani Kido", "COMMISSIONER", "Regional Commissioner — Kagera", { region: "Kagera", email: "rc.kagera@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Bukoba", verified: true, source: "kagera.go.tz" }),
-  mkOfficial("rc-pwani", "Abubakar Mussa Kunenge", "COMMISSIONER", "Regional Commissioner — Pwani", { region: "Pwani", email: "rc.pwani@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Kibaha", verified: true, source: "pwani.go.tz" }),
-  mkOfficial("rc-iringa", "Kheri Denice James", "COMMISSIONER", "Regional Commissioner — Iringa", { region: "Iringa", email: "rc.iringa@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Iringa", verified: true, source: "iringa.go.tz" }),
-  mkOfficial("rc-mtwara", "Col. Donald Msengi", "COMMISSIONER", "Regional Commissioner — Mtwara", { region: "Mtwara", email: "rc.mtwara@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mtwara", verified: true, source: "mtwara.go.tz" }),
-  mkOfficial("rc-manyara", "Queen Cuthbert Sendiga", "COMMISSIONER", "Regional Commissioner — Manyara", { region: "Manyara", email: "rc.manyara@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Babati", verified: true, source: "manyara.go.tz" }),
-  mkOfficial("rc-rukwa", "Charles Makongoro Nyerere", "COMMISSIONER", "Regional Commissioner — Rukwa", { region: "Rukwa", email: "rc.rukwa@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Sumbawanga", verified: true, source: "rukwa.go.tz" }),
-  mkOfficial("rc-lindi", "Abdulrahman Khamis Mteza", "COMMISSIONER", "Regional Commissioner — Lindi", { region: "Lindi", email: "rc.lindi@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Lindi", source: "TAMISEMI" }),
-  mkOfficial("rc-singida", "Dr. Binilith Satano Mahenge", "COMMISSIONER", "Regional Commissioner — Singida", { region: "Singida", email: "rc.singida@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Singida", verified: true, source: "singida.go.tz" }),
-  mkOfficial("rc-tabora", "Dr. Rashid Aboud Chuachua", "COMMISSIONER", "Regional Commissioner — Tabora", { region: "Tabora", email: "rc.tabora@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Tabora", verified: true, source: "tabora.go.tz" }),
-  mkOfficial("rc-kigoma", "Thobia Kijaro", "COMMISSIONER", "Regional Commissioner — Kigoma", { region: "Kigoma", email: "rc.kigoma@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Kigoma", verified: true, source: "kigoma.go.tz" }),
-  mkOfficial("rc-shinyanga", "Zainab Telack", "COMMISSIONER", "Regional Commissioner — Shinyanga", { region: "Shinyanga", email: "rc.shinyanga@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Shinyanga", source: "TAMISEMI" }),
-  mkOfficial("rc-geita", "Robert Sobukwa Gabriel", "COMMISSIONER", "Regional Commissioner — Geita", { region: "Geita", email: "rc.geita@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Geita", source: "TAMISEMI" }),
-  mkOfficial("rc-simiyu", "Dr. Angelina Mabula", "COMMISSIONER", "Regional Commissioner — Simiyu", { region: "Simiyu", email: "rc.simiyu@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Bariadi", verified: true, source: "simiyu.go.tz" }),
-  mkOfficial("rc-njombe", "Renatus Mdudula", "COMMISSIONER", "Regional Commissioner — Njombe", { region: "Njombe", email: "rc.njombe@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Njombe", verified: true, source: "njombe.go.tz" }),
-  mkOfficial("rc-katavi", "Dr. Mary Nagu Mwanjelwa", "COMMISSIONER", "Regional Commissioner — Katavi", { region: "Katavi", email: "rc.katavi@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mpanda", verified: true, source: "katavi.go.tz" }),
-  mkOfficial("rc-ruvuma", "Dr. Pindi Chana", "COMMISSIONER", "Regional Commissioner — Ruvuma", { region: "Ruvuma", email: "rc.ruvuma@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Songea", verified: true, source: "ruvuma.go.tz" }),
-  mkOfficial("rc-songwe", "Dr. Margreth Ikongwe Sitta", "COMMISSIONER", "Regional Commissioner — Songwe", { region: "Songwe", email: "rc.songwe@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Vwawa", source: "TAMISEMI" }),
-  mkOfficial("rc-mara", "Col. Idd Hussein Kimanta", "COMMISSIONER", "Regional Commissioner — Mara", { region: "Mara", email: "rc.mara@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Musoma", source: "TAMISEMI" }),
+  mkOfficial("rc-dsm", "Albert John Chalamila", "REGIONAL_COMMISSIONER", "Regional Commissioner — Dar es Salaam", { region: "Dar es Salaam", phone: "+255-22-220-3158", email: "rc.dsm@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Dar es Salaam", verified: true, source: "dsm.go.tz" }),
+  mkOfficial("rc-dodoma", "Rosemary S. Senyamule", "REGIONAL_COMMISSIONER", "Regional Commissioner — Dodoma", { region: "Dodoma", phone: "+255-26-232-4343", email: "rc.dodoma@tamisemi.go.tz", office_address: "Mkapa Building, Dodoma", verified: true, source: "dodoma.go.tz" }),
+  mkOfficial("rc-arusha", "Amos Gabriel Makalla", "REGIONAL_COMMISSIONER", "Regional Commissioner — Arusha", { region: "Arusha", email: "rc.arusha@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Arusha", verified: true, source: "arusha.go.tz" }),
+  mkOfficial("rc-mwanza", "Said Mohamed Mtanda", "REGIONAL_COMMISSIONER", "Regional Commissioner — Mwanza", { region: "Mwanza", email: "rc.mwanza@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mwanza", verified: true, source: "mwanza.go.tz" }),
+  mkOfficial("rc-tanga", "Dr. Batilda Burian", "REGIONAL_COMMISSIONER", "Regional Commissioner — Tanga", { region: "Tanga", phone: "027-264-2421", email: "rc.tanga@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Tanga", verified: true, source: "tanga.go.tz" }),
+  mkOfficial("rc-kilimanjaro", "Nurdin Hassan Babu", "REGIONAL_COMMISSIONER", "Regional Commissioner — Kilimanjaro", { region: "Kilimanjaro", email: "rc.kilimanjaro@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Moshi", verified: true, source: "kilimanjaro.go.tz" }),
+  mkOfficial("rc-mbeya", "Beno Moris Malisa", "REGIONAL_COMMISSIONER", "Regional Commissioner — Mbeya", { region: "Mbeya", email: "rc.mbeya@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mbeya", verified: true, source: "mbeya.go.tz" }),
+  mkOfficial("rc-morogoro", "Adam Kighoma Malima", "REGIONAL_COMMISSIONER", "Regional Commissioner — Morogoro", { region: "Morogoro", email: "rc.morogoro@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Morogoro", verified: true, source: "morogoro.go.tz" }),
+  mkOfficial("rc-kagera", "Col. Yahya Ramadhani Kido", "REGIONAL_COMMISSIONER", "Regional Commissioner — Kagera", { region: "Kagera", email: "rc.kagera@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Bukoba", verified: true, source: "kagera.go.tz" }),
+  mkOfficial("rc-pwani", "Abubakar Mussa Kunenge", "REGIONAL_COMMISSIONER", "Regional Commissioner — Pwani", { region: "Pwani", email: "rc.pwani@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Kibaha", verified: true, source: "pwani.go.tz" }),
+  mkOfficial("rc-iringa", "Kheri Denice James", "REGIONAL_COMMISSIONER", "Regional Commissioner — Iringa", { region: "Iringa", email: "rc.iringa@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Iringa", verified: true, source: "iringa.go.tz" }),
+  mkOfficial("rc-mtwara", "Col. Donald Msengi", "REGIONAL_COMMISSIONER", "Regional Commissioner — Mtwara", { region: "Mtwara", email: "rc.mtwara@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mtwara", verified: true, source: "mtwara.go.tz" }),
+  mkOfficial("rc-manyara", "Queen Cuthbert Sendiga", "REGIONAL_COMMISSIONER", "Regional Commissioner — Manyara", { region: "Manyara", email: "rc.manyara@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Babati", verified: true, source: "manyara.go.tz" }),
+  mkOfficial("rc-rukwa", "Charles Makongoro Nyerere", "REGIONAL_COMMISSIONER", "Regional Commissioner — Rukwa", { region: "Rukwa", email: "rc.rukwa@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Sumbawanga", verified: true, source: "rukwa.go.tz" }),
+  mkOfficial("rc-lindi", "Abdulrahman Khamis Mteza", "REGIONAL_COMMISSIONER", "Regional Commissioner — Lindi", { region: "Lindi", email: "rc.lindi@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Lindi", source: "TAMISEMI" }),
+  mkOfficial("rc-singida", "Dr. Binilith Satano Mahenge", "REGIONAL_COMMISSIONER", "Regional Commissioner — Singida", { region: "Singida", email: "rc.singida@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Singida", verified: true, source: "singida.go.tz" }),
+  mkOfficial("rc-tabora", "Dr. Rashid Aboud Chuachua", "REGIONAL_COMMISSIONER", "Regional Commissioner — Tabora", { region: "Tabora", email: "rc.tabora@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Tabora", verified: true, source: "tabora.go.tz" }),
+  mkOfficial("rc-kigoma", "Thobia Kijaro", "REGIONAL_COMMISSIONER", "Regional Commissioner — Kigoma", { region: "Kigoma", email: "rc.kigoma@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Kigoma", verified: true, source: "kigoma.go.tz" }),
+  mkOfficial("rc-shinyanga", "Zainab Telack", "REGIONAL_COMMISSIONER", "Regional Commissioner — Shinyanga", { region: "Shinyanga", email: "rc.shinyanga@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Shinyanga", source: "TAMISEMI" }),
+  mkOfficial("rc-geita", "Robert Sobukwa Gabriel", "REGIONAL_COMMISSIONER", "Regional Commissioner — Geita", { region: "Geita", email: "rc.geita@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Geita", source: "TAMISEMI" }),
+  mkOfficial("rc-simiyu", "Dr. Angelina Mabula", "REGIONAL_COMMISSIONER", "Regional Commissioner — Simiyu", { region: "Simiyu", email: "rc.simiyu@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Bariadi", verified: true, source: "simiyu.go.tz" }),
+  mkOfficial("rc-njombe", "Renatus Mdudula", "REGIONAL_COMMISSIONER", "Regional Commissioner — Njombe", { region: "Njombe", email: "rc.njombe@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Njombe", verified: true, source: "njombe.go.tz" }),
+  mkOfficial("rc-katavi", "Dr. Mary Nagu Mwanjelwa", "REGIONAL_COMMISSIONER", "Regional Commissioner — Katavi", { region: "Katavi", email: "rc.katavi@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mpanda", verified: true, source: "katavi.go.tz" }),
+  mkOfficial("rc-ruvuma", "Dr. Pindi Chana", "REGIONAL_COMMISSIONER", "Regional Commissioner — Ruvuma", { region: "Ruvuma", email: "rc.ruvuma@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Songea", verified: true, source: "ruvuma.go.tz" }),
+  mkOfficial("rc-songwe", "Dr. Margreth Ikongwe Sitta", "REGIONAL_COMMISSIONER", "Regional Commissioner — Songwe", { region: "Songwe", email: "rc.songwe@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Vwawa", source: "TAMISEMI" }),
+  mkOfficial("rc-mara", "Col. Idd Hussein Kimanta", "REGIONAL_COMMISSIONER", "Regional Commissioner — Mara", { region: "Mara", email: "rc.mara@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Musoma", source: "TAMISEMI" }),
 
   // ── DSM DISTRICT COMMISSIONERS ──
-  mkOfficial("dc-ilala", "Sophia Mjema", "COMMISSIONER", "District Commissioner — Ilala", { region: "Dar es Salaam", district: "Ilala", email: "dc.ilala@tamisemi.go.tz", office_address: "District Commissioner's Office, Ilala", verified: true, source: "ilalamc.go.tz" }),
-  mkOfficial("dc-kinondoni", "Albert Chalamila Jr.", "COMMISSIONER", "District Commissioner — Kinondoni", { region: "Dar es Salaam", district: "Kinondoni", email: "dc.kinondoni@tamisemi.go.tz", office_address: "District Commissioner's Office, Kinondoni", source: "kinondonmc.go.tz" }),
-  mkOfficial("dc-temeke", "Jokate Mwegelo", "COMMISSIONER", "District Commissioner — Temeke", { region: "Dar es Salaam", district: "Temeke", email: "dc.temeke@tamisemi.go.tz", office_address: "District Commissioner's Office, Temeke", verified: true, source: "temekemc.go.tz" }),
-  mkOfficial("dc-ubungo", "Anne Kilango Malecela", "COMMISSIONER", "District Commissioner — Ubungo", { region: "Dar es Salaam", district: "Ubungo", email: "dc.ubungo@tamisemi.go.tz", office_address: "District Commissioner's Office, Ubungo", source: "ubungomc.go.tz" }),
-  mkOfficial("dc-kigamboni", "John Osmund Nchimbi", "COMMISSIONER", "District Commissioner — Kigamboni", { region: "Dar es Salaam", district: "Kigamboni", email: "dc.kigamboni@tamisemi.go.tz", office_address: "District Commissioner's Office, Kigamboni", source: "kigambonimc.go.tz" }),
+  mkOfficial("dc-ilala", "Sophia Mjema", "DISTRICT_COMMISSIONER", "District Commissioner — Ilala", { region: "Dar es Salaam", district: "Ilala", email: "dc.ilala@tamisemi.go.tz", office_address: "District Commissioner's Office, Ilala", verified: true, source: "ilalamc.go.tz" }),
+  mkOfficial("dc-kinondoni", "Albert Chalamila Jr.", "DISTRICT_COMMISSIONER", "District Commissioner — Kinondoni", { region: "Dar es Salaam", district: "Kinondoni", email: "dc.kinondoni@tamisemi.go.tz", office_address: "District Commissioner's Office, Kinondoni", source: "kinondonmc.go.tz" }),
+  mkOfficial("dc-temeke", "Jokate Mwegelo", "DISTRICT_COMMISSIONER", "District Commissioner — Temeke", { region: "Dar es Salaam", district: "Temeke", email: "dc.temeke@tamisemi.go.tz", office_address: "District Commissioner's Office, Temeke", verified: true, source: "temekemc.go.tz" }),
+  mkOfficial("dc-ubungo", "Anne Kilango Malecela", "DISTRICT_COMMISSIONER", "District Commissioner — Ubungo", { region: "Dar es Salaam", district: "Ubungo", email: "dc.ubungo@tamisemi.go.tz", office_address: "District Commissioner's Office, Ubungo", source: "ubungomc.go.tz" }),
+  mkOfficial("dc-kigamboni", "John Osmund Nchimbi", "DISTRICT_COMMISSIONER", "District Commissioner — Kigamboni", { region: "Dar es Salaam", district: "Kigamboni", email: "dc.kigamboni@tamisemi.go.tz", office_address: "District Commissioner's Office, Kigamboni", source: "kigambonimc.go.tz" }),
 
   // ── RAS ──
-  mkOfficial("ras-dsm", "Abdul Rajab Mhinte", "COMMISSIONER", "Regional Administrative Secretary — Dar es Salaam", { region: "Dar es Salaam", phone: "+255-22-220-3156", email: "ras@dsm.go.tz", office_address: "Regional Commissioner's Office, Dar es Salaam", verified: true, source: "dsm.go.tz" }),
-  mkOfficial("ras-arusha", "Missaile Albano Musa", "COMMISSIONER", "Regional Administrative Secretary — Arusha", { region: "Arusha", email: "ras.arusha@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Arusha", verified: true, source: "arusha.go.tz" }),
-  mkOfficial("ras-mwanza", "Balandya Mayuganya Elikana", "COMMISSIONER", "Regional Administrative Secretary — Mwanza", { region: "Mwanza", email: "ras.mwanza@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mwanza", verified: true, source: "mwanza.go.tz" }),
+  mkOfficial("ras-dsm", "Abdul Rajab Mhinte", "REGIONAL_ADMIN_SECRETARY", "Regional Administrative Secretary — Dar es Salaam", { region: "Dar es Salaam", phone: "+255-22-220-3156", email: "ras@dsm.go.tz", office_address: "Regional Commissioner's Office, Dar es Salaam", verified: true, source: "dsm.go.tz" }),
+  mkOfficial("ras-arusha", "Missaile Albano Musa", "REGIONAL_ADMIN_SECRETARY", "Regional Administrative Secretary — Arusha", { region: "Arusha", email: "ras.arusha@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Arusha", verified: true, source: "arusha.go.tz" }),
+  mkOfficial("ras-mwanza", "Balandya Mayuganya Elikana", "REGIONAL_ADMIN_SECRETARY", "Regional Administrative Secretary — Mwanza", { region: "Mwanza", email: "ras.mwanza@tamisemi.go.tz", office_address: "Regional Commissioner's Office, Mwanza", verified: true, source: "mwanza.go.tz" }),
 
   // ── JUDGES ──
   mkOfficial("judge-dsm", "Resident Judge — Dar es Salaam", "JUDGE", "Resident Judge — High Court", { region: "Dar es Salaam", phone: "+255-22-211-2758", email: "hc.dsm@judiciary.go.tz", office_address: "High Court, Dar es Salaam", court_name: "High Court, Dar es Salaam", verified: true, source: "judiciary.go.tz" }),
@@ -368,18 +425,30 @@ export function getOfficialsByRole(role: RoleType): Official[] {
   return officials.filter((o) => o.role_type === role);
 }
 
-/** Get "Your Officials" for a region+district */
-export function getYourOfficials(region: string, district?: string): Official[] {
+/** Get "Your Officials" for a region+district+ward */
+export function getYourOfficials(region: string, district?: string, ward?: string): Official[] {
   const result: Official[] = [];
-  
+
   // RC
-  const rc = officials.find((o) => o.location.region === region && o.role_type === "COMMISSIONER" && o.role_title.includes("Regional Commissioner"));
+  const rc = officials.find((o) => o.location.region === region && o.role_type === "REGIONAL_COMMISSIONER");
   if (rc) result.push(rc);
+
+  // RAS
+  const ras = officials.find((o) => o.location.region === region && o.role_type === "REGIONAL_ADMIN_SECRETARY");
+  if (ras) result.push(ras);
 
   // DC
   if (district) {
-    const dc = officials.find((o) => o.location.region === region && o.location.district === district && o.role_type === "COMMISSIONER" && o.role_title.includes("District Commissioner"));
+    const dc = officials.find((o) => o.location.region === region && o.location.district === district && o.role_type === "DISTRICT_COMMISSIONER");
     if (dc) result.push(dc);
+  }
+
+  // WEO + Ward Councillor
+  if (ward) {
+    const weo = officials.find((o) => o.location.ward === ward && o.role_type === "WARD_EXECUTIVE_OFFICER");
+    if (weo) result.push(weo);
+    const councillor = officials.find((o) => o.location.ward === ward && o.role_type === "WARD_COUNCILLOR");
+    if (councillor) result.push(councillor);
   }
 
   // MPs
@@ -402,10 +471,6 @@ export function getYourOfficials(region: string, district?: string): Official[] 
   // Judge
   const judge = officials.find((o) => o.location.region === region && o.role_type === "JUDGE");
   if (judge) result.push(judge);
-
-  // RAS
-  const ras = officials.find((o) => o.location.region === region && o.role_type === "COMMISSIONER" && o.role_title.includes("Administrative Secretary"));
-  if (ras) result.push(ras);
 
   // TAMISEMI Minister
   const tamisemi = officials.find((o) => o.role_type === "MINISTER" && o.institution.ministry === "TAMISEMI");
