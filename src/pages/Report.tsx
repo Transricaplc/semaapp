@@ -10,6 +10,7 @@ import { type ReportCategory, categoryLabels } from "@/data/reports";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useVoiceInput } from "@/hooks/useVoiceInput";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Report() {
   const { t, lang } = useLanguage();
