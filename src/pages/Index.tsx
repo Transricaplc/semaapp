@@ -57,45 +57,45 @@ export default function Index() {
   return (
     <div className="animate-fade-in">
       {/* ── HERO ── */}
-      <section className="bg-yb-charcoal py-16 md:py-24 relative overflow-hidden min-h-[420px] flex items-center">
+      <section className="bg-yb-charcoal py-6 md:py-24 relative overflow-hidden md:min-h-[420px] flex items-center">
         <KilimanjaroHero />
         <div className="max-w-[1200px] mx-auto px-4 relative z-10 text-center max-w-3xl">
           {/* Tanzanian accent strip */}
-          <div className="flex gap-0 w-20 h-1 mx-auto mb-6 rounded-full overflow-hidden">
+          <div className="flex gap-0 w-20 h-1 mx-auto mb-3 md:mb-6 rounded-full overflow-hidden">
             <div className="flex-1 bg-[hsl(var(--tz-green))]" />
             <div className="flex-1 bg-[hsl(var(--tz-yellow))]" />
             <div className="flex-1 bg-[hsl(var(--tz-black))]" />
           </div>
 
-          <p style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-4">SAUTI YA MWANANCHI</p>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-2 md:mb-4">SAUTI YA MWANANCHI</p>
 
-          <h1 style={{ fontFamily: "'Sora', sans-serif" }} className="text-[32px] md:text-[48px] font-extrabold text-white mb-5 leading-[1.1] tracking-tight">
+          <h1 style={{ fontFamily: "'Sora', sans-serif" }} className="text-[26px] md:text-[48px] font-extrabold text-white mb-2 md:mb-5 leading-[1.1] tracking-tight">
             Fikia Kiongozi Wako{" "}
             <br className="hidden md:block" />
             <span className="text-primary">Moja kwa Moja</span>
           </h1>
-          <p className="text-[15px] md:text-[17px] text-yb-charcoal-muted mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-[13px] md:text-[17px] text-yb-charcoal-muted mb-4 md:mb-10 max-w-xl mx-auto leading-relaxed">
             Saraka ya kweli ya watumishi wa umma Tanzania — bila foleni, bila kizuizi.
           </p>
 
           <GlobalSearch />
 
           {/* Quick category cards */}
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-8 max-w-2xl mx-auto">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-4 md:mt-8 max-w-2xl mx-auto">
             {quickCategories.map((cat) => (
               <Link
                 key={cat.label}
                 to={cat.to}
-                className="flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl border border-primary/25 bg-yb-charcoal-mid/60 hover:bg-primary/15 hover:border-primary/60 transition-all text-center min-h-[64px] active:scale-95"
+                className="flex flex-col items-center gap-1 px-2 py-2 md:py-3 rounded-xl border border-primary/25 bg-yb-charcoal-mid/60 hover:bg-primary/15 hover:border-primary/60 transition-all text-center min-h-[52px] md:min-h-[64px] active:scale-95"
               >
-                <span className="text-xl">{cat.label.split(" ")[0]}</span>
-                <span className="text-[11px] font-medium text-white/80">{cat.label.split(" ").slice(1).join(" ")}</span>
+                <span className="text-lg md:text-xl">{cat.label.split(" ")[0]}</span>
+                <span className="text-[10px] md:text-[11px] font-medium text-white/80 leading-tight">{cat.label.split(" ").slice(1).join(" ")}</span>
               </Link>
             ))}
           </div>
 
           {/* Social proof */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8 text-[13px] text-yb-charcoal-muted">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-3 md:mt-8 text-[12px] md:text-[13px] text-yb-charcoal-muted">
             <span className="flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5 text-[hsl(var(--tz-green))]" />
               Viongozi {directoryStats.totalOfficials}+

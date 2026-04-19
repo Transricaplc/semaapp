@@ -19,7 +19,7 @@ export default function OfficialCard({ official }: { official: Official }) {
     <div className="yb-card overflow-hidden">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-4 p-4 md:p-5 text-left min-h-[72px]"
+        className="w-full flex items-center gap-3 p-3 md:p-5 text-left min-h-[64px] md:min-h-[72px]"
       >
         <div className="official-avatar">
           {official.profile_photo_url ? (
