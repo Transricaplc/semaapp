@@ -95,7 +95,7 @@ export default function Index() {
           </div>
 
           {/* Social proof */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8 text-[13px] text-yb-charcoal-muted">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-3 md:mt-8 text-[12px] md:text-[13px] text-yb-charcoal-muted">
             <span className="flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5 text-[hsl(var(--tz-green))]" />
               Viongozi {directoryStats.totalOfficials}+
