@@ -203,7 +203,7 @@ export default function GlobalSearch() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => setFocused(true)}
-          className="w-full pl-12 pr-10 h-14 bg-card text-foreground border border-border rounded-2xl text-base shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 placeholder:text-muted-foreground/60"
+          className="w-full pl-12 pr-12 h-14 bg-yb-charcoal-mid text-white border border-white/10 rounded-2xl text-[15px] shadow-xl focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary/50 placeholder:text-white/35 transition-all"
         />
         {query ? (
           <button
@@ -235,8 +235,8 @@ export default function GlobalSearch() {
             onClick={() => { setActiveMode(chip.mode); inputRef.current?.focus(); }}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all border ${
               activeMode === chip.mode
-                ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                : "bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground"
+                ? "bg-primary text-primary-foreground border-primary shadow-sm font-semibold"
+                : "bg-yb-charcoal-soft/60 text-white/60 border-white/10 hover:border-primary/40 hover:text-white"
             }`}
           >
             {chip.icon}
@@ -276,7 +276,7 @@ export default function GlobalSearch() {
 
       {/* Search results */}
       {showResults && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-fade-in">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-card border border-border/60 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.18)] z-50 overflow-hidden animate-fade-in">
           {totalResults > 0 ? (
             <>
               <div className="px-4 py-2.5 border-b border-border/50 flex items-center justify-between">
@@ -382,7 +382,9 @@ export default function GlobalSearch() {
             </>
           ) : (
             <div className="p-6 text-center">
-              <User className="w-10 h-10 mx-auto text-muted-foreground/40 mb-2" />
+              <div className="w-14 h-14 rounded-2xl bg-primary/8 flex items-center justify-center mx-auto mb-3 border border-primary/15">
+                <Search className="w-7 h-7 text-primary/60" />
+              </div>
               <p className="text-sm font-medium text-foreground">No results found</p>
               <p className="text-xs text-muted-foreground mt-1 mb-3">
                 "{query}" was not found in the system

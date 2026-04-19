@@ -62,19 +62,19 @@ export default function Index() {
         <div className="max-w-[1200px] mx-auto px-4 relative z-10 text-center max-w-3xl">
           {/* Tanzanian accent strip */}
           <div className="flex gap-0 w-20 h-1 mx-auto mb-6 rounded-full overflow-hidden">
-            <div className="flex-1 bg-[#E30613]" />
-            <div className="flex-1 bg-[#FFCC00]" />
-            <div className="flex-1 bg-[#006600]" />
+            <div className="flex-1 bg-[hsl(var(--tz-green))]" />
+            <div className="flex-1 bg-[hsl(var(--tz-yellow))]" />
+            <div className="flex-1 bg-[hsl(var(--tz-black))]" />
           </div>
 
-          <p className="text-primary text-[10px] font-bold uppercase tracking-[0.15em] mb-4">SAUTI YA MWANANCHI</p>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-4">SAUTI YA MWANANCHI</p>
 
-          <h1 className="text-[32px] md:text-[48px] font-extrabold text-white mb-5 leading-[1.1]">
+          <h1 style={{ fontFamily: "'Sora', sans-serif" }} className="text-[32px] md:text-[48px] font-extrabold text-white mb-5 leading-[1.1] tracking-tight">
             Fikia Kiongozi Wako{" "}
             <br className="hidden md:block" />
             <span className="text-primary">Moja kwa Moja</span>
           </h1>
-          <p className="text-[15px] md:text-[16px] text-yb-charcoal-muted mb-10 max-w-xl mx-auto">
+          <p className="text-[15px] md:text-[17px] text-yb-charcoal-muted mb-10 max-w-xl mx-auto leading-relaxed">
             Saraka ya kweli ya watumishi wa umma Tanzania — bila foleni, bila kizuizi.
           </p>
 
@@ -86,7 +86,7 @@ export default function Index() {
               <Link
                 key={cat.label}
                 to={cat.to}
-                className="flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl border border-primary/20 bg-yb-charcoal-mid/50 hover:bg-primary/10 hover:border-primary/40 transition-all text-center min-h-[64px]"
+                className="flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl border border-primary/25 bg-yb-charcoal-mid/60 hover:bg-primary/15 hover:border-primary/60 transition-all text-center min-h-[64px] active:scale-95"
               >
                 <span className="text-xl">{cat.label.split(" ")[0]}</span>
                 <span className="text-[11px] font-medium text-white/80">{cat.label.split(" ").slice(1).join(" ")}</span>
@@ -97,17 +97,17 @@ export default function Index() {
           {/* Social proof */}
           <div className="flex flex-wrap items-center justify-center gap-4 mt-8 text-[13px] text-yb-charcoal-muted">
             <span className="flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-accent" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[hsl(var(--tz-green))]" />
               Viongozi {directoryStats.totalOfficials}+
             </span>
             <span>·</span>
             <span className="flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-accent" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[hsl(var(--tz-green))]" />
               Mikoa 31
             </span>
             <span>·</span>
             <span className="flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-accent" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-[hsl(var(--tz-green))]" />
               Imethibitishwa
             </span>
           </div>
@@ -176,7 +176,7 @@ export default function Index() {
                 <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-card border border-border ${stat.color} mb-3`}>
                   <stat.icon className="w-6 h-6" />
                 </div>
-                <div className="text-[20px] md:text-[24px] font-bold text-foreground">{stat.value}</div>
+                <div style={{ fontFamily: "'Sora', sans-serif" }} className="text-[24px] md:text-[28px] font-bold text-foreground">{stat.value}</div>
                 <div className="text-[15px] font-medium text-foreground mt-0.5">{stat.label}</div>
                 <div className="text-[13px] text-muted-foreground">{stat.sub}</div>
               </div>

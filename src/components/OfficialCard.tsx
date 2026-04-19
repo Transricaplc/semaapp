@@ -21,7 +21,7 @@ export default function OfficialCard({ official }: { official: Official }) {
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center gap-4 p-4 md:p-5 text-left min-h-[72px]"
       >
-        <div className="w-14 h-14 rounded-xl bg-yb-charcoal-mid flex items-center justify-center shrink-0">
+        <div className="official-avatar">
           {official.profile_photo_url ? (
             <img src={official.profile_photo_url} alt={official.full_name} className="w-full h-full rounded-xl object-cover" />
           ) : (
@@ -31,11 +31,11 @@ export default function OfficialCard({ official }: { official: Official }) {
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
-            <h3 className="font-heading text-h3 text-foreground truncate">{official.full_name}</h3>
+            <h3 style={{ fontFamily: "'Sora', sans-serif" }} className="font-heading text-[16px] font-bold text-foreground truncate">{official.full_name}</h3>
             {verifiedStatusBadge(official.verified_status)}
           </div>
-          <p className="text-meta font-body text-muted-foreground truncate">{official.role_title}</p>
-          <div className="flex flex-wrap items-center gap-2 mt-1.5">
+          <p className="text-[13px] text-muted-foreground truncate mt-0.5 leading-snug">{official.role_title}</p>
+          <div className="flex flex-wrap items-center gap-1.5 mt-2">
             <span className={`text-badge badge-role px-2 py-0.5 rounded-md border ${roleBadgeColors[official.role_type]}`}>
               {roleTypeLabels[official.role_type]}
             </span>
@@ -57,10 +57,10 @@ export default function OfficialCard({ official }: { official: Official }) {
       </button>
 
       {expanded && (
-        <div className="px-4 md:px-5 pb-4 pt-1 border-t border-border/50 animate-fade-in space-y-2">
+        <div className="px-4 md:px-5 pb-5 pt-3 border-t border-border/40 animate-fade-in space-y-2 bg-secondary/30">
           <p className="text-badge badge-role text-muted-foreground mb-2">Secure Actions</p>
 
-          <button className="w-full flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 text-foreground hover:bg-primary/15 transition-colors text-left min-h-[48px]">
+          <button className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/10 text-foreground hover:bg-primary/15 transition-colors text-left min-h-[48px] border border-primary/15">
             <Send className="w-4 h-4 text-primary shrink-0" />
             <div>
               <p className="font-body font-medium text-meta">Send Direct Message</p>
@@ -70,7 +70,7 @@ export default function OfficialCard({ official }: { official: Official }) {
 
           <Link
             to="/report"
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-lg bg-accent/10 text-foreground hover:bg-accent/15 transition-colors text-left min-h-[48px]"
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-accent/10 text-foreground hover:bg-accent/15 transition-colors text-left min-h-[48px] border border-accent/15"
           >
             <Tag className="w-4 h-4 text-accent shrink-0" />
             <div>
@@ -84,7 +84,7 @@ export default function OfficialCard({ official }: { official: Official }) {
               const text = `🇹🇿 ${official.full_name}\n📌 ${official.role_title}${official.location.region ? `\n📍 ${official.location.region}` : ""}\n\n— Sema Yellow Book`;
               window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
             }}
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-lg bg-accent/10 text-foreground hover:bg-accent/15 transition-colors text-left min-h-[48px]"
+            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-[hsl(var(--tz-green))]/10 text-foreground hover:bg-[hsl(var(--tz-green))]/15 transition-colors text-left min-h-[48px] border border-[hsl(var(--tz-green))]/15"
           >
             <Share2 className="w-4 h-4 text-accent shrink-0" />
             <div>
