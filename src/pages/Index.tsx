@@ -61,20 +61,20 @@ export default function Index() {
         <KilimanjaroHero />
         <div className="max-w-[1200px] mx-auto px-4 relative z-10 text-center max-w-3xl">
           {/* Tanzanian accent strip */}
-          <div className="flex gap-0 w-20 h-1 mx-auto mb-6 rounded-full overflow-hidden">
+          <div className="flex gap-0 w-20 h-1 mx-auto mb-3 md:mb-6 rounded-full overflow-hidden">
             <div className="flex-1 bg-[hsl(var(--tz-green))]" />
             <div className="flex-1 bg-[hsl(var(--tz-yellow))]" />
             <div className="flex-1 bg-[hsl(var(--tz-black))]" />
           </div>
 
-          <p style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-4">SAUTI YA MWANANCHI</p>
+          <p style={{ fontFamily: "'JetBrains Mono', monospace" }} className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-2 md:mb-4">SAUTI YA MWANANCHI</p>
 
-          <h1 style={{ fontFamily: "'Sora', sans-serif" }} className="text-[32px] md:text-[48px] font-extrabold text-white mb-5 leading-[1.1] tracking-tight">
+          <h1 style={{ fontFamily: "'Sora', sans-serif" }} className="text-[26px] md:text-[48px] font-extrabold text-white mb-2 md:mb-5 leading-[1.1] tracking-tight">
             Fikia Kiongozi Wako{" "}
             <br className="hidden md:block" />
             <span className="text-primary">Moja kwa Moja</span>
           </h1>
-          <p className="text-[15px] md:text-[17px] text-yb-charcoal-muted mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-[13px] md:text-[17px] text-yb-charcoal-muted mb-4 md:mb-10 max-w-xl mx-auto leading-relaxed">
             Saraka ya kweli ya watumishi wa umma Tanzania — bila foleni, bila kizuizi.
           </p>
 
