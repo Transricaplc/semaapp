@@ -765,12 +765,19 @@ function generateMPOfficials(): Official[] {
 // MERGE ALL — Single unified array (dedup by ID)
 // ============================================================
 
-const allGenerated = [...generatePoliceOfficials(), ...generateMPOfficials()];
+// Order matters: coreOfficials first (current reshuffle wins on ID conflict),
+// then jan2022Cabinet (historical baseline), then scaffolded MPs, then generated MPs/PCCB.
+const allExtra = [
+  ...jan2022Cabinet,
+  ...tanzaniaMPs,
+  ...generatePoliceOfficials(),
+  ...generateMPOfficials(),
+];
 const idSet = new Set(coreOfficials.map((o) => o.id));
 
 export const officials: Official[] = [
   ...coreOfficials,
-  ...allGenerated.filter((o) => {
+  ...allExtra.filter((o) => {
     if (idSet.has(o.id)) return false;
     idSet.add(o.id);
     return true;
