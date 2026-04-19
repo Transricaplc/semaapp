@@ -58,10 +58,14 @@ export interface OfficialContact {
 }
 
 export interface OfficialLocation {
-  region: string;
-  district: string;
-  constituency: string;
-  ward: string;
+  // Administrative chain (TAMISEMI)
+  region: string;           // Mkoa (e.g. "Dar es Salaam")
+  district: string;         // Wilaya/Manispaa (e.g. "Ilala")
+  division: string;         // Tarafa (e.g. "Ilala Urban") — often empty
+  ward: string;             // Kata (e.g. "Kariakoo") — most locally specific
+  village_mtaa: string;     // Kijiji/Mtaa — most granular, often empty
+  // Electoral chain (Bunge/Baraza)
+  constituency: string;     // Electoral constituency for MP mapping (e.g. "Ukonga")
 }
 
 export interface OfficialInstitution {
