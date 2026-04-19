@@ -186,7 +186,7 @@ export default function OfficialProfile() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-mono text-body text-foreground truncate">{c.value}</p>
-                  {c.label && <p className="text-meta font-body text-muted-foreground truncate">{c.label}</p>}
+                  {c.verified && <p className="text-meta font-body text-accent truncate">Imethibitishwa</p>}
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </a>
@@ -198,7 +198,7 @@ export default function OfficialProfile() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-mono text-body text-foreground truncate">{c.value}</p>
-                  {c.label && <p className="text-meta font-body text-muted-foreground truncate">{c.label}</p>}
+                  {c.verified && <p className="text-meta font-body text-accent truncate">Imethibitishwa</p>}
                 </div>
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </a>
@@ -210,7 +210,6 @@ export default function OfficialProfile() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-body font-body text-foreground">{c.value}</p>
-                  {c.label && <p className="text-meta font-body text-muted-foreground">{c.label}</p>}
                 </div>
               </div>
             ))}
