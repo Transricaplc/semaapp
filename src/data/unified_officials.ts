@@ -15,18 +15,39 @@ import { mpData } from "./mps_data";
 // ============================================================
 
 export type RoleType =
+  // ── NATIONAL (Taifa) ──
   | "PRESIDENT"
-  | "MP"
+  | "VICE_PRESIDENT"
+  | "PRIME_MINISTER"
+  | "SPEAKER"
+  | "MP"                       // Constituency-level elected
   | "MINISTER"
   | "DEPUTY_MINISTER"
   | "PERMANENT_SECRETARY"
   | "JUDGE"
-  | "POLICE"
-  | "COMMISSIONER"
-  | "MUNICIPAL_DIRECTOR"
-  | "SPEAKER"
-  | "ANTI_CORRUPTION"
-  | "EMERGENCY";
+  // ── REGIONAL (Mkoa) ──
+  | "REGIONAL_COMMISSIONER"    // RC — political appointee, security mandate
+  | "REGIONAL_ADMIN_SECRETARY" // RAS — administrative, TAMISEMI chain
+  | "REGIONAL_POLICE_COMMANDER"
+  // ── DISTRICT / MUNICIPALITY / CITY (Wilaya / Manispaa / Jiji) ──
+  | "DISTRICT_COMMISSIONER"    // DC — political appointee
+  | "DISTRICT_EXECUTIVE_DIRECTOR" // DED — technical head of council
+  | "MUNICIPAL_MAYOR"          // Mayor/Chairman of municipality or city
+  | "DISTRICT_POLICE_COMMANDER"
+  // ── DIVISION (Tarafa) ──
+  | "DIVISION_OFFICER"         // DO — rarely contacted but officially exists
+  // ── WARD (Kata) ── most locally relevant
+  | "WARD_EXECUTIVE_OFFICER"   // WEO — appointed civil servant
+  | "WARD_COUNCILLOR"          // Elected representative
+  // ── VILLAGE / MTAA (Kijiji / Mtaa) ──
+  | "VILLAGE_EXECUTIVE_OFFICER" // VEO — appointed
+  | "VILLAGE_CHAIRMAN"         // Mwenyekiti — elected
+  // ── CROSS-CUTTING ──
+  | "ANTI_CORRUPTION"          // PCCB
+  | "EMERGENCY"
+  | "POLICE"                   // Generic police role (legacy)
+  | "MUNICIPAL_DIRECTOR"       // Legacy — kept for backward compat
+  | "COMMISSIONER";            // Keep for backward compat during migration — deprecate later
 
 export type VerifiedStatus = "VERIFIED" | "PENDING" | "UNVERIFIED" | "OUTDATED";
 
