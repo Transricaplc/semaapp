@@ -1,5 +1,6 @@
 import serikaliData from "./serikali_data.json";
 import { mpData } from "./mps_data";
+import { mpContactLookup, normalizeConstituency } from "./mp_contacts";
 
 // ============================================================
 // TYPE DEFINITIONS — Schema for the National Directory
