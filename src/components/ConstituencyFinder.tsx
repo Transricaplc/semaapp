@@ -12,6 +12,8 @@ import { getAgenciesForRegion, type Agency, type ZonalOffice } from "@/data/agen
 import OfficialCard from "@/components/OfficialCard";
 import { toast } from "sonner";
 
+const ZANZIBAR_REGIONS = ["Mjini Magharibi", "Kaskazini Unguja", "Kusini Unguja", "Kaskazini Pemba", "Kusini Pemba"];
+
 export default function ConstituencyFinder() {
   const [region, setRegion] = useState("");
   const [district, setDistrict] = useState("");
@@ -100,8 +102,13 @@ export default function ConstituencyFinder() {
           <label className="text-meta font-body font-medium text-muted-foreground mb-1.5 block">Region</label>
           <select value={region} onChange={(e) => handleRegionChange(e.target.value)}
             className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-3 text-body font-body min-h-[48px]">
-            <option value="">— All 31 Regions —</option>
-            {allRegionNames.map((m) => <option key={m} value={m}>{m}</option>)}
+            <option value="">— All Regions —</option>
+            <optgroup label="MAINLAND TANZANIA">
+              {allRegionNames.filter((m) => !ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+            </optgroup>
+            <optgroup label="ZANZIBAR">
+              {allRegionNames.filter((m) => ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+            </optgroup>
           </select>
         </div>
         <div>
@@ -140,6 +147,28 @@ export default function ConstituencyFinder() {
             </div>
           ) : (
             <div>
+              {ZANZIBAR_REGIONS.includes(region) && (
+                <>
+                  <div className="flex gap-0 w-20 h-1 mx-auto mb-4 rounded-full overflow-hidden">
+                    <div className="flex-1 bg-[#1EB2E0]" />
+                    <div className="flex-1 bg-[#1C1C1E]" />
+                    <div className="flex-1 bg-[#006B3F]" />
+                  </div>
+                  <div className="flex items-start gap-3 px-4 py-3 bg-[#1EB2E0]/10 border border-[#1EB2E0]/20 rounded-xl mb-4">
+                    <span className="text-2xl shrink-0">🏝️</span>
+                    <div className="min-w-0">
+                      <p className="text-[13px] font-bold text-foreground">Zanzibar Revolutionary Government</p>
+                      <p className="text-[12px] text-muted-foreground">
+                        Zanzibar operates under a semi-autonomous government (Serikali ya Mapinduzi Zanzibar). For Union matters, Union officials also apply.
+                      </p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5 text-[12px] font-medium">
+                        <a href="https://hor.go.tz" target="_blank" rel="noopener noreferrer" className="text-[#1EB2E0] hover:underline">House of Representatives →</a>
+                        <a href="https://zanzibarstate.go.tz" target="_blank" rel="noopener noreferrer" className="text-[#1EB2E0] hover:underline">State House Zanzibar →</a>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
               <div className="flex items-center gap-2 mb-4">
                 <Shield className="w-4 h-4 text-primary" />
                 <h4 className="font-heading text-h3 text-foreground">Your Leaders — {region}{district ? ` · ${district}` : ""}</h4>
