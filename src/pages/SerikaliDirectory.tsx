@@ -16,11 +16,12 @@ import { bankingCEOs, searchBanking, type BankingCEO } from "@/data/banking";
 import { hospitals, searchHospitals, hospitalTypeLabels, type Hospital, type HospitalType } from "@/data/hospitali";
 import { courts, searchCourts, courtLevelLabels, type Court } from "@/data/mahakama";
 import { eduInstitutions, searchEdu, elimuTypeLabels, type EduInstitution } from "@/data/elimu";
+import { politicalParties, searchParties } from "@/data/vyama";
 import SecureActionCard from "@/components/SecureActionCard";
 import ConstituencyFinder from "@/components/ConstituencyFinder";
 import LocalGovPanel from "@/components/LocalGovPanel";
 
-type DirectoryTab = "mikoa" | "wilaya" | "hospitali" | "wakala" | "benki" | "mahakama" | "bunge" | "elimu";
+type DirectoryTab = "mikoa" | "wilaya" | "hospitali" | "wakala" | "benki" | "mahakama" | "bunge" | "elimu" | "vyama";
 
 const ZANZIBAR_REGIONS = ["Mjini Magharibi", "Kaskazini Unguja", "Kusini Unguja", "Kaskazini Pemba", "Kusini Pemba"];
 
