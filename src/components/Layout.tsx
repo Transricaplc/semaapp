@@ -3,9 +3,11 @@ import { Home, BookOpen, AlertTriangle, Map, User, Search, Phone, Megaphone } fr
 import { useState } from "react";
 import EmergencyDrawer from "@/components/EmergencyDrawer";
 import AppBackground from "@/components/AppBackground";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const isMobile = useIsMobile();
   const [emergencyOpen, setEmergencyOpen] = useState(false);
 
   const mobileNav = [
@@ -105,6 +107,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </footer>
 
       {/* ── Mobile Bottom Tab Bar ── */}
+      {isMobile && (
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-yb-charcoal-dark shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
         {/* Tanzanian accent strip */}
         <div className="h-0.5 flex">
@@ -148,15 +151,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           })}
         </div>
       </nav>
+      )}
 
-      {/* ── Floating Emergency Button ── */}
-      <button
-        onClick={() => setEmergencyOpen(true)}
-        className="md:hidden fixed bottom-[80px] right-4 z-50 w-12 h-12 rounded-full bg-destructive flex items-center justify-center shadow-lg animate-pulse-gentle"
-        aria-label="Dharura"
-      >
-        <Phone className="w-5 h-5 text-destructive-foreground" />
-      </button>
+      {/* ── Floating Emergency Button — mobile only ── */}
+      {isMobile && (
+        <button
+          onClick={() => setEmergencyOpen(true)}
+          className="fixed bottom-[80px] right-4 z-50 w-12 h-12 rounded-full bg-destructive flex items-center justify-center shadow-lg animate-pulse-gentle"
+          aria-label="Dharura"
+        >
+          <Phone className="w-5 h-5 text-destructive-foreground" />
+        </button>
+      )}
 
       {/* Emergency Drawer */}
       <EmergencyDrawer open={emergencyOpen} onClose={() => setEmergencyOpen(false)} />

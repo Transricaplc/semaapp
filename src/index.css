@@ -323,6 +323,11 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  @keyframes expandDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 }
 
 /* ── DYNAMIC VIEWPORT HEIGHT (avoid mobile URL-bar jumps) ── */

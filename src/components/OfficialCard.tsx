@@ -1,124 +1,103 @@
-import { useState } from "react";
-import { User, MapPin, BadgeCheck, AlertCircle, Send, Tag, Share2, Phone, CalendarClock, ExternalLink, ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Phone, Mail, MapPin, Flag, Share2, BadgeCheck } from "lucide-react";
+import ExpandableRow from "./ExpandableRow";
 import type { Official } from "@/data/unified_officials";
-import { roleTypeLabels, roleBadgeColors } from "@/data/unified_officials";
-
-const verifiedStatusBadge = (status: Official["verified_status"]) => {
-  switch (status) {
-    case "VERIFIED": return <BadgeCheck className="w-4 h-4 text-accent shrink-0" />;
-    case "PENDING": return <AlertCircle className="w-4 h-4 text-warning shrink-0" />;
-    default: return null;
-  }
-};
+import { roleTypeLabels } from "@/data/unified_officials";
 
 export default function OfficialCard({ official }: { official: Official }) {
-  const [expanded, setExpanded] = useState(false);
+  const contacts = official.contacts ?? [];
+  const phone = contacts.find((c) => c.type === "phone")?.value;
+  const email = contacts.find((c) => c.type === "email")?.value;
+  const address = contacts.find((c) => c.type === "office_address")?.value;
+
+  const locationParts = [official.location.region, official.location.district, official.location.ward].filter(Boolean);
 
   return (
-    <div className="yb-card overflow-hidden">
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-3 p-3 md:p-5 text-left min-h-[64px] md:min-h-[72px]"
-      >
-        <div className="official-avatar">
-          {official.profile_photo_url ? (
-            <img src={official.profile_photo_url} alt={official.full_name} className="w-full h-full rounded-xl object-cover" />
-          ) : (
-            <span className="text-xl font-heading font-bold text-primary">{official.full_name.charAt(0)}</span>
-          )}
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5">
-            <h3 style={{ fontFamily: "'Sora', sans-serif" }} className="font-heading text-[16px] font-bold text-foreground truncate">{official.full_name}</h3>
-            {verifiedStatusBadge(official.verified_status)}
-          </div>
-          <p className="text-[13px] text-muted-foreground truncate mt-0.5 leading-snug">{official.role_title}</p>
-          <div className="flex flex-wrap items-center gap-1.5 mt-2">
-            <span className={`text-badge badge-role px-2 py-0.5 rounded-md border ${roleBadgeColors[official.role_type]}`}>
+    <ExpandableRow
+      avatar={official.full_name.charAt(0)}
+      title={official.full_name}
+      meta={official.role_title}
+      badge={roleTypeLabels[official.role_type]}
+      verified={official.verified_status === "VERIFIED"}
+      expandedContent={
+        <div className="space-y-3 pt-2">
+          {/* Role + source */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-md bg-primary/15 text-foreground border border-primary/30">
               {roleTypeLabels[official.role_type]}
             </span>
-            {official.location.region && (
-              <span className="flex items-center gap-0.5 text-meta font-body text-muted-foreground">
-                <MapPin className="w-3 h-3" />
-                {official.location.region}
-              </span>
-            )}
-            {official.party && (
-              <span className="text-badge badge-role px-2 py-0.5 rounded-md bg-secondary text-muted-foreground">
-                {official.party}
+            {official.verified_source && (
+              <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                <BadgeCheck className="w-3 h-3 text-accent" />
+                {official.verified_source}
               </span>
             )}
           </div>
-        </div>
 
-        <ChevronRight className={`w-5 h-5 text-muted-foreground/40 shrink-0 transition-transform ${expanded ? "rotate-90" : ""}`} />
-      </button>
-
-      {expanded && (
-        <div className="px-4 md:px-5 pb-5 pt-3 border-t border-border/40 animate-fade-in space-y-2 bg-secondary/30">
-          <p className="text-badge badge-role text-muted-foreground mb-2">Secure Actions</p>
-
-          <button className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-primary/10 text-foreground hover:bg-primary/15 transition-colors text-left min-h-[48px] border border-primary/15">
-            <Send className="w-4 h-4 text-primary shrink-0" />
-            <div>
-              <p className="font-body font-medium text-meta">Send Direct Message</p>
-              <p className="text-meta font-body text-muted-foreground">Private & secure</p>
-            </div>
-          </button>
-
-          <Link
-            to="/report"
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-accent/10 text-foreground hover:bg-accent/15 transition-colors text-left min-h-[48px] border border-accent/15"
-          >
-            <Tag className="w-4 h-4 text-accent shrink-0" />
-            <div>
-              <p className="font-body font-medium text-meta">Tag in Public Report</p>
-              <p className="text-meta font-body text-muted-foreground">Attach to your report or petition</p>
-            </div>
-          </Link>
-
-          <button
-            onClick={() => {
-              const text = `🇹🇿 ${official.full_name}\n📌 ${official.role_title}${official.location.region ? `\n📍 ${official.location.region}` : ""}\n\n— Sema Yellow Book`;
-              window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
-            }}
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-[hsl(var(--tz-green))]/10 text-foreground hover:bg-[hsl(var(--tz-green))]/15 transition-colors text-left min-h-[48px] border border-[hsl(var(--tz-green))]/15"
-          >
-            <Share2 className="w-4 h-4 text-accent shrink-0" />
-            <div>
-              <p className="font-body font-medium text-meta">Share via WhatsApp</p>
-              <p className="text-meta font-body text-muted-foreground">Share profile securely</p>
-            </div>
-          </button>
-
-          <button className="w-full flex items-center gap-3 px-3 py-3 rounded-lg bg-secondary text-foreground hover:bg-secondary/80 transition-colors text-left border border-border min-h-[48px]">
-            <Phone className="w-4 h-4 shrink-0" />
-            <div>
-              <p className="font-body font-medium text-meta">Request Contact Info</p>
-              <p className="text-meta font-body text-muted-foreground">Verified contact shared securely</p>
-            </div>
-          </button>
-
-          {(official.verified_source || official.last_verified_date) && (
-            <div className="flex items-center gap-3 pt-2 border-t border-border/50 text-meta font-body text-muted-foreground italic">
-              {official.last_verified_date && (
-                <span className="flex items-center gap-1">
-                  <CalendarClock className="w-3 h-3" />
-                  Verified: {official.last_verified_date}
-                </span>
-              )}
-              {official.verified_source && (
-                <span className="flex items-center gap-1">
-                  <ExternalLink className="w-3 h-3" />
-                  {official.verified_source}
-                </span>
-              )}
-            </div>
+          {/* Location breadcrumb */}
+          {locationParts.length > 0 && (
+            <p className="text-[12px] text-muted-foreground">
+              {locationParts.join(" → ")}
+            </p>
           )}
+
+          {/* Contact rows */}
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            {phone && (
+              <a
+                href={`tel:${phone}`}
+                className="flex items-center gap-3 px-3 h-12 active:opacity-65 transition-opacity border-b border-border last:border-b-0"
+              >
+                <Phone className="w-4 h-4 text-accent shrink-0" />
+                <span
+                  className="flex-1 text-[13px] text-foreground truncate"
+                  style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                >
+                  {phone}
+                </span>
+                <span className="text-[11px] font-bold text-accent">Piga</span>
+              </a>
+            )}
+            {email && (
+              <a
+                href={`mailto:${email}`}
+                className="flex items-center gap-3 px-3 h-12 active:opacity-65 transition-opacity border-b border-border last:border-b-0"
+              >
+                <Mail className="w-4 h-4 text-primary shrink-0" />
+                <span className="flex-1 text-[13px] text-foreground truncate">{email}</span>
+                <span className="text-[11px] font-bold text-primary">Tuma</span>
+              </a>
+            )}
+            {address && (
+              <div className="flex items-start gap-3 px-3 py-3">
+                <MapPin className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
+                <p className="flex-1 text-[12px] text-muted-foreground leading-snug">{address}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom actions */}
+          <div className="flex items-center gap-2">
+            <a
+              href={`/report?official_name=${encodeURIComponent(official.full_name)}`}
+              className="flex-1 flex items-center justify-center gap-1.5 h-10 rounded-xl bg-primary text-primary-foreground text-[12px] font-bold active:opacity-65 transition-opacity"
+            >
+              <Flag className="w-3.5 h-3.5" />
+              Ripoti
+            </a>
+            <button
+              onClick={() => {
+                const text = `${official.full_name} — ${official.role_title}${phone ? `\n📞 ${phone}` : ""}${email ? `\n✉️ ${email}` : ""}\n\nSema App: https://semaapp.co.tz`;
+                if (navigator.share) navigator.share({ text }).catch(() => {});
+                else navigator.clipboard.writeText(text);
+              }}
+              className="flex-1 flex items-center justify-center gap-1.5 h-10 rounded-xl bg-secondary border border-border text-foreground text-[12px] font-bold active:opacity-65 transition-opacity"
+            >
+              <Share2 className="w-3.5 h-3.5" />
+              Shiriki
+            </button>
+          </div>
         </div>
-      )}
-    </div>
+      }
+    />
   );
 }
