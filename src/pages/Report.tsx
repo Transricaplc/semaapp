@@ -131,7 +131,7 @@ export default function Report() {
         </div>
       </section>
 
-      <div className="container max-w-2xl py-8">
+      <div className="container max-w-2xl py-8 pb-32 md:pb-8">
         {/* Steps */}
         <div className="flex items-center justify-center gap-2 mb-8">
           {[1, 2, 3, 4].map((s) => (
