@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, TrendingUp, Share2, Heart, Target, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Petition {
   id: string;
@@ -29,6 +30,8 @@ const mockPetitions: Petition[] = [
 
 export default function Sauti() {
   const { t } = useLanguage();
+  const { user, signInAnonymously } = useAuth();
+  useEffect(() => { if (!user) signInAnonymously(); }, [user, signInAnonymously]);
   const [showCreate, setShowCreate] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");

@@ -11,12 +11,20 @@ import { type ReportCategory, categoryLabels } from "@/data/reports";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useVoiceInput } from "@/hooks/useVoiceInput";
+import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Report() {
   const { t, lang } = useLanguage();
+  const { user, signInAnonymously, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   const targetOfficialName = searchParams.get("official_name") || "";
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      signInAnonymously();
+    }
+  }, [user, authLoading, signInAnonymously]);
 
   const [step, setStep] = useState(1);
   const [category, setCategory] = useState<ReportCategory | "">("");
@@ -68,6 +76,7 @@ export default function Report() {
         category,
         location,
         anonymous,
+        user_id: user?.id ?? null,
         status: "sent",
       });
       if (error) throw error;
