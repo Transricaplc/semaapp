@@ -10,7 +10,7 @@ import ConstituencyFinder from "@/components/ConstituencyFinder";
 import EmergencyBanner from "@/components/EmergencyContacts";
 import { directoryStats, getYourOfficials } from "@/data/unified_officials";
 import OfficialCard from "@/components/OfficialCard";
-import ExpandableRow from "@/components/ExpandableRow";
+import Row from "@/components/Row";
 import { hospitals } from "@/data/hospitali";
 import { agencies } from "@/data/agencies";
 
@@ -218,38 +218,37 @@ export default function Index() {
         </div>
         <div className="-mx-4 border-y border-border bg-card divide-y divide-border/60">
           {trendingConcerns.slice(0, 4).map((c) => (
-            <ExpandableRow
+            <Row
               key={c.id}
-              icon={categoryIcons[c.category]}
+              leading={categoryIcons[c.category]}
               title={c.text}
-              meta={`${categoryLabels[c.category]} · ${c.region}`}
+              subtitle={`${categoryLabels[c.category]} · ${c.region}`}
               badge={String(c.count)}
-              expandedContent={
-                <div className="space-y-3 pt-2">
-                  <p className="text-[13px] text-muted-foreground leading-relaxed">
-                    {c.count} watu wameripoti suala hili katika {c.region}.
-                  </p>
-                  <div className="flex gap-2">
-                    <Link
-                      to="/report"
-                      className="flex-1 inline-flex items-center justify-center h-10 rounded-xl bg-primary text-primary-foreground text-[13px] font-bold active:opacity-65 transition-opacity"
-                    >
-                      Ripoti pia
-                    </Link>
-                    <button
-                      onClick={() => {
-                        const msg = encodeURIComponent(`📢 ${c.text} — ${c.count} ripoti\n\n#Sema`);
-                        window.open(`https://wa.me/?text=${msg}`, "_blank");
-                      }}
-                      className="w-10 h-10 rounded-xl bg-secondary border border-border flex items-center justify-center active:opacity-65 transition-opacity"
-                      aria-label="Shiriki"
-                    >
-                      <Share2 className="w-4 h-4 text-foreground" />
-                    </button>
-                  </div>
+            >
+              <div className="space-y-3 pt-2">
+                <p className="text-[13px] text-muted-foreground leading-relaxed">
+                  {c.count} watu wameripoti suala hili katika {c.region}.
+                </p>
+                <div className="flex gap-2">
+                  <Link
+                    to="/report"
+                    className="flex-1 inline-flex items-center justify-center h-10 rounded-xl bg-primary text-primary-foreground text-[13px] font-bold active:opacity-65 transition-opacity"
+                  >
+                    Ripoti pia
+                  </Link>
+                  <button
+                    onClick={() => {
+                      const msg = encodeURIComponent(`📢 ${c.text} — ${c.count} ripoti\n\n#Sema`);
+                      window.open(`https://wa.me/?text=${msg}`, "_blank");
+                    }}
+                    className="w-10 h-10 rounded-xl bg-secondary border border-border flex items-center justify-center active:opacity-65 transition-opacity"
+                    aria-label="Shiriki"
+                  >
+                    <Share2 className="w-4 h-4 text-foreground" />
+                  </button>
                 </div>
-              }
-            />
+              </div>
+            </Row>
           ))}
         </div>
       </section>

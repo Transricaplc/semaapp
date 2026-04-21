@@ -1,19 +1,30 @@
-import { Clock, CheckCircle2, Search as SearchIcon, AlertTriangle, FileText, Eye, LogIn } from "lucide-react";
-import { categoryLabels, type ReportStatus, type ReportCategory } from "@/data/reports";
+import { Clock, CheckCircle2, Search as SearchIcon, FileText, LogIn } from "lucide-react";
+import {
+  categoryLabels,
+  type ReportStatus,
+  type ReportCategory,
+} from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-
-const statusConfig: Record<ReportStatus, { icon: React.ElementType; className: string }> = {
-  sent: { icon: Clock, className: "status-sent" },
-  received: { icon: FileText, className: "status-received" },
-  investigating: { icon: SearchIcon, className: "status-investigating" },
-  resolved: { icon: CheckCircle2, className: "status-resolved" },
-};
+import Row from "@/components/Row";
 
 const statusSteps: ReportStatus[] = ["sent", "received", "investigating", "resolved"];
+
+const statusBadgeColor: Record<ReportStatus, string> = {
+  sent:          "bg-[hsl(var(--primary))]/15 text-foreground border-[hsl(var(--primary))]/30",
+  received:      "bg-[hsl(var(--tz-blue))]/15 text-[hsl(var(--tz-blue))] border-[hsl(var(--tz-blue))]/30",
+  investigating: "bg-warning/15 text-warning border-warning/30",
+  resolved:      "bg-accent/15 text-accent border-accent/30",
+};
+
+const statusIcon: Record<ReportStatus, React.ElementType> = {
+  sent: Clock,
+  received: FileText,
+  investigating: SearchIcon,
+  resolved: CheckCircle2,
+};
 
 interface DBReport {
   id: string;
@@ -56,100 +67,152 @@ export default function Tracker() {
   }, []);
 
   return (
-    <div className="animate-fade-in">
-      <section className="bg-yb-charcoal py-10">
-        <div className="container max-w-3xl text-center">
-          <h1 className="text-h1 md:text-h1-lg font-heading text-white mb-2">{t("tracker.title")}</h1>
-          <p className="text-body font-body text-yb-charcoal-muted">{t("tracker.subtitle")}</p>
-        </div>
+    <div className="animate-fade-in mx-auto w-full max-w-[640px]">
+      {/* HERO — left aligned */}
+      <section className="bg-yb-charcoal-dark px-4 pt-6 pb-5">
+        <p className="mono text-primary text-[11px] font-bold uppercase tracking-[0.18em] mb-2">
+          FUATILIA RIPOTI
+        </p>
+        <h1 className="text-[24px] leading-[1.15] font-extrabold text-white tracking-tight">
+          {t("tracker.title")}
+        </h1>
+        <p className="text-[13px] text-yb-charcoal-muted mt-2 leading-relaxed">
+          {t("tracker.subtitle")}
+        </p>
       </section>
 
-      <div className="container max-w-3xl py-8">
+      <div className="px-4 py-4 bg-background">
         {loading ? (
-          <div className="space-y-4">
+          <div className="space-y-2">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="yb-card p-5 md:p-6 animate-pulse">
-                <div className="h-4 bg-secondary rounded w-1/3 mb-3" />
-                <div className="h-6 bg-secondary rounded w-2/3 mb-2" />
-                <div className="h-4 bg-secondary rounded w-full" />
+              <div key={i} className="rounded-xl bg-card border border-border p-4 animate-pulse min-h-[64px]">
+                <div className="h-4 bg-secondary rounded w-2/3 mb-2" />
+                <div className="h-3 bg-secondary rounded w-1/3" />
               </div>
             ))}
           </div>
         ) : !authed ? (
-          <div className="yb-card p-10 text-center">
-            <LogIn className="w-10 h-10 text-primary mx-auto mb-3" />
-            <h2 className="text-h2 font-heading text-foreground mb-2">Ingia ili kuona ripoti zako</h2>
-            <p className="text-body font-body text-muted-foreground mb-5">Lazima uingie ili kufuatilia ripoti zako.</p>
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-yb-yellow-deep font-body font-semibold min-h-[48px]">
-              <Link to="/mimi">Ingia / Jisajili</Link>
-            </Button>
+          <div className="rounded-xl bg-card border border-border p-6">
+            <LogIn className="w-8 h-8 text-primary mb-3" />
+            <h2 className="text-[18px] font-extrabold text-foreground mb-1">
+              Ingia ili kuona ripoti zako
+            </h2>
+            <p className="text-[13px] text-muted-foreground leading-relaxed mb-4">
+              Lazima uingie ili kufuatilia ripoti zako.
+            </p>
+            <Link
+              to="/mimi"
+              className="inline-flex items-center justify-center h-11 px-4 rounded-xl bg-primary text-primary-foreground text-[13px] font-bold active:opacity-65 transition-opacity"
+            >
+              Ingia / Jisajili
+            </Link>
           </div>
         ) : reports.length === 0 ? (
-          <div className="yb-card p-10 text-center">
-            <FileText className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-            <h2 className="text-h2 font-heading text-foreground mb-2">Hujatuma ripoti yoyote bado</h2>
-            <p className="text-body font-body text-muted-foreground mb-5">Anza kwa kuripoti tatizo katika eneo lako.</p>
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-yb-yellow-deep font-body font-semibold min-h-[48px]">
-              <Link to="/report">Tuma Ripoti</Link>
-            </Button>
+          <div className="rounded-xl bg-card border border-border p-6">
+            <FileText className="w-8 h-8 text-muted-foreground mb-3" />
+            <h2 className="text-[18px] font-extrabold text-foreground mb-1">
+              Hujatuma ripoti yoyote
+            </h2>
+            <p className="text-[13px] text-muted-foreground leading-relaxed mb-4">
+              Anza kwa kuripoti tatizo katika eneo lako.
+            </p>
+            <Link
+              to="/report"
+              className="inline-flex items-center justify-center h-11 px-4 rounded-xl bg-primary text-primary-foreground text-[13px] font-bold active:opacity-65 transition-opacity"
+            >
+              Tuma Ripoti
+            </Link>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            {/* Status counts — 2x2 grid, left-aligned */}
+            <div className="grid grid-cols-2 gap-2 mb-4">
               {statusSteps.map((status) => {
                 const count = reports.filter((r) => r.status === status).length;
-                const config = statusConfig[status];
+                const Icon = statusIcon[status];
                 return (
-                  <div key={status} className="yb-card p-4 text-center min-h-[80px]">
-                    <config.icon className="w-5 h-5 mx-auto mb-2 text-primary" />
-                    <div className="text-h2 font-heading text-foreground">{count}</div>
-                    <div className="text-meta font-body text-muted-foreground mt-0.5">{statusLabelsLocal[status]}</div>
+                  <div
+                    key={status}
+                    className="rounded-xl bg-card border border-border p-3 flex items-center gap-3 min-h-[64px]"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-primary/12 flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="mono text-[18px] font-extrabold text-foreground leading-none">
+                        {count}
+                      </p>
+                      <p className="text-[11px] font-medium text-muted-foreground mt-1 uppercase tracking-wide">
+                        {statusLabelsLocal[status]}
+                      </p>
+                    </div>
                   </div>
                 );
               })}
             </div>
 
-            <div className="space-y-4">
+            <p className="mono text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground mb-2">
+              RIPOTI ZANGU
+            </p>
+
+            <div className="-mx-4 border-y border-border bg-card">
               {reports.map((report) => {
-                const status = (statusSteps.includes(report.status as ReportStatus) ? report.status : "sent") as ReportStatus;
-                const config = statusConfig[status];
+                const status = (statusSteps.includes(report.status as ReportStatus)
+                  ? report.status
+                  : "sent") as ReportStatus;
                 const currentIdx = statusSteps.indexOf(status);
-                const catLabel = categoryLabels[report.category as ReportCategory] || report.category;
+                const catLabel =
+                  categoryLabels[report.category as ReportCategory] || report.category;
                 const date = new Date(report.created_at).toLocaleDateString();
+                const StatusIcon = statusIcon[status];
+
                 return (
-                  <div key={report.id} className="yb-card p-5 md:p-6">
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          {report.anonymous && (
-                            <span className="flex items-center gap-1 text-badge font-heading uppercase bg-secondary text-muted-foreground px-2 py-0.5 rounded-md">
-                              <Eye className="w-3 h-3" /> Anonymous
-                            </span>
-                          )}
-                          <span className="text-meta font-mono text-muted-foreground">{report.id.slice(0, 8)}</span>
-                        </div>
-                        <h3 className="font-heading text-h3 text-foreground">{report.title}</h3>
-                        <p className="text-body font-body text-muted-foreground mt-1 line-clamp-2">{report.description}</p>
+                  <Row
+                    key={report.id}
+                    leading={<StatusIcon className="w-5 h-5 text-primary" />}
+                    title={report.title}
+                    subtitle={`${catLabel} · ${report.location}`}
+                    badge={statusLabelsLocal[status]}
+                    badgeColor={statusBadgeColor[status]}
+                  >
+                    <div className="space-y-3 pt-2">
+                      <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
+                        <span className="mono">#{report.id.slice(0, 8)}</span>
+                        <span>·</span>
+                        <span>{date}</span>
                       </div>
-                      <span className={`${config.className} px-3 py-1 rounded-lg text-badge font-heading uppercase whitespace-nowrap`}>
-                        {statusLabelsLocal[status]}
-                      </span>
-                    </div>
 
-                    <div className="flex items-center gap-1 mb-3">
-                      {statusSteps.map((s, i) => (
-                        <div key={s} className="flex-1 flex items-center gap-1">
-                          <div className={`h-1.5 flex-1 rounded-full transition-colors ${i <= currentIdx ? "bg-primary" : "bg-border"}`} />
-                        </div>
-                      ))}
-                    </div>
+                      {/* Status progress dots */}
+                      <div className="flex items-center gap-1">
+                        {statusSteps.map((s, i) => (
+                          <div
+                            key={s}
+                            className={`h-1 flex-1 rounded-full transition-colors ${
+                              i <= currentIdx ? "bg-primary" : "bg-border"
+                            }`}
+                          />
+                        ))}
+                      </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-meta font-body text-muted-foreground">
-                      <span className="flex items-center gap-1"><AlertTriangle className="w-3 h-3" />{catLabel}</span>
-                      <span>{report.location}</span>
-                      <span>{date}</span>
+                      <p className="text-[13px] text-muted-foreground leading-relaxed">
+                        {report.description}
+                      </p>
+
+                      <div className="flex items-center gap-2 flex-wrap text-[11px] text-muted-foreground">
+                        <span className="px-2 py-0.5 rounded-md bg-secondary border border-border">
+                          {catLabel}
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-secondary border border-border">
+                          {report.location}
+                        </span>
+                        {report.anonymous && (
+                          <span className="px-2 py-0.5 rounded-md bg-secondary border border-border">
+                            Bila jina
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  </Row>
                 );
               })}
             </div>
