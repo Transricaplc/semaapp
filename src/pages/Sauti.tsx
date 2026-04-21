@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import ExpandableRow from "@/components/ExpandableRow";
+import Row from "@/components/Row";
 
 interface Petition {
   id: string;
@@ -142,69 +142,64 @@ export default function Sauti() {
           const progress = Math.min((p.signatures / p.goal) * 100, 100);
           const signed = signedIds.has(p.id);
           return (
-            <ExpandableRow
+            <Row
               key={p.id}
-              icon={<Target className="w-5 h-5 text-primary" />}
+              leading={<Target className="w-5 h-5 text-primary" />}
               title={p.title}
-              meta={`${p.signatures.toLocaleString()} saini · Lengo: ${p.goal.toLocaleString()}`}
+              subtitle={`${p.signatures.toLocaleString()} saini · Lengo: ${p.goal.toLocaleString()}`}
               badge={p.trending ? "🔥 Hot" : p.category}
-              expandedContent={
-                <div className="space-y-3 pt-2">
-                  <p className="text-[13px] text-muted-foreground leading-relaxed">{p.description}</p>
+            >
+              <div className="space-y-3 pt-2">
+                <p className="text-[13px] text-muted-foreground leading-relaxed">{p.description}</p>
 
-                  <p className="text-[12px] text-muted-foreground">
-                    Kwa: <span className="font-bold text-foreground">{p.target}</span> ({p.targetRole})
-                  </p>
+                <p className="text-[12px] text-muted-foreground">
+                  Kwa: <span className="font-bold text-foreground">{p.target}</span> ({p.targetRole})
+                </p>
 
-                  {/* Progress */}
-                  <div>
-                    <div className="flex justify-between text-[11px] mb-1">
-                      <span
-                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
-                        className="font-bold text-primary"
-                      >
-                        {p.signatures.toLocaleString()} / {p.goal.toLocaleString()}
-                      </span>
-                      <span className="text-muted-foreground">{Math.round(progress)}%</span>
-                    </div>
-                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-primary rounded-full transition-all"
-                        style={{ width: `${progress}%` }}
-                      />
-                    </div>
+                <div>
+                  <div className="flex justify-between text-[11px] mb-1">
+                    <span className="mono font-bold text-primary">
+                      {p.signatures.toLocaleString()} / {p.goal.toLocaleString()}
+                    </span>
+                    <span className="text-muted-foreground">{Math.round(progress)}%</span>
                   </div>
-
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleSign(p.id)}
-                      disabled={signed}
-                      className={`flex-1 h-11 rounded-xl text-[13px] font-bold transition-opacity active:opacity-65 ${
-                        signed
-                          ? "bg-accent/15 text-accent border border-accent/25"
-                          : "bg-primary text-primary-foreground"
-                      }`}
-                    >
-                      {signed ? "✓ Umesaini" : "Saini Ombi"}
-                    </button>
-                    <button
-                      onClick={() => handleShare(p)}
-                      className="w-11 h-11 rounded-xl bg-secondary border border-border flex items-center justify-center active:opacity-65 transition-opacity"
-                      aria-label="Shiriki"
-                    >
-                      <Share2 className="w-4 h-4 text-foreground" />
-                    </button>
-                    <button
-                      onClick={() => handleDonate(p)}
-                      className="w-11 h-11 rounded-xl bg-secondary border border-accent/30 flex items-center justify-center active:opacity-65 transition-opacity"
-                      aria-label="M-Pesa"
-                    >
-                      <Phone className="w-4 h-4 text-accent" />
-                    </button>
+                  <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary rounded-full transition-all"
+                      style={{ width: `${progress}%` }}
+                    />
                   </div>
                 </div>
-              }
-            />
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleSign(p.id)}
+                    disabled={signed}
+                    className={`flex-1 h-11 rounded-xl text-[13px] font-bold transition-opacity active:opacity-65 ${
+                      signed
+                        ? "bg-accent/15 text-accent border border-accent/25"
+                        : "bg-primary text-primary-foreground"
+                    }`}
+                  >
+                    {signed ? "✓ Umesaini" : "Saini Ombi"}
+                  </button>
+                  <button
+                    onClick={() => handleShare(p)}
+                    className="w-11 h-11 rounded-xl bg-secondary border border-border flex items-center justify-center active:opacity-65 transition-opacity"
+                    aria-label="Shiriki"
+                  >
+                    <Share2 className="w-4 h-4 text-foreground" />
+                  </button>
+                  <button
+                    onClick={() => handleDonate(p)}
+                    className="w-11 h-11 rounded-xl bg-secondary border border-accent/30 flex items-center justify-center active:opacity-65 transition-opacity"
+                    aria-label="M-Pesa"
+                  >
+                    <Phone className="w-4 h-4 text-accent" />
+                  </button>
+                </div>
+              </div>
+            </Row>
           );
         })}
       </div>
