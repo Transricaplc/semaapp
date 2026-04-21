@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { Plus, TrendingUp, Share2, Heart, Target, Phone } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Plus, Share2, Target, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import ExpandableRow from "@/components/ExpandableRow";
 
 interface Petition {
   id: string;
@@ -29,121 +28,185 @@ const mockPetitions: Petition[] = [
 ];
 
 export default function Sauti() {
-  const { t } = useLanguage();
+  useLanguage();
   const { user, signInAnonymously } = useAuth();
   useEffect(() => { if (!user) signInAnonymously(); }, [user, signInAnonymously]);
+
+  const [signedIds, setSignedIds] = useState<Set<string>>(new Set());
   const [showCreate, setShowCreate] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [newTarget, setNewTarget] = useState("");
 
-  const handleSign = (id: string) => toast.success("You signed the petition. Thank you!");
-  const handleShare = (petition: Petition) => {
-    const msg = encodeURIComponent(`✊ ${petition.title}\n\nSign here: https://semaapp.lovable.app/sauti\n\n#CitizenYellowBook #Sema`);
+  const handleSign = (id: string) => {
+    setSignedIds((s) => {
+      const next = new Set(s);
+      next.add(id);
+      return next;
+    });
+    toast.success("Umesaini ombi. Asante!");
+  };
+  const handleShare = (p: Petition) => {
+    const msg = encodeURIComponent(`✊ ${p.title}\n\nSaini hapa: https://semaapp.lovable.app/sauti\n\n#Sema`);
     window.open(`https://wa.me/?text=${msg}`, "_blank");
   };
-  const handleDonate = (petition: Petition) => toast.info("M-Pesa: Send to 0754 000 000 (Ref: " + petition.id + ")");
+  const handleDonate = (p: Petition) => toast.info("M-Pesa: 0754 000 000 (Ref: " + p.id + ")");
   const handleCreate = () => {
     if (!newTitle.trim() || !newDesc.trim()) return;
-    toast.success("Your petition has been created!");
+    toast.success("Ombi lako limeundwa!");
     setShowCreate(false); setNewTitle(""); setNewDesc(""); setNewTarget("");
   };
 
   return (
-    <div className="animate-fade-in">
-      <section className="bg-yb-charcoal py-10">
-        <div className="container max-w-3xl text-center">
-          <h1 className="text-h1 md:text-h1-lg font-heading text-white mb-2">People's Petitions</h1>
-          <p className="text-body font-body text-yb-charcoal-muted">Sign, share, or start petitions to demand change</p>
-        </div>
+    <div className="animate-fade-in mx-auto w-full max-w-[640px]">
+      {/* HERO — left aligned */}
+      <section className="bg-yb-charcoal-dark px-4 pt-6 pb-5">
+        <p
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          className="text-primary text-[11px] font-bold uppercase tracking-[0.18em] mb-2"
+        >
+          MAOMBI YA WANANCHI
+        </p>
+        <h1 className="text-[26px] leading-[1.1] font-extrabold text-white mb-2 tracking-tight">
+          Saini, Shiriki, <br />
+          <span className="text-primary">Anzisha Mabadiliko.</span>
+        </h1>
+        <p className="text-[13px] text-yb-charcoal-muted">Tia saini au anzisha ombi la kudai mabadiliko.</p>
       </section>
 
-      <div className="container max-w-3xl py-6">
-        <Button onClick={() => setShowCreate(!showCreate)}
-          className="w-full mb-6 bg-primary hover:bg-yb-yellow-deep text-primary-foreground font-body font-semibold min-h-[52px] text-body gap-2">
-          <Plus className="w-5 h-5" /> Start a New Petition
-        </Button>
+      <div className="px-4 py-4 bg-background">
+        <button
+          onClick={() => setShowCreate((v) => !v)}
+          className="w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl bg-primary text-primary-foreground text-[14px] font-bold active:opacity-65 transition-opacity"
+        >
+          <Plus className="w-4 h-4" /> Anzisha Ombi Jipya
+        </button>
 
         {showCreate && (
-          <div className="yb-card p-6 mb-6 animate-fade-in">
-            <h3 className="font-heading text-h2 text-foreground mb-4">New Petition</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="text-meta font-body font-medium text-foreground mb-1 block">Title</label>
-                <Input placeholder="What do you want to change?" value={newTitle} onChange={e => setNewTitle(e.target.value)} className="min-h-[52px] text-body" />
-              </div>
-              <div>
-                <label className="text-meta font-body font-medium text-foreground mb-1 block">Description</label>
-                <Textarea placeholder="Describe the issue and what you want done..." rows={4} value={newDesc} onChange={e => setNewDesc(e.target.value)} className="text-body" />
-              </div>
-              <div>
-                <label className="text-meta font-body font-medium text-foreground mb-1 block">Target</label>
-                <Input placeholder="Who should act? e.g. Minister of Water" value={newTarget} onChange={e => setNewTarget(e.target.value)} className="min-h-[52px] text-body" />
-              </div>
-              <div className="flex gap-3">
-                <Button onClick={handleCreate} className="flex-1 bg-primary text-primary-foreground hover:bg-yb-yellow-deep gap-2 font-body font-semibold min-h-[48px]">
-                  <Target className="w-4 h-4" /> Submit Petition
-                </Button>
-                <Button variant="outline" onClick={() => setShowCreate(false)} className="min-h-[48px] font-body">Cancel</Button>
+          <div className="mt-3 p-4 rounded-xl bg-card border border-border" style={{ animation: "expandDown 240ms ease-out both" }}>
+            <p
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground mb-3"
+            >
+              OMBI JIPYA
+            </p>
+            <div className="space-y-3">
+              <Input
+                placeholder="Kichwa: Unataka nini?"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                className="h-11 rounded-xl text-[14px]"
+              />
+              <Textarea
+                placeholder="Eleza tatizo na unachotaka kifanyike..."
+                rows={3}
+                value={newDesc}
+                onChange={(e) => setNewDesc(e.target.value)}
+                className="rounded-xl text-[14px]"
+              />
+              <Input
+                placeholder="Lengo: Nani achukue hatua?"
+                value={newTarget}
+                onChange={(e) => setNewTarget(e.target.value)}
+                className="h-11 rounded-xl text-[14px]"
+              />
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCreate}
+                  className="flex-1 h-11 rounded-xl bg-primary text-primary-foreground text-[13px] font-bold active:opacity-65 transition-opacity inline-flex items-center justify-center gap-1.5"
+                >
+                  <Target className="w-4 h-4" /> Wasilisha
+                </button>
+                <button
+                  onClick={() => setShowCreate(false)}
+                  className="px-4 h-11 rounded-xl bg-secondary border border-border text-[13px] font-bold text-foreground active:opacity-65 transition-opacity"
+                >
+                  Ghairi
+                </button>
               </div>
             </div>
           </div>
         )}
 
-        <div className="flex items-center gap-2 mb-4">
-          <TrendingUp className="w-4 h-4 text-primary" />
-          <span className="text-body font-body font-semibold text-foreground">Trending Petitions</span>
-        </div>
+        <p
+          style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          className="text-[11px] font-bold uppercase tracking-[0.12em] text-muted-foreground mt-6 mb-2"
+        >
+          MAOMBI YANAYOCHOMEKA
+        </p>
+      </div>
 
-        <div className="space-y-4">
-          {mockPetitions.map((petition) => {
-            const progress = Math.min((petition.signatures / petition.goal) * 100, 100);
-            return (
-              <div key={petition.id} className="yb-card p-5">
-                <div className="flex items-start gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                    <Target className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      {petition.trending && <Badge className="bg-primary/15 text-foreground border-primary/30 text-badge font-heading uppercase">🔥 Trending</Badge>}
-                      <Badge variant="outline" className="text-badge font-heading uppercase">{petition.category}</Badge>
+      {/* Petition rows */}
+      <div className="-mt-2 border-y border-border bg-card divide-y divide-border/60">
+        {mockPetitions.map((p) => {
+          const progress = Math.min((p.signatures / p.goal) * 100, 100);
+          const signed = signedIds.has(p.id);
+          return (
+            <ExpandableRow
+              key={p.id}
+              icon={<Target className="w-5 h-5 text-primary" />}
+              title={p.title}
+              meta={`${p.signatures.toLocaleString()} saini · Lengo: ${p.goal.toLocaleString()}`}
+              badge={p.trending ? "🔥 Hot" : p.category}
+              expandedContent={
+                <div className="space-y-3 pt-2">
+                  <p className="text-[13px] text-muted-foreground leading-relaxed">{p.description}</p>
+
+                  <p className="text-[12px] text-muted-foreground">
+                    Kwa: <span className="font-bold text-foreground">{p.target}</span> ({p.targetRole})
+                  </p>
+
+                  {/* Progress */}
+                  <div>
+                    <div className="flex justify-between text-[11px] mb-1">
+                      <span
+                        style={{ fontFamily: "'JetBrains Mono', monospace" }}
+                        className="font-bold text-primary"
+                      >
+                        {p.signatures.toLocaleString()} / {p.goal.toLocaleString()}
+                      </span>
+                      <span className="text-muted-foreground">{Math.round(progress)}%</span>
                     </div>
-                    <h3 className="font-heading text-h3 text-foreground leading-snug">{petition.title}</h3>
-                    <p className="text-meta font-body text-muted-foreground mt-1 line-clamp-2">{petition.description}</p>
+                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary rounded-full transition-all"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleSign(p.id)}
+                      disabled={signed}
+                      className={`flex-1 h-11 rounded-xl text-[13px] font-bold transition-opacity active:opacity-65 ${
+                        signed
+                          ? "bg-accent/15 text-accent border border-accent/25"
+                          : "bg-primary text-primary-foreground"
+                      }`}
+                    >
+                      {signed ? "✓ Umesaini" : "Saini Ombi"}
+                    </button>
+                    <button
+                      onClick={() => handleShare(p)}
+                      className="w-11 h-11 rounded-xl bg-secondary border border-border flex items-center justify-center active:opacity-65 transition-opacity"
+                      aria-label="Shiriki"
+                    >
+                      <Share2 className="w-4 h-4 text-foreground" />
+                    </button>
+                    <button
+                      onClick={() => handleDonate(p)}
+                      className="w-11 h-11 rounded-xl bg-secondary border border-accent/30 flex items-center justify-center active:opacity-65 transition-opacity"
+                      aria-label="M-Pesa"
+                    >
+                      <Phone className="w-4 h-4 text-accent" />
+                    </button>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-2 text-meta font-body text-muted-foreground mb-3 pl-[52px]">
-                  <Target className="w-3 h-3" />
-                  <span>To: <strong className="text-foreground">{petition.target}</strong> ({petition.targetRole})</span>
-                </div>
-
-                <div className="pl-[52px] mb-3">
-                  <div className="flex justify-between text-meta font-body mb-1">
-                    <span className="font-heading font-bold text-primary">{petition.signatures.toLocaleString()} signatures</span>
-                    <span className="text-muted-foreground">Goal: {petition.goal.toLocaleString()}</span>
-                  </div>
-                  <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${progress}%` }} />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 pl-[52px]">
-                  <Button size="sm" onClick={() => handleSign(petition.id)} className="bg-primary text-primary-foreground text-meta gap-1 flex-1 font-body font-semibold hover:bg-yb-yellow-deep min-h-[40px]">
-                    <Heart className="w-3 h-3" /> Sign
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={() => handleShare(petition)} className="text-meta gap-1 font-body min-h-[40px]">
-                    <Share2 className="w-3 h-3" /> WhatsApp
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={() => handleDonate(petition)} className="text-meta gap-1 text-accent border-accent/30 font-body min-h-[40px]">
-                    <Phone className="w-3 h-3" /> M-Pesa
-                  </Button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+              }
+            />
+          );
+        })}
       </div>
     </div>
   );
