@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import Panel from "@/components/Panel";
 
 interface Petition {
@@ -32,29 +33,105 @@ export default function Sauti() {
   const { user, signInAnonymously } = useAuth();
   useEffect(() => { if (!user) signInAnonymously(); }, [user, signInAnonymously]);
 
+  const [petitions, setPetitions] = useState<Petition[]>(mockPetitions);
   const [signedIds, setSignedIds] = useState<Set<string>>(new Set());
   const [showCreate, setShowCreate] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [newTarget, setNewTarget] = useState("");
 
-  const handleSign = (id: string) => {
-    setSignedIds((s) => {
-      const next = new Set(s);
-      next.add(id);
-      return next;
-    });
-    toast.success("Umesaini ombi. Asante!");
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("petitions")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (data && data.length > 0) {
+        const mapped: Petition[] = data.map((p) => ({
+          id: p.id,
+          title: p.title,
+          description: p.description,
+          target: p.target,
+          targetRole: p.target_role || "",
+          signatures: 0,
+          goal: p.goal,
+          category: p.category || "General",
+          author: "",
+          createdAt: p.created_at,
+          trending: false,
+        }));
+        // Merge real petitions on top of mocks
+        setPetitions([...mapped, ...mockPetitions]);
+      }
+    })();
+  }, []);
+
+  const handleSign = async (id: string) => {
+    if (signedIds.has(id)) {
+      toast.info("Umeshatia saini ombi hili.");
+      return;
+    }
+    if (!user) {
+      toast.error("Ingia kwanza ili kutia saini.");
+      return;
+    }
+    // Only persist for real (UUID) petitions, not mock IDs like "pet-001"
+    const isMock = id.startsWith("pet-");
+    if (!isMock) {
+      const { error } = await supabase
+        .from("petition_signatures")
+        .insert({ petition_id: id, user_id: user.id });
+      if (error && error.code !== "23505") {
+        toast.error("Hitilafu. Jaribu tena.");
+        return;
+      }
+    }
+    setSignedIds((s) => { const n = new Set(s); n.add(id); return n; });
+    setPetitions((ps) => ps.map((p) => p.id === id ? { ...p, signatures: p.signatures + 1 } : p));
+    toast.success("Umesaini! Asante kwa sauti yako. 🙌");
   };
   const handleShare = (p: Petition) => {
-    const msg = encodeURIComponent(`✊ ${p.title}\n\nSaini hapa: https://semaapp.lovable.app/sauti\n\n#Sema`);
+    const msg = encodeURIComponent(`✊ ${p.title}\n\nSaini hapa: https://www.semaapp.co.tz/sauti\n\n#Sema`);
     window.open(`https://wa.me/?text=${msg}`, "_blank");
   };
-  const handleDonate = (p: Petition) => toast.info("M-Pesa: 0754 000 000 (Ref: " + p.id + ")");
-  const handleCreate = () => {
+  const handleDonate = () => toast.info("Ufadhili kupitia M-Pesa utaongezwa hivi karibuni.");
+  const handleCreate = async () => {
     if (!newTitle.trim() || !newDesc.trim()) return;
-    toast.success("Ombi lako limeundwa!");
-    setShowCreate(false); setNewTitle(""); setNewDesc(""); setNewTarget("");
+    if (!user) { toast.error("Ingia kwanza."); return; }
+    const { error } = await supabase.from("petitions").insert({
+      user_id: user.id,
+      title: newTitle.trim(),
+      description: newDesc.trim(),
+      target: newTarget.trim() || "Serikali",
+      goal: 1000,
+    });
+    if (error) {
+      toast.error("Hitilafu. Jaribu tena.");
+      return;
+    }
+    toast.success("Ombi lako limeundwa! 🎉");
+    setShowCreate(false);
+    setNewTitle(""); setNewDesc(""); setNewTarget("");
+    const { data } = await supabase
+      .from("petitions")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (data) {
+      const mapped: Petition[] = data.map((p) => ({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        target: p.target,
+        targetRole: p.target_role || "",
+        signatures: 0,
+        goal: p.goal,
+        category: p.category || "General",
+        author: "",
+        createdAt: p.created_at,
+        trending: false,
+      }));
+      setPetitions([...mapped, ...mockPetitions]);
+    }
   };
 
   return (
@@ -138,7 +215,7 @@ export default function Sauti() {
 
       {/* Petition rows */}
       <div className="-mt-2 border-y border-border bg-card divide-y divide-border/60">
-        {mockPetitions.map((p) => {
+        {petitions.map((p) => {
           const progress = Math.min((p.signatures / p.goal) * 100, 100);
           const signed = signedIds.has(p.id);
           return (
@@ -198,7 +275,7 @@ export default function Sauti() {
                     <Share2 className="w-4 h-4 text-foreground" />
                   </button>
                   <button
-                    onClick={() => handleDonate(p)}
+                    onClick={handleDonate}
                     className="w-11 h-11 rounded-xl bg-secondary border border-accent/30 flex items-center justify-center active:opacity-65 transition-opacity"
                     aria-label="M-Pesa"
                   >

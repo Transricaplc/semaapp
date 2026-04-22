@@ -65,6 +65,24 @@ export default function Tracker() {
     };
     load();
   }, []);
+  // Re-fire when auth resolves
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      // trigger reload by remounting effect via state
+      (async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) { setAuthed(false); setReports([]); return; }
+        setAuthed(true);
+        const { data } = await supabase
+          .from("reports")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
+        if (data) setReports(data as DBReport[]);
+      })();
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <div className="animate-fade-in mx-auto w-full max-w-[640px]">

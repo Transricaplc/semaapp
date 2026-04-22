@@ -62,4 +62,22 @@ export default defineConfig(({ mode }) => ({
     },
     dedupe: ["react", "react-dom", "react/jsx-runtime"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-ui": [
+            "@radix-ui/react-collapsible",
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-tabs",
+            "@radix-ui/react-select",
+          ],
+          "vendor-supabase": ["@supabase/supabase-js"],
+          "vendor-maps": ["leaflet"],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 400,
+  },
 }));
