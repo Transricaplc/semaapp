@@ -20,7 +20,8 @@ export default {
       fontFamily: {
         sans: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
-        heading: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
+        display: ["'Sora'", "system-ui", "sans-serif"],
+        heading: ["'Sora'", "system-ui", "sans-serif"],
         body: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
       },
       fontSize: {
