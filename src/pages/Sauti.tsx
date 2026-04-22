@@ -275,7 +275,7 @@ export default function Sauti() {
                     <Share2 className="w-4 h-4 text-foreground" />
                   </button>
                   <button
-                    onClick={() => handleDonate(p)}
+                    onClick={handleDonate}
                     className="w-11 h-11 rounded-xl bg-secondary border border-accent/30 flex items-center justify-center active:opacity-65 transition-opacity"
                     aria-label="M-Pesa"
                   >
