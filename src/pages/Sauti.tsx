@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import Row from "@/components/Row";
+import Panel from "@/components/Panel";
 
 interface Petition {
   id: string;

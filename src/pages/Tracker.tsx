@@ -8,7 +8,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Row from "@/components/Row";
+import Panel from "@/components/Panel";
 
 const statusSteps: ReportStatus[] = ["sent", "received", "investigating", "resolved"];
 
