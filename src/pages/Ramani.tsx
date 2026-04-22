@@ -174,7 +174,7 @@ export default function Ramani() {
               fontSize="9" fontWeight="600" letterSpacing="1" opacity="0.7">BAHARI YA HINDI</text>
 
             {/* Region paths */}
-            {TZ_REGIONS.map(region => {
+            {TZ_REGIONS.filter(r => r.path && r.path.trim().length > 0).map(region => {
               const isSelected = selectedRegion?.id === region.id;
               const isHovered = hoveredId === region.id;
               const reportCount = REGION_REPORTS[region.id]?.reduce((s, r) => s + r.count, 0) ?? 0;

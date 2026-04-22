@@ -876,7 +876,7 @@ export function getNationalOfficials(): Official[] {
 
 /** Get first contact of a type */
 export function getContact(official: Official, type: OfficialContact["type"]): string {
-  return official.contacts.find((c) => c.type === type)?.value || "";
+  return official.contacts?.find((c) => c.type === type)?.value ?? "";
 }
 
 /** Stats */
