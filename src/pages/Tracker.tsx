@@ -167,13 +167,12 @@ export default function Tracker() {
                 const StatusIcon = statusIcon[status];
 
                 return (
-                  <Row
+                  <Panel
                     key={report.id}
-                    leading={<StatusIcon className="w-5 h-5 text-primary" />}
+                    left={<StatusIcon className="w-5 h-5 text-primary" />}
                     title={report.title}
                     subtitle={`${catLabel} · ${report.location}`}
                     badge={statusLabelsLocal[status]}
-                    badgeColor={statusBadgeColor[status]}
                   >
                     <div className="space-y-3 pt-2">
                       <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
@@ -212,7 +211,7 @@ export default function Tracker() {
                         )}
                       </div>
                     </div>
-                  </Row>
+                  </Panel>
                 );
               })}
             </div>
