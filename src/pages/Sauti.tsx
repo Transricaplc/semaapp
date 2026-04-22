@@ -215,7 +215,7 @@ export default function Sauti() {
 
       {/* Petition rows */}
       <div className="-mt-2 border-y border-border bg-card divide-y divide-border/60">
-        {mockPetitions.map((p) => {
+        {petitions.map((p) => {
           const progress = Math.min((p.signatures / p.goal) * 100, 100);
           const signed = signedIds.has(p.id);
           return (
