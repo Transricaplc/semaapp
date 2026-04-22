@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
-import Row from "@/components/Row";
+import Panel from "@/components/Panel";
 
 interface Petition {
   id: string;
@@ -142,9 +142,16 @@ export default function Sauti() {
           const progress = Math.min((p.signatures / p.goal) * 100, 100);
           const signed = signedIds.has(p.id);
           return (
-            <Row
+            <Panel
               key={p.id}
-              leading={<Target className="w-5 h-5 text-primary" />}
+              left={
+                <>
+                  <span className="font-display text-[16px] font-extrabold text-primary leading-none">
+                    {p.signatures > 999 ? `${(p.signatures / 1000).toFixed(1)}k` : p.signatures}
+                  </span>
+                  <span className="font-mono text-[8px] uppercase tracking-[0.15em] text-white/50">SAINI</span>
+                </>
+              }
               title={p.title}
               subtitle={`${p.signatures.toLocaleString()} saini · Lengo: ${p.goal.toLocaleString()}`}
               badge={p.trending ? "🔥 Hot" : p.category}
@@ -199,7 +206,7 @@ export default function Sauti() {
                   </button>
                 </div>
               </div>
-            </Row>
+            </Panel>
           );
         })}
       </div>
