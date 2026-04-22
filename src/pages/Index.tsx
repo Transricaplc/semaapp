@@ -10,7 +10,7 @@ import ConstituencyFinder from "@/components/ConstituencyFinder";
 import EmergencyBanner from "@/components/EmergencyContacts";
 import { directoryStats, getYourOfficials } from "@/data/unified_officials";
 import OfficialCard from "@/components/OfficialCard";
-import Row from "@/components/Row";
+import Panel, { PanelGroup, PanelLabel } from "@/components/Panel";
 import { hospitals } from "@/data/hospitali";
 import { agencies } from "@/data/agencies";
 
