@@ -66,6 +66,8 @@ export default function Mimi() {
     setSavedLoc({ mkoa_id, wilaya_id, kata_id, label });
     if (mkoa_id) toast.success("Eneo limehifadhiwa");
   };
+
+  const handleSendOTP = async () => {
     if (!phone.trim()) return;
     setSending(true);
     const fullPhone = phone.startsWith("+") ? phone : `+255${phone.replace(/^0/, "")}`;
