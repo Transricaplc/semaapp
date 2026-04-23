@@ -10,6 +10,7 @@ import { toast } from "sonner";
 export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
   const { user, signInWithPhone, verifyOTP, signInAnonymously, signOut, isAnonymous } = useAuth();
+  const { items: followed } = useFollowedList();
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
@@ -117,7 +118,7 @@ export default function Mimi() {
 
   const stats = [
     { label: "Ripoti", value: String(mockReports.length) },
-    { label: "Wafuatiliwa", value: "0" },
+    { label: "Wafuatiliwa", value: String(followed.length) },
     { label: "Alama", value: "78" },
   ];
 
