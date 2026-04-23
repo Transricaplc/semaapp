@@ -1,12 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, CheckCircle2, Search, Send } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle2, Search, Send, MapPin } from "lucide-react";
 import { type ReportCategory } from "@/data/reports";
 import { officials } from "@/data/unified_officials";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import LocationPicker, { type LocationLabels } from "@/components/LocationPicker";
 
 const CATEGORIES: { value: ReportCategory; label: string }[] = [
   { value: "graft", label: "Ufisadi" },
@@ -34,6 +35,10 @@ export default function Report() {
   const [anonymous, setAnonymous] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [locIds, setLocIds] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null }>({
+    mkoa_id: null, wilaya_id: null, kata_id: null,
+  });
+  const [locLabels, setLocLabels] = useState<LocationLabels>({});
 
   const officialMatches = useMemo(() => {
     if (!officialSearch.trim() || selectedOfficial) return [];
@@ -53,14 +58,18 @@ export default function Report() {
     if (!selectedOfficial || !category) return;
     setSubmitting(true);
     try {
+      const locText = [locLabels.mkoa_jina, locLabels.wilaya_jina, locLabels.kata_jina].filter(Boolean).join(" › ");
       const { error } = await supabase.from("reports").insert({
         title: `Kwa ${selectedOfficial.full_name} — ${categoryLabel}`,
         description,
         category,
-        location: selectedOfficial.location.region || "Tanzania",
+        location: locText || selectedOfficial.location.region || "Tanzania",
         anonymous,
         user_id: user?.id ?? null,
         status: "sent",
+        mkoa_id: locIds.mkoa_id,
+        wilaya_id: locIds.wilaya_id,
+        kata_id: locIds.kata_id,
       });
       if (error) throw error;
       setSubmitted(true);
@@ -142,6 +151,20 @@ export default function Report() {
               <p className="label-eyebrow mb-1">Umechagua</p>
               <p className="font-serif-display text-[18px] text-ink">{selectedOfficial.full_name}</p>
               <p className="text-[12px] text-text-secondary mt-0.5">{selectedOfficial.role_title}</p>
+            </div>
+          )}
+
+          {selectedOfficial && (
+            <div className="mt-2">
+              <p className="label-eyebrow mb-2 flex items-center gap-1.5">
+                <MapPin className="w-3 h-3" /> Eneo la tatizo (si lazima)
+              </p>
+              <LocationPicker
+                onChange={(mkoa_id, wilaya_id, kata_id, labels) => {
+                  setLocIds({ mkoa_id, wilaya_id, kata_id });
+                  setLocLabels(labels);
+                }}
+              />
             </div>
           )}
         </section>
