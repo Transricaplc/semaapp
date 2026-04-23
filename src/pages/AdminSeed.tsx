@@ -44,14 +44,24 @@ export default function AdminSeed() {
         "https://raw.githubusercontent.com/Kijacode/Tanzania_Geo_Data/main/Districts.json",
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: any[] = await res.json();
+      const raw = await res.json();
+      // Source is a GeoJSON-like object: { name, features: [{ properties: { region, District } }] }
+      const features: any[] = Array.isArray(raw) ? raw : raw.features || [];
+      const data: any[] = features.map((f: any, idx: number) => ({
+        ...(f.properties || f),
+        id: f.properties?.id ?? f.id ?? idx + 1,
+      }));
 
       let inserted = 0;
       for (let i = 0; i < data.length; i += 100) {
         const chunk = data.slice(i, i + 100);
         const rows = await Promise.all(
           chunk.map(async (d: any) => {
-            const regionName = d.region || d.region_name || d.mkoa || null;
+            const regionRaw =
+              d.region || d.Region || d.region_name || d.mkoa || null;
+            const regionName = regionRaw
+              ? String(regionRaw).replace(/\s*Region\s*$/i, "").trim()
+              : null;
             let mkoa_id: number | null = null;
             if (regionName) {
               const { data: mkoa } = await supabase
@@ -64,7 +74,7 @@ export default function AdminSeed() {
             }
             return {
               pcode: `TZD${String(d.id ?? `${i}${chunk.indexOf(d)}`).padStart(4, "0")}`,
-              jina: d.name || d.district_name || d.jina || "Unknown",
+              jina: d.District || d.name || d.district_name || d.jina || "Unknown",
               mkoa_id,
             };
           }),
@@ -90,7 +100,12 @@ export default function AdminSeed() {
         "https://raw.githubusercontent.com/Kijacode/Tanzania_Geo_Data/main/Wards.json",
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: any[] = await res.json();
+      const raw = await res.json();
+      const features: any[] = Array.isArray(raw) ? raw : raw.features || [];
+      const data: any[] = features.map((f: any, idx: number) => ({
+        ...(f.properties || f),
+        id: f.properties?.id ?? f.id ?? idx + 1,
+      }));
 
       const chunkSize = 100;
       let inserted = 0;
@@ -99,7 +114,10 @@ export default function AdminSeed() {
         const chunk = data.slice(i, i + chunkSize);
         const rows = await Promise.all(
           chunk.map(async (w: any) => {
-            const wilayaName = w.district || w.district_name || w.wilaya || null;
+            const wilayaRaw = w.District || w.district || w.district_name || w.wilaya || null;
+            const wilayaName = wilayaRaw
+              ? String(wilayaRaw).replace(/\s*(District|City|Municipal(ity)?|DC|MC)\s*$/i, "").trim()
+              : null;
             let wilaya_id: number | null = null;
             let mkoa_id: number | null = null;
             if (wilayaName) {
@@ -116,7 +134,7 @@ export default function AdminSeed() {
             }
             return {
               pcode: `TZW${String(w.id ?? `${i}${chunk.indexOf(w)}`).padStart(5, "0")}`,
-              jina: w.name || w.ward_name || w.jina || "Unknown",
+              jina: w.Ward || w.name || w.ward_name || w.jina || "Unknown",
               wilaya_id,
               mkoa_id,
             };
