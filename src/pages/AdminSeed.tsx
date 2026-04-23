@@ -44,14 +44,21 @@ export default function AdminSeed() {
         "https://raw.githubusercontent.com/Kijacode/Tanzania_Geo_Data/main/Districts.json",
       );
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: any[] = await res.json();
+      const raw = await res.json();
+      // Source is a GeoJSON-like object: { name, features: [{ properties: { region, District } }] }
+      const features: any[] = Array.isArray(raw) ? raw : raw.features || [];
+      const data: any[] = features.map((f: any, idx: number) => ({
+        ...(f.properties || f),
+        id: f.properties?.id ?? f.id ?? idx + 1,
+      }));
 
       let inserted = 0;
       for (let i = 0; i < data.length; i += 100) {
         const chunk = data.slice(i, i + 100);
         const rows = await Promise.all(
           chunk.map(async (d: any) => {
-            const regionName = d.region || d.region_name || d.mkoa || null;
+            const regionName =
+              d.region || d.Region || d.region_name || d.mkoa || null;
             let mkoa_id: number | null = null;
             if (regionName) {
               const { data: mkoa } = await supabase
