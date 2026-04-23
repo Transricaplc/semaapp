@@ -1,25 +1,70 @@
 import { useState, useMemo } from "react";
 import {
-  Search, MapPin, Landmark, Building2, Scale, Shield, Banknote, BookOpen,
-  GraduationCap, Heart, X, ChevronDown, ChevronRight, BadgeCheck,
-  Send, Tag, Share2, Phone, Users, Filter,
+  Search, MapPin, Landmark, Building2, Scale, Banknote, BookOpen,
+  GraduationCap, Heart, X, BadgeCheck, Phone, Users,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  officials, searchOfficials, roleTypeLabels, roleBadgeColors,
-  directoryStats, allRegionNames, districtsByRegion,
-  type Official, type RoleType,
+  officials, roleTypeLabels,
+  directoryStats, allRegionNames,
+  type Official, type RoleType, type VerifiedStatus,
 } from "@/data/unified_officials";
-import { agencies, searchAgencies, sectorColors, type Agency, type AgencySector } from "@/data/agencies";
-import { bankingCEOs, searchBanking, botRegisteredBanks, searchBotBanks, bureauxDeChange, searchBureaux, type BankingCEO } from "@/data/banking";
-import { hospitals, searchHospitals, hospitalTypeLabels, type Hospital, type HospitalType } from "@/data/hospitali";
-import { courts, searchCourts, courtLevelLabels, type Court } from "@/data/mahakama";
-import { eduInstitutions, searchEdu, elimuTypeLabels, type EduInstitution } from "@/data/elimu";
+import { agencies, searchAgencies } from "@/data/agencies";
+import { bankingCEOs, searchBanking, searchBotBanks, bureauxDeChange, searchBureaux } from "@/data/banking";
+import { hospitals, searchHospitals, hospitalTypeLabels, type HospitalType } from "@/data/hospitali";
+import { courts, searchCourts, courtLevelLabels } from "@/data/mahakama";
+import { eduInstitutions, searchEdu, elimuTypeLabels } from "@/data/elimu";
 import { politicalParties, searchParties } from "@/data/vyama";
-import SecureActionCard from "@/components/SecureActionCard";
-import ConstituencyFinder from "@/components/ConstituencyFinder";
+import OfficialCard from "@/components/OfficialCard";
+import { PanelGroup } from "@/components/Panel";
 import LocalGovPanel from "@/components/LocalGovPanel";
+
+// ── Adapter: synthesize a minimal Official from any directory entry ──
+function makeOfficial(input: {
+  id: string;
+  full_name: string;
+  role_type: RoleType;
+  role_title: string;
+  ministry?: string;
+  region?: string;
+  district?: string;
+  ward?: string;
+  party?: string;
+  verified?: boolean;
+  phone?: string;
+  email?: string;
+  address?: string;
+}): Official {
+  const contacts: Official["contacts"] = [];
+  if (input.phone) contacts.push({ type: "phone", value: input.phone, verified: !!input.verified });
+  if (input.email) contacts.push({ type: "email", value: input.email, verified: !!input.verified });
+  if (input.address) contacts.push({ type: "office_address", value: input.address, verified: !!input.verified });
+  return {
+    id: input.id,
+    full_name: input.full_name,
+    profile_photo_url: "",
+    role_type: input.role_type,
+    role_title: input.role_title,
+    verified_status: (input.verified ? "VERIFIED" : "UNVERIFIED") as VerifiedStatus,
+    verified_source: "",
+    last_verified_date: "",
+    party: input.party ?? "",
+    location: {
+      region: input.region ?? "",
+      district: input.district ?? "",
+      division: "",
+      ward: input.ward ?? "",
+      village_mtaa: "",
+      constituency: "",
+    },
+    institution: {
+      ministry: input.ministry ?? "",
+      court_name: "",
+      police_station: "",
+      office_address: input.address ?? "",
+    },
+    contacts,
+  };
+}
 
 type DirectoryTab = "mikoa" | "wilaya" | "hospitali" | "wakala" | "benki" | "mahakama" | "bunge" | "elimu" | "vyama";
 
