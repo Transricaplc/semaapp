@@ -120,8 +120,14 @@ export default function OfficialCard({ official }: { official: Official }) {
           {/* Action strip */}
           <div className="flex items-center gap-2 pt-1">
             <Link
-              to={`/report?official_name=${encodeURIComponent(official.full_name)}`}
+              to={`/kiongozi/${official.id}`}
               className="flex-1 flex items-center justify-center gap-1.5 h-11 rounded-xl bg-primary text-primary-foreground font-ui text-[13px] font-medium active:opacity-65 transition-opacity"
+            >
+              <BadgeCheck className="w-3.5 h-3.5" /> Wasifu Kamili
+            </Link>
+            <Link
+              to={`/report?official_id=${encodeURIComponent(official.id)}&official_name=${encodeURIComponent(official.full_name)}`}
+              className="flex-1 flex items-center justify-center gap-1.5 h-11 rounded-xl border border-primary text-primary bg-transparent font-ui text-[13px] font-medium active:opacity-60"
             >
               <AlertTriangle className="w-3.5 h-3.5" /> Ripoti
             </Link>
@@ -129,13 +135,14 @@ export default function OfficialCard({ official }: { official: Official }) {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                const text = `${official.full_name} — ${official.role_title}${phone ? `\n📞 ${phone}` : ""}${email ? `\n✉️ ${email}` : ""}\n\nSema: https://www.semaapp.co.tz`;
+                const text = `${official.full_name} — ${official.role_title}${phone ? `\n📞 ${phone}` : ""}${email ? `\n✉️ ${email}` : ""}\n\nSema: https://www.semaapp.co.tz/kiongozi/${official.id}`;
                 if (navigator.share) navigator.share({ text }).catch(() => {});
                 else navigator.clipboard.writeText(text);
               }}
-              className="flex-1 flex items-center justify-center gap-1.5 h-11 rounded-xl border border-primary text-primary bg-transparent font-ui text-[13px] font-medium active:opacity-60"
+              className="w-11 h-11 flex items-center justify-center rounded-xl border border-gazette-border text-text-secondary active:opacity-60"
+              aria-label="Shiriki"
             >
-              <Share2 className="w-3.5 h-3.5" /> Shiriki
+              <Share2 className="w-4 h-4" />
             </button>
           </div>
         </div>
