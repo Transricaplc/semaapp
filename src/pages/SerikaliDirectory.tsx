@@ -268,11 +268,8 @@ export default function SerikaliDirectory() {
               </>
             )}
 
-            <PanelGroup>
-              {regionalCommissioners.map((rc) => (
-                <OfficialCard key={rc.id} official={rc} />
-              ))}
-            </PanelGroup>
+            <SortedOfficialList officials={regionalCommissioners} sortBy={sortBy} />
+
           </div>
         )}
 
@@ -293,23 +290,20 @@ export default function SerikaliDirectory() {
                     <h2 className="text-[16px] font-bold">{type}</h2>
                     <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
-                  <PanelGroup>
-                    {items.map((h) => (
-                      <OfficialCard
-                        key={h.id}
-                        official={makeOfficial({
-                          id: h.id,
-                          full_name: h.director.name,
-                          role_type: "PERMANENT_SECRETARY",
-                          role_title: `${h.director.position} — ${h.name}`,
-                          ministry: h.name,
-                          region: h.location,
-                          verified: h.verified,
-                          phone: h.emergencyLine,
-                        })}
-                      />
-                    ))}
-                  </PanelGroup>
+                  <SortedOfficialList
+                    officials={items.map((h) => makeOfficial({
+                      id: h.id,
+                      full_name: h.director.name,
+                      role_type: "PERMANENT_SECRETARY",
+                      role_title: `${h.director.position} — ${h.name}`,
+                      ministry: h.name,
+                      region: h.location,
+                      verified: h.verified,
+                      phone: h.emergencyLine,
+                    }))}
+                    sortBy={sortBy}
+                  />
+
                 </div>
               );
             })}
