@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck } from "lucide-react";
 import { mockReports } from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useFollowedList } from "@/hooks/useFollowOfficial";
 import { toast } from "sonner";
 
 export default function Mimi() {
