@@ -111,8 +111,8 @@ export default function Ramani() {
   }, [pois]);
 
   const filtered = search.trim()
-    ? POIS.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
-    : POIS;
+    ? pois.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
+    : pois;
 
   const flyTo = (p: POI) => {
     mapInstance.current?.flyTo([p.lat, p.lng], 13, { duration: 0.8 });
