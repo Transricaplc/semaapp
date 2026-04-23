@@ -53,9 +53,31 @@ export default function Ramani() {
       zoomControl: false,
     });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "© OpenStreetMap • Data: Kijacode/Tanzania_Geo_Data",
+      attribution:
+        "© OpenStreetMap • Boundaries: HDX/OCHA (NBS Tanzania) • Data: Kijacode",
       maxZoom: 19,
     }).addTo(map);
+
+    // HDX/OCHA Tanzania ADM1 region boundaries overlay
+    fetch("/geo/tz_regions.geojson")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((gj) => {
+        if (!gj || !mapInstance.current) return;
+        L.geoJSON(gj, {
+          style: {
+            color: "hsl(158 70% 14%)",
+            weight: 1,
+            opacity: 0.55,
+            fillColor: "hsl(158 70% 14%)",
+            fillOpacity: 0.04,
+          },
+          onEachFeature: (feature, layer) => {
+            const name = feature.properties?.name;
+            if (name) layer.bindTooltip(name, { sticky: true, direction: "center" });
+          },
+        }).addTo(map);
+      })
+      .catch(() => {});
 
     markersLayer.current = L.layerGroup().addTo(map);
     mapInstance.current = map;
