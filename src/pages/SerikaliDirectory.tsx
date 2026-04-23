@@ -477,21 +477,27 @@ export default function SerikaliDirectory() {
 
             {filteredOfficials.length === 0 ? (
               <EmptyState />
+            ) : (sortBy === "ministry" || sortBy === "region") ? (
+              <SortedOfficialList officials={filteredOfficials} sortBy={sortBy} />
             ) : (
-              Object.entries(groupedOfficials).map(([label, items]) => (
-                <div key={label} className="mb-8">
-                  <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
-                    <Landmark className="w-4 h-4" />
-                    <h2 className="text-[16px] font-bold">{label}</h2>
-                    <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
+              Object.entries(groupedOfficials).map(([label, items]) => {
+                const sortedItems = applySort(items, sortBy);
+                if (sortedItems.length === 0) return null;
+                return (
+                  <div key={label} className="mb-8">
+                    <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                      <Landmark className="w-4 h-4" />
+                      <h2 className="text-[16px] font-bold">{label}</h2>
+                      <span className="text-[13px] text-yb-charcoal-muted ml-1">({sortedItems.length})</span>
+                    </div>
+                    <PanelGroup>
+                      {sortedItems.map((o) => (
+                        <OfficialCard key={o.id} official={o} />
+                      ))}
+                    </PanelGroup>
                   </div>
-                  <PanelGroup>
-                    {items.map((o) => (
-                      <OfficialCard key={o.id} official={o} />
-                    ))}
-                  </PanelGroup>
-                </div>
-              ))
+                );
+              })
             )}
           </>
         )}
