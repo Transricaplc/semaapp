@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck } from "lucide-react";
+import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin } from "lucide-react";
 import { mockReports } from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFollowedList } from "@/hooks/useFollowOfficial";
 import { toast } from "sonner";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import LocationPicker, { type LocationLabels } from "@/components/LocationPicker";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
@@ -15,8 +18,54 @@ export default function Mimi() {
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [sending, setSending] = useState(false);
+  const [locOpen, setLocOpen] = useState(false);
+  const [savedLoc, setSavedLoc] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null; label: string }>({
+    mkoa_id: null, wilaya_id: null, kata_id: null, label: "",
+  });
 
-  const handleSendOTP = async () => {
+  // Load saved location
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("profiles")
+      .select("mkoa_id, wilaya_id, kata_id")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(async ({ data }) => {
+        if (!data) return;
+        const ids = { mkoa_id: data.mkoa_id, wilaya_id: data.wilaya_id, kata_id: data.kata_id };
+        // resolve labels
+        const labels: string[] = [];
+        if (ids.mkoa_id) {
+          const { data: m } = await supabase.from("mikoa").select("jina").eq("id", ids.mkoa_id).maybeSingle();
+          if (m) labels.push(m.jina);
+        }
+        if (ids.wilaya_id) {
+          const { data: w } = await supabase.from("wilaya").select("jina").eq("id", ids.wilaya_id).maybeSingle();
+          if (w) labels.push(w.jina);
+        }
+        if (ids.kata_id) {
+          const { data: k } = await supabase.from("kata").select("jina").eq("id", ids.kata_id).maybeSingle();
+          if (k) labels.push(k.jina);
+        }
+        setSavedLoc({ ...ids, label: labels.join(" › ") });
+      });
+  }, [user]);
+
+  const handleSaveLocation = async (mkoa_id: number | null, wilaya_id: number | null, kata_id: number | null, labels: LocationLabels) => {
+    if (!user) return;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ mkoa_id, wilaya_id, kata_id })
+      .eq("user_id", user.id);
+    if (error) {
+      toast.error("Imeshindikana kuhifadhi");
+      return;
+    }
+    const label = [labels.mkoa_jina, labels.wilaya_jina, labels.kata_jina].filter(Boolean).join(" › ");
+    setSavedLoc({ mkoa_id, wilaya_id, kata_id, label });
+    if (mkoa_id) toast.success("Eneo limehifadhiwa");
+  };
     if (!phone.trim()) return;
     setSending(true);
     const fullPhone = phone.startsWith("+") ? phone : `+255${phone.replace(/^0/, "")}`;
