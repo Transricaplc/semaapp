@@ -18,11 +18,14 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
+        sans: ["'DM Sans'", "system-ui", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
-        display: ["'Sora'", "system-ui", "sans-serif"],
-        heading: ["'Sora'", "system-ui", "sans-serif"],
-        body: ["'Plus Jakarta Sans'", "system-ui", "sans-serif"],
+        display: ["'Cormorant Garamond'", "Georgia", "serif"],
+        heading: ["'Cormorant Garamond'", "Georgia", "serif"],
+        serif: ["'Cormorant Garamond'", "Georgia", "serif"],
+        body: ["'DM Sans'", "system-ui", "sans-serif"],
+        ui: ["'DM Sans'", "system-ui", "sans-serif"],
+        code: ["'JetBrains Mono'", "monospace"],
       },
       fontSize: {
         // Display — hero only
