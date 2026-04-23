@@ -1,8 +1,12 @@
 import { useState, useMemo } from "react";
 import {
   Search, MapPin, Landmark, Building2, Scale, Banknote, BookOpen,
-  GraduationCap, Heart, X, BadgeCheck, Phone, Users,
+  GraduationCap, Heart, X, BadgeCheck, Phone, Users, ArrowUpDown, ChevronDown,
 } from "lucide-react";
+import SortSheet from "@/components/SortSheet";
+import {
+  useSortFilter, applySort, groupBySort, sortLabel, type SortKey,
+} from "@/hooks/useSortFilter";
 import {
   officials, roleTypeLabels,
   directoryStats, allRegionNames,
@@ -99,6 +103,12 @@ export default function SerikaliDirectory() {
   const clearFilters = () => { setSearch(""); setSelectedRegion(""); };
   const hasFilters = !!search || !!selectedRegion;
 
+  // ── Sort/Filter state ──
+  const { sortBy, setSortBy } = useSortFilter("name-asc");
+  const [sortOpen, setSortOpen] = useState(false);
+  const activeFilterCount =
+    (sortBy !== "name-asc" ? 1 : 0) + (selectedRegion ? 1 : 0);
+
   // ── Bunge officials ──
   const currentBungeSub = bungeSubTabs.find((t) => t.value === bungeSubTab)!;
   const filteredOfficials = useMemo(() => {
@@ -169,6 +179,23 @@ export default function SerikaliDirectory() {
             )}
           </div>
         </div>
+        {/* Sort + active-filter bar */}
+        <div className="px-4 pb-2 flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={() => setSortOpen(true)}
+            className="inline-flex items-center gap-1.5 bg-surface border border-gazette-border rounded-full px-3 py-1.5 text-[12px] font-medium text-ink active:opacity-65 transition-opacity"
+          >
+            <ArrowUpDown className="w-3.5 h-3.5 text-text-secondary" />
+            <span className="truncate max-w-[140px]">{sortLabel(sortBy)}</span>
+            <ChevronDown className="w-3.5 h-3.5 text-text-secondary" />
+          </button>
+          {activeFilterCount > 0 && (
+            <span className="bg-accent text-ink rounded-full px-3 py-1 text-[11px] font-semibold">
+              Filters Hai · {activeFilterCount}
+            </span>
+          )}
+        </div>
         {/* Filter chips */}
         <div className="flex gap-2 overflow-x-auto pb-3 px-4 no-scrollbar">
           {tabs.map((tab) => (
@@ -187,6 +214,14 @@ export default function SerikaliDirectory() {
           ))}
         </div>
       </header>
+
+      {/* Sort sheet (global to page) */}
+      <SortSheet
+        open={sortOpen}
+        value={sortBy}
+        onClose={() => setSortOpen(false)}
+        onApply={(k) => { setSortBy(k); setSortOpen(false); }}
+      />
 
       <div className="px-4 py-4">
 
@@ -233,11 +268,8 @@ export default function SerikaliDirectory() {
               </>
             )}
 
-            <PanelGroup>
-              {regionalCommissioners.map((rc) => (
-                <OfficialCard key={rc.id} official={rc} />
-              ))}
-            </PanelGroup>
+            <SortedOfficialList officials={regionalCommissioners} sortBy={sortBy} />
+
           </div>
         )}
 
@@ -258,23 +290,20 @@ export default function SerikaliDirectory() {
                     <h2 className="text-[16px] font-bold">{type}</h2>
                     <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
-                  <PanelGroup>
-                    {items.map((h) => (
-                      <OfficialCard
-                        key={h.id}
-                        official={makeOfficial({
-                          id: h.id,
-                          full_name: h.director.name,
-                          role_type: "PERMANENT_SECRETARY",
-                          role_title: `${h.director.position} — ${h.name}`,
-                          ministry: h.name,
-                          region: h.location,
-                          verified: h.verified,
-                          phone: h.emergencyLine,
-                        })}
-                      />
-                    ))}
-                  </PanelGroup>
+                  <SortedOfficialList
+                    officials={items.map((h) => makeOfficial({
+                      id: h.id,
+                      full_name: h.director.name,
+                      role_type: "PERMANENT_SECRETARY",
+                      role_title: `${h.director.position} — ${h.name}`,
+                      ministry: h.name,
+                      region: h.location,
+                      verified: h.verified,
+                      phone: h.emergencyLine,
+                    }))}
+                    sortBy={sortBy}
+                  />
+
                 </div>
               );
             })}
@@ -285,20 +314,16 @@ export default function SerikaliDirectory() {
         {activeTab === "wakala" && (
           <div>
             <p className="text-[13px] text-muted-foreground mb-4">{filteredAgencies.length} wakala</p>
-            <PanelGroup>
-              {filteredAgencies.map((a) => (
-                <OfficialCard
-                  key={a.id}
-                  official={makeOfficial({
-                    id: a.id,
-                    full_name: a.head,
-                    role_type: "PERMANENT_SECRETARY",
-                    role_title: `${a.headTitle} — ${a.acronym}`,
-                    ministry: a.agency,
-                  })}
-                />
-              ))}
-            </PanelGroup>
+            <SortedOfficialList
+              officials={filteredAgencies.map((a) => makeOfficial({
+                id: a.id,
+                full_name: a.head,
+                role_type: "PERMANENT_SECRETARY",
+                role_title: `${a.headTitle} — ${a.acronym}`,
+                ministry: a.agency,
+              }))}
+              sortBy={sortBy}
+            />
           </div>
         )}
 
@@ -452,21 +477,27 @@ export default function SerikaliDirectory() {
 
             {filteredOfficials.length === 0 ? (
               <EmptyState />
+            ) : (sortBy === "ministry" || sortBy === "region") ? (
+              <SortedOfficialList officials={filteredOfficials} sortBy={sortBy} />
             ) : (
-              Object.entries(groupedOfficials).map(([label, items]) => (
-                <div key={label} className="mb-8">
-                  <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
-                    <Landmark className="w-4 h-4" />
-                    <h2 className="text-[16px] font-bold">{label}</h2>
-                    <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
+              Object.entries(groupedOfficials).map(([label, items]) => {
+                const sortedItems = applySort(items, sortBy);
+                if (sortedItems.length === 0) return null;
+                return (
+                  <div key={label} className="mb-8">
+                    <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
+                      <Landmark className="w-4 h-4" />
+                      <h2 className="text-[16px] font-bold">{label}</h2>
+                      <span className="text-[13px] text-yb-charcoal-muted ml-1">({sortedItems.length})</span>
+                    </div>
+                    <PanelGroup>
+                      {sortedItems.map((o) => (
+                        <OfficialCard key={o.id} official={o} />
+                      ))}
+                    </PanelGroup>
                   </div>
-                  <PanelGroup>
-                    {items.map((o) => (
-                      <OfficialCard key={o.id} official={o} />
-                    ))}
-                  </PanelGroup>
-                </div>
-              ))
+                );
+              })
             )}
           </>
         )}
@@ -585,5 +616,43 @@ function EmptyState() {
       <p className="text-[16px] font-bold text-foreground">Hakuna viongozi waliopatikana</p>
       <p className="text-[13px] mt-1">Jaribu kubadilisha utafutaji wako</p>
     </div>
+  );
+}
+
+function SortedOfficialList({ officials, sortBy }: { officials: Official[]; sortBy: SortKey }) {
+  const sorted = applySort(officials, sortBy);
+  const groups = groupBySort(sorted, sortBy);
+
+  if (sorted.length === 0) return <EmptyState />;
+
+  if (groups) {
+    return (
+      <>
+        {groups.map((g) => (
+          <div key={g.label} className="mb-6">
+            <div className="sticky top-[140px] z-10 -mx-4 px-4 py-2 bg-cream/95 backdrop-blur border-b border-gazette-border">
+              <p className="text-[10px] font-semibold tracking-[0.1em] uppercase text-text-secondary">
+                {g.label} <span className="text-ink/50 font-normal">· {g.items.length}</span>
+              </p>
+            </div>
+            <div className="mt-2">
+              <PanelGroup>
+                {g.items.map((o) => (
+                  <OfficialCard key={o.id} official={o} />
+                ))}
+              </PanelGroup>
+            </div>
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  return (
+    <PanelGroup>
+      {sorted.map((o) => (
+        <OfficialCard key={o.id} official={o} />
+      ))}
+    </PanelGroup>
   );
 }
