@@ -60,6 +60,13 @@ export default function OfficialProfile() {
   const [suggestedValue, setSuggestedValue] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
+  const phone = official?.contacts?.find((c) => c.type === "phone")?.value;
+  const email = official?.contacts?.find((c) => c.type === "email")?.value;
+  const address = official?.contacts?.find((c) => c.type === "office_address")?.value;
+  const waNumber = phone ? phone.replace(/[^\d]/g, "") : "";
+  const verified = official?.verified_status === "VERIFIED";
+  const score = useMemo(() => (official ? getOfficialScore(official) : 0), [official]);
+
   // ── Null guard: handle missing official cleanly ──
   if (!official) {
     return (
@@ -78,13 +85,6 @@ export default function OfficialProfile() {
       </div>
     );
   }
-
-  const phone = official.contacts?.find((c) => c.type === "phone")?.value;
-  const email = official.contacts?.find((c) => c.type === "email")?.value;
-  const address = official.contacts?.find((c) => c.type === "office_address")?.value;
-  const waNumber = phone ? phone.replace(/[^\d]/g, "") : "";
-  const verified = official.verified_status === "VERIFIED";
-  const score = useMemo(() => getOfficialScore(official), [official]);
 
   // Sub-metrics (placeholder until real data exists)
   const reportsCount = 0;
