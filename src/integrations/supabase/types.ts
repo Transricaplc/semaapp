@@ -47,6 +47,30 @@ export type Database = {
         }
         Relationships: []
       }
+      followed_officials: {
+        Row: {
+          created_at: string
+          id: string
+          official_id: string
+          official_name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          official_id: string
+          official_name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          official_id?: string
+          official_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       petition_signatures: {
         Row: {
           created_at: string
