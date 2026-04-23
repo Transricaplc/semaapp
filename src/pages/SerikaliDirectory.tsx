@@ -1,8 +1,12 @@
 import { useState, useMemo } from "react";
 import {
   Search, MapPin, Landmark, Building2, Scale, Banknote, BookOpen,
-  GraduationCap, Heart, X, BadgeCheck, Phone, Users,
+  GraduationCap, Heart, X, BadgeCheck, Phone, Users, ArrowUpDown, ChevronDown,
 } from "lucide-react";
+import SortSheet from "@/components/SortSheet";
+import {
+  useSortFilter, applySort, groupBySort, sortLabel, type SortKey,
+} from "@/hooks/useSortFilter";
 import {
   officials, roleTypeLabels,
   directoryStats, allRegionNames,
@@ -98,6 +102,12 @@ export default function SerikaliDirectory() {
 
   const clearFilters = () => { setSearch(""); setSelectedRegion(""); };
   const hasFilters = !!search || !!selectedRegion;
+
+  // ── Sort/Filter state ──
+  const { sortBy, setSortBy } = useSortFilter("name-asc");
+  const [sortOpen, setSortOpen] = useState(false);
+  const activeFilterCount =
+    (sortBy !== "name-asc" ? 1 : 0) + (selectedRegion ? 1 : 0);
 
   // ── Bunge officials ──
   const currentBungeSub = bungeSubTabs.find((t) => t.value === bungeSubTab)!;
