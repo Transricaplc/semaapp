@@ -179,6 +179,23 @@ export default function SerikaliDirectory() {
             )}
           </div>
         </div>
+        {/* Sort + active-filter bar */}
+        <div className="px-4 pb-2 flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={() => setSortOpen(true)}
+            className="inline-flex items-center gap-1.5 bg-surface border border-gazette-border rounded-full px-3 py-1.5 text-[12px] font-medium text-ink active:opacity-65 transition-opacity"
+          >
+            <ArrowUpDown className="w-3.5 h-3.5 text-text-secondary" />
+            <span className="truncate max-w-[140px]">{sortLabel(sortBy)}</span>
+            <ChevronDown className="w-3.5 h-3.5 text-text-secondary" />
+          </button>
+          {activeFilterCount > 0 && (
+            <span className="bg-accent text-ink rounded-full px-3 py-1 text-[11px] font-semibold">
+              Filters Hai · {activeFilterCount}
+            </span>
+          )}
+        </div>
         {/* Filter chips */}
         <div className="flex gap-2 overflow-x-auto pb-3 px-4 no-scrollbar">
           {tabs.map((tab) => (
@@ -197,6 +214,14 @@ export default function SerikaliDirectory() {
           ))}
         </div>
       </header>
+
+      {/* Sort sheet (global to page) */}
+      <SortSheet
+        open={sortOpen}
+        value={sortBy}
+        onClose={() => setSortOpen(false)}
+        onApply={(k) => { setSortBy(k); setSortOpen(false); }}
+      />
 
       <div className="px-4 py-4">
 
