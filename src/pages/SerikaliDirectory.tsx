@@ -138,57 +138,57 @@ export default function SerikaliDirectory() {
   const filteredParties = useMemo(() => searchParties(search), [search]);
 
   return (
-    <div className="animate-fade-in">
-      {/* Hero — left-aligned, compact */}
-      <section className="bg-yb-charcoal-dark px-4 pt-6 pb-5">
-        <div className="max-w-[640px] mx-auto">
-          <p
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
-            className="text-primary text-[11px] font-bold uppercase tracking-[0.18em] mb-2"
-          >
-            SARAKA YA VIONGOZI
-          </p>
-          <h1 className="text-[24px] leading-[1.15] font-extrabold text-white mb-3 tracking-tight">
-            Kitabu cha Njano.
-          </h1>
+    <div className="font-ui animate-fade-in">
+      {/* ── Sticky Header — gazette ── */}
+      <header
+        className="sticky top-0 z-30 bg-surface border-b border-gazette-border"
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
+      >
+        <div className="px-4 pt-4 pb-3 flex items-center justify-between gap-3">
+          <h1 className="font-serif-display text-[24px] text-ink">Saka Viongozi</h1>
+          <span className="bg-secondary text-primary rounded-full px-2.5 py-1 text-[11px] font-medium">
+            Viongozi {officials.length}
+          </span>
+        </div>
+        <div className="px-4 pb-3">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
             <input
-              placeholder="Andika jina, taasisi, au mkoa..."
+              placeholder="Tafuta jina, wizara, au mkoa..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-10 h-12 bg-yb-charcoal-mid text-white border border-white/10 rounded-xl text-[14px] focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-white/40"
+              className="w-full pl-10 pr-10 h-11 bg-cream border border-gazette-border rounded-xl text-[14px] focus:border-primary focus:outline-none placeholder:text-text-secondary"
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 active:opacity-65"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary active:opacity-65"
               >
                 <X className="w-4 h-4" />
               </button>
             )}
           </div>
         </div>
-      </section>
-
-      <div className="max-w-[1200px] mx-auto px-4 py-6">
-        {/* ── 8-Tab Navigation ── */}
-        <div className="flex gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar">
+        {/* Filter chips */}
+        <div className="flex gap-2 overflow-x-auto pb-3 px-4 no-scrollbar">
           {tabs.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-[13px] font-semibold whitespace-nowrap border transition-all min-h-[44px] ${
+              className={`shrink-0 inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] border min-h-[36px] transition-colors ${
                 activeTab === tab.value
-                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                  : "bg-card text-muted-foreground border-border hover:border-primary/30"
+                  ? "bg-primary text-primary-foreground border-transparent"
+                  : "bg-surface text-ink border-gazette-border"
               }`}
             >
-              <tab.icon className="w-4 h-4" />
+              <tab.icon className="w-3.5 h-3.5" />
               {tab.label}
             </button>
           ))}
         </div>
+      </header>
+
+      <div className="px-4 py-4">
 
         {/* ═══ MIKOA ═══ */}
         {activeTab === "mikoa" && (
