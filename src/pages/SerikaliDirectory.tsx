@@ -233,20 +233,11 @@ export default function SerikaliDirectory() {
               </>
             )}
 
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            <PanelGroup>
               {regionalCommissioners.map((rc) => (
-                <SecureActionCard
-                  key={rc.id}
-                  name={rc.full_name}
-                  position={rc.role_title}
-                  organization={`Mkoa wa ${rc.location.region}`}
-                  area={rc.location.region}
-                  verified={rc.verified_status === "VERIFIED"}
-                  badgeColor={roleBadgeColors[rc.role_type]}
-                  badgeLabel="RC"
-                />
+                <OfficialCard key={rc.id} official={rc} />
               ))}
-            </div>
+            </PanelGroup>
           </div>
         )}
 
@@ -267,20 +258,23 @@ export default function SerikaliDirectory() {
                     <h2 className="text-[16px] font-bold">{type}</h2>
                     <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
-                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  <PanelGroup>
                     {items.map((h) => (
-                      <SecureActionCard
+                      <OfficialCard
                         key={h.id}
-                        name={h.director.name}
-                        position={h.director.position}
-                        organization={h.name}
-                        area={h.location}
-                        verified={h.verified}
-                        badgeColor="bg-accent/10 text-accent border-accent/20"
-                        badgeLabel={hospitalTypeLabels[h.type]}
+                        official={makeOfficial({
+                          id: h.id,
+                          full_name: h.director.name,
+                          role_type: "PERMANENT_SECRETARY",
+                          role_title: `${h.director.position} — ${h.name}`,
+                          ministry: h.name,
+                          region: h.location,
+                          verified: h.verified,
+                          phone: h.emergencyLine,
+                        })}
                       />
                     ))}
-                  </div>
+                  </PanelGroup>
                 </div>
               );
             })}
@@ -291,18 +285,20 @@ export default function SerikaliDirectory() {
         {activeTab === "wakala" && (
           <div>
             <p className="text-[13px] text-muted-foreground mb-4">{filteredAgencies.length} wakala</p>
-            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            <PanelGroup>
               {filteredAgencies.map((a) => (
-                <SecureActionCard
+                <OfficialCard
                   key={a.id}
-                  name={a.head}
-                  position={a.headTitle}
-                  organization={`${a.acronym} — ${a.agency}`}
-                  badgeColor={sectorColors[a.sector]}
-                  badgeLabel={a.sector}
+                  official={makeOfficial({
+                    id: a.id,
+                    full_name: a.head,
+                    role_type: "PERMANENT_SECRETARY",
+                    role_title: `${a.headTitle} — ${a.acronym}`,
+                    ministry: a.agency,
+                  })}
                 />
               ))}
-            </div>
+            </PanelGroup>
           </div>
         )}
 
@@ -328,18 +324,20 @@ export default function SerikaliDirectory() {
                   <h2 className="text-[16px] font-bold">Viongozi wa Benki Kuu (CEOs)</h2>
                   <span className="text-[13px] text-yb-charcoal-muted ml-1">({filteredBanking.length})</span>
                 </div>
-                <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                <PanelGroup>
                   {filteredBanking.map((b) => (
-                    <SecureActionCard
+                    <OfficialCard
                       key={b.id}
-                      name={b.name}
-                      position={b.position}
-                      organization={b.organization}
-                      badgeColor="bg-primary/15 text-foreground border-primary/30"
-                      badgeLabel="CEO"
+                      official={makeOfficial({
+                        id: b.id,
+                        full_name: b.name,
+                        role_type: "PERMANENT_SECRETARY",
+                        role_title: `${b.position} — ${b.organization}`,
+                        ministry: b.organization,
+                      })}
                     />
                   ))}
-                </div>
+                </PanelGroup>
               </div>
             )}
 
@@ -407,20 +405,22 @@ export default function SerikaliDirectory() {
                     <h2 className="text-[16px] font-bold">{level}</h2>
                     <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
-                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  <PanelGroup>
                     {items.map((c) => (
-                      <SecureActionCard
+                      <OfficialCard
                         key={c.id}
-                        name={c.head.name}
-                        position={c.head.position}
-                        organization={c.name}
-                        area={c.location}
-                        verified={c.verified}
-                        badgeColor="bg-yb-charcoal-mid text-white border-yb-charcoal-mid"
-                        badgeLabel={courtLevelLabels[c.level]}
+                        official={makeOfficial({
+                          id: c.id,
+                          full_name: c.head.name,
+                          role_type: "JUDGE",
+                          role_title: `${c.head.position} — ${c.name}`,
+                          ministry: c.name,
+                          region: c.location,
+                          verified: c.verified,
+                        })}
                       />
                     ))}
-                  </div>
+                  </PanelGroup>
                 </div>
               );
             })}
@@ -460,20 +460,11 @@ export default function SerikaliDirectory() {
                     <h2 className="text-[16px] font-bold">{label}</h2>
                     <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
-                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  <PanelGroup>
                     {items.map((o) => (
-                      <SecureActionCard
-                        key={o.id}
-                        name={o.full_name}
-                        position={o.role_title}
-                        organization={o.institution.ministry || "Government of Tanzania"}
-                        area={o.location.region || undefined}
-                        verified={o.verified_status === "VERIFIED"}
-                        badgeColor={roleBadgeColors[o.role_type]}
-                        badgeLabel={roleTypeLabels[o.role_type]}
-                      />
+                      <OfficialCard key={o.id} official={o} />
                     ))}
-                  </div>
+                  </PanelGroup>
                 </div>
               ))
             )}
@@ -506,20 +497,22 @@ export default function SerikaliDirectory() {
                     <h2 className="text-[16px] font-bold">{elimuTypeLabels[type]}</h2>
                     <span className="text-[13px] text-yb-charcoal-muted ml-1">({items.length})</span>
                   </div>
-                  <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                  <PanelGroup>
                     {items.map((e) => (
-                      <SecureActionCard
+                      <OfficialCard
                         key={e.id}
-                        name={e.acronym || e.name}
-                        position={e.acronym ? e.name : (e.mandate || e.status || "")}
-                        organization={e.affiliation ? `Affiliated: ${e.affiliation}` : (e.status || e.name)}
-                        area={e.location}
-                        verified={e.head?.verified}
-                        badgeColor="bg-primary/15 text-foreground border-primary/30"
-                        badgeLabel={elimuTypeLabels[e.type]}
+                        official={makeOfficial({
+                          id: e.id,
+                          full_name: e.acronym || e.name,
+                          role_type: "PERMANENT_SECRETARY",
+                          role_title: e.acronym ? e.name : (e.mandate || e.status || ""),
+                          ministry: e.affiliation ? `Affiliated: ${e.affiliation}` : (e.status || e.name),
+                          region: e.location,
+                          verified: e.head?.verified,
+                        })}
                       />
                     ))}
-                  </div>
+                  </PanelGroup>
                 </div>
               );
             })}
