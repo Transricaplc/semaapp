@@ -4,6 +4,7 @@ import {
   GraduationCap, Heart, X, BadgeCheck, Phone, Users, ArrowUpDown, ChevronDown,
 } from "lucide-react";
 import SortSheet from "@/components/SortSheet";
+import EmergencyStrip from "@/components/EmergencyStrip";
 import {
   useSortFilter, applySort, groupBySort, sortLabel, type SortKey,
 } from "@/hooks/useSortFilter";
@@ -154,6 +155,7 @@ export default function SerikaliDirectory() {
         className="sticky top-0 z-30 bg-surface border-b border-gazette-border"
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
+        <EmergencyStrip />
         <div className="px-4 pt-4 pb-3 flex items-center justify-between gap-3">
           <h1 className="font-serif-display text-[24px] text-ink">Saka Viongozi</h1>
           <span className="bg-secondary text-primary rounded-full px-2.5 py-1 text-[11px] font-medium">
