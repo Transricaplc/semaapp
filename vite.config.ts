@@ -74,7 +74,6 @@ export default defineConfig(({ mode }) => ({
             "@radix-ui/react-select",
           ],
           "vendor-supabase": ["@supabase/supabase-js"],
-          "vendor-maps": ["leaflet"],
         },
       },
     },
