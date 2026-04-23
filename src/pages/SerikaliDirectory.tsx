@@ -314,20 +314,16 @@ export default function SerikaliDirectory() {
         {activeTab === "wakala" && (
           <div>
             <p className="text-[13px] text-muted-foreground mb-4">{filteredAgencies.length} wakala</p>
-            <PanelGroup>
-              {filteredAgencies.map((a) => (
-                <OfficialCard
-                  key={a.id}
-                  official={makeOfficial({
-                    id: a.id,
-                    full_name: a.head,
-                    role_type: "PERMANENT_SECRETARY",
-                    role_title: `${a.headTitle} — ${a.acronym}`,
-                    ministry: a.agency,
-                  })}
-                />
-              ))}
-            </PanelGroup>
+            <SortedOfficialList
+              officials={filteredAgencies.map((a) => makeOfficial({
+                id: a.id,
+                full_name: a.head,
+                role_type: "PERMANENT_SECRETARY",
+                role_title: `${a.headTitle} — ${a.acronym}`,
+                ministry: a.agency,
+              }))}
+              sortBy={sortBy}
+            />
           </div>
         )}
 
