@@ -618,3 +618,41 @@ function EmptyState() {
     </div>
   );
 }
+
+function SortedOfficialList({ officials, sortBy }: { officials: Official[]; sortBy: SortKey }) {
+  const sorted = applySort(officials, sortBy);
+  const groups = groupBySort(sorted, sortBy);
+
+  if (sorted.length === 0) return <EmptyState />;
+
+  if (groups) {
+    return (
+      <>
+        {groups.map((g) => (
+          <div key={g.label} className="mb-6">
+            <div className="sticky top-[140px] z-10 -mx-4 px-4 py-2 bg-cream/95 backdrop-blur border-b border-gazette-border">
+              <p className="text-[10px] font-semibold tracking-[0.1em] uppercase text-text-secondary">
+                {g.label} <span className="text-ink/50 font-normal">· {g.items.length}</span>
+              </p>
+            </div>
+            <div className="mt-2">
+              <PanelGroup>
+                {g.items.map((o) => (
+                  <OfficialCard key={o.id} official={o} />
+                ))}
+              </PanelGroup>
+            </div>
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  return (
+    <PanelGroup>
+      {sorted.map((o) => (
+        <OfficialCard key={o.id} official={o} />
+      ))}
+    </PanelGroup>
+  );
+}
