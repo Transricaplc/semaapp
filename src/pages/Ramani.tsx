@@ -2,42 +2,48 @@ import { useEffect, useRef, useState } from "react";
 import { Search, SlidersHorizontal, X, ChevronRight, MapPin } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { supabase } from "@/integrations/supabase/client";
 
 type POI = {
   id: string;
   name: string;
-  type: "ofisi" | "hospitali" | "polisi";
+  type: "ofisi" | "hospitali" | "polisi" | "mkoa";
   lat: number;
   lng: number;
 };
 
-const POIS: POI[] = [
-  { id: "1", name: "Ikulu — State House", type: "ofisi", lat: -6.8161, lng: 39.2803 },
-  { id: "2", name: "Muhimbili National Hospital", type: "hospitali", lat: -6.8004, lng: 39.2693 },
-  { id: "3", name: "Central Police HQ — Dar", type: "polisi", lat: -6.8186, lng: 39.2845 },
-  { id: "4", name: "Dodoma Regional Office", type: "ofisi", lat: -6.1731, lng: 35.7416 },
-  { id: "5", name: "Bugando Medical Centre — Mwanza", type: "hospitali", lat: -2.5165, lng: 32.9148 },
-  { id: "6", name: "Arusha Police Station", type: "polisi", lat: -3.3725, lng: 36.6822 },
+// Flagship landmarks (kept as-is)
+const LANDMARKS: POI[] = [
+  { id: "lm-1", name: "Ikulu — State House", type: "ofisi", lat: -6.8161, lng: 39.2803 },
+  { id: "lm-2", name: "Muhimbili National Hospital", type: "hospitali", lat: -6.8004, lng: 39.2693 },
+  { id: "lm-3", name: "Central Police HQ — Dar", type: "polisi", lat: -6.8186, lng: 39.2845 },
+  { id: "lm-4", name: "Bugando Medical Centre — Mwanza", type: "hospitali", lat: -2.5165, lng: 32.9148 },
+  { id: "lm-5", name: "Arusha Police Station", type: "polisi", lat: -3.3725, lng: 36.6822 },
 ];
 
 const TYPE_COLOR: Record<POI["type"], string> = {
   ofisi: "hsl(158 70% 14%)",
   hospitali: "hsl(48 100% 48%)",
   polisi: "hsl(0 99% 38%)",
+  mkoa: "hsl(158 70% 14%)",
 };
 
 const TYPE_LABEL: Record<POI["type"], string> = {
   ofisi: "Ofisi za Serikali",
   hospitali: "Hospitali",
   polisi: "Vituo vya Polisi",
+  mkoa: "Mkoa",
 };
 
 export default function Ramani() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
+  const markersLayer = useRef<L.LayerGroup | null>(null);
   const [search, setSearch] = useState("");
   const [sheetOpen, setSheetOpen] = useState(true);
+  const [pois, setPois] = useState<POI[]>(LANDMARKS);
 
+  // Init map once
   useEffect(() => {
     if (!mapRef.current || mapInstance.current) return;
 
@@ -47,26 +53,62 @@ export default function Ramani() {
       zoomControl: false,
     });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "© OpenStreetMap",
+      attribution: "© OpenStreetMap • Data: Kijacode/Tanzania_Geo_Data",
       maxZoom: 19,
     }).addTo(map);
 
-    POIS.forEach((p) => {
+    markersLayer.current = L.layerGroup().addTo(map);
+    mapInstance.current = map;
+    return () => {
+      map.remove();
+      mapInstance.current = null;
+      markersLayer.current = null;
+    };
+  }, []);
+
+  // Load mikoa from Supabase (sourced from Kijacode/Tanzania_Geo_Data)
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("mikoa")
+      .select("id, jina, lat, lng")
+      .not("lat", "is", null)
+      .not("lng", "is", null)
+      .order("jina")
+      .then(({ data }) => {
+        if (cancelled || !data) return;
+        const mkoaPois: POI[] = data.map((m: any) => ({
+          id: `mk-${m.id}`,
+          name: `${m.jina} — Mkoa`,
+          type: "mkoa",
+          lat: Number(m.lat),
+          lng: Number(m.lng),
+        }));
+        setPois([...LANDMARKS, ...mkoaPois]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Render markers whenever POIs change
+  useEffect(() => {
+    if (!markersLayer.current) return;
+    markersLayer.current.clearLayers();
+    pois.forEach((p) => {
       const icon = L.divIcon({
         className: "",
         html: `<div style="width:14px;height:14px;border-radius:9999px;background:${TYPE_COLOR[p.type]};border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.3)"></div>`,
         iconSize: [14, 14],
         iconAnchor: [7, 7],
       });
-      L.marker([p.lat, p.lng], { icon }).addTo(map).bindPopup(`<strong>${p.name}</strong><br/><span style="color:#6B7280">${TYPE_LABEL[p.type]}</span>`);
+      L.marker([p.lat, p.lng], { icon })
+        .addTo(markersLayer.current!)
+        .bindPopup(
+          `<strong>${p.name}</strong><br/><span style="color:#6B7280">${TYPE_LABEL[p.type]}</span>`,
+        );
     });
-
-    mapInstance.current = map;
-    return () => {
-      map.remove();
-      mapInstance.current = null;
-    };
-  }, []);
+  }, [pois]);
 
   const filtered = search.trim()
     ? POIS.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
