@@ -57,8 +57,11 @@ export default function AdminSeed() {
         const chunk = data.slice(i, i + 100);
         const rows = await Promise.all(
           chunk.map(async (d: any) => {
-            const regionName =
+            const regionRaw =
               d.region || d.Region || d.region_name || d.mkoa || null;
+            const regionName = regionRaw
+              ? String(regionRaw).replace(/\s*Region\s*$/i, "").trim()
+              : null;
             let mkoa_id: number | null = null;
             if (regionName) {
               const { data: mkoa } = await supabase
@@ -111,7 +114,10 @@ export default function AdminSeed() {
         const chunk = data.slice(i, i + chunkSize);
         const rows = await Promise.all(
           chunk.map(async (w: any) => {
-            const wilayaName = w.District || w.district || w.district_name || w.wilaya || null;
+            const wilayaRaw = w.District || w.district || w.district_name || w.wilaya || null;
+            const wilayaName = wilayaRaw
+              ? String(wilayaRaw).replace(/\s*(District|City|Municipal(ity)?|DC|MC)\s*$/i, "").trim()
+              : null;
             let wilaya_id: number | null = null;
             let mkoa_id: number | null = null;
             if (wilayaName) {
