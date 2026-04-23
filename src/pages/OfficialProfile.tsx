@@ -2,10 +2,11 @@ import { useState, useEffect, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, Share2, Phone, Mail, MapPin, MessageCircle, BadgeCheck,
-  AlertCircle, Send, Flag,
+  AlertCircle, Send, Flag, Bookmark, BookmarkCheck,
 } from "lucide-react";
 import { officials, roleTypeLabels, type Official } from "@/data/unified_officials";
 import { getOfficialScore } from "@/hooks/useSortFilter";
+import { useFollowOfficial } from "@/hooks/useFollowOfficial";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -66,6 +67,10 @@ export default function OfficialProfile() {
   const waNumber = phone ? phone.replace(/[^\d]/g, "") : "";
   const verified = official?.verified_status === "VERIFIED";
   const score = useMemo(() => (official ? getOfficialScore(official) : 0), [official]);
+  const { isFollowing, toggle: toggleFollow, loading: followLoading } = useFollowOfficial(
+    official?.id ?? "",
+    official?.full_name ?? ""
+  );
 
   // ── Null guard: handle missing official cleanly ──
   if (!official) {
@@ -149,13 +154,27 @@ export default function OfficialProfile() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <p className="font-ui text-[13px] text-text-secondary">Maelezo ya Kiongozi</p>
-          <button
-            onClick={handleShare}
-            className="w-11 h-11 flex items-center justify-center text-ink active:opacity-65"
-            aria-label="Shiriki"
-          >
-            <Share2 className="w-5 h-5" />
-          </button>
+          <div className="flex items-center">
+            <button
+              onClick={toggleFollow}
+              disabled={followLoading}
+              className="w-11 h-11 flex items-center justify-center text-ink active:opacity-65 disabled:opacity-40"
+              aria-label={isFollowing ? "Acha kufuatilia" : "Fuatilia"}
+            >
+              {isFollowing ? (
+                <BookmarkCheck className="w-5 h-5 text-primary" fill="currentColor" />
+              ) : (
+                <Bookmark className="w-5 h-5" />
+              )}
+            </button>
+            <button
+              onClick={handleShare}
+              className="w-11 h-11 flex items-center justify-center text-ink active:opacity-65"
+              aria-label="Shiriki"
+            >
+              <Share2 className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </header>
 

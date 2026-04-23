@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck } from "lucide-react";
 import { mockReports } from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { useFollowedList } from "@/hooks/useFollowOfficial";
 import { toast } from "sonner";
 
 export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
   const { user, signInWithPhone, verifyOTP, signInAnonymously, signOut, isAnonymous } = useAuth();
+  const { items: followed } = useFollowedList();
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
@@ -115,7 +118,7 @@ export default function Mimi() {
 
   const stats = [
     { label: "Ripoti", value: String(mockReports.length) },
-    { label: "Wafuatiliwa", value: "0" },
+    { label: "Wafuatiliwa", value: String(followed.length) },
     { label: "Alama", value: "78" },
   ];
 
@@ -165,6 +168,26 @@ export default function Mimi() {
           ))}
         </div>
       </section>
+
+      {/* WAFUATILIWA */}
+      {followed.length > 0 && (
+        <section className="mx-4 mt-5">
+          <p className="label-eyebrow mb-2 px-1">Ninaowafuatilia</p>
+          <div className="space-y-2">
+            {followed.slice(0, 5).map((f) => (
+              <Link
+                key={f.official_id}
+                to={`/kiongozi/${f.official_id}`}
+                className="gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors"
+              >
+                <BookmarkCheck className="w-5 h-5 text-primary" strokeWidth={1.75} />
+                <span className="flex-1 text-[14px] text-ink truncate">{f.official_name}</span>
+                <ChevronRight className="w-4 h-4 text-text-secondary" />
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* MENU LIST */}
       <nav className="mx-4 mt-4 space-y-2">
