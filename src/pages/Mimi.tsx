@@ -259,6 +259,20 @@ export default function Mimi() {
         ))}
 
         <button
+          onClick={() => setLocOpen(true)}
+          className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
+        >
+          <MapPin className="w-5 h-5 text-primary" strokeWidth={1.75} />
+          <span className="flex-1 text-[14px] text-ink">Eneo Langu</span>
+          {savedLoc.label ? (
+            <span className="text-[12px] text-text-secondary truncate max-w-[140px]">{savedLoc.label}</span>
+          ) : (
+            <span className="text-[12px] text-text-secondary">Weka</span>
+          )}
+          <ChevronRight className="w-4 h-4 text-text-secondary" />
+        </button>
+
+        <button
           onClick={handleToggleLang}
           className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
         >
@@ -278,6 +292,20 @@ export default function Mimi() {
           <ChevronRight className="w-4 h-4 text-text-secondary" />
         </button>
       </nav>
+
+      <Sheet open={locOpen} onOpenChange={setLocOpen}>
+        <SheetContent side="bottom" className="rounded-t-2xl">
+          <SheetHeader>
+            <SheetTitle className="font-serif-display text-[20px]">Eneo Langu</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4">
+            <LocationPicker
+              initial={{ mkoa_id: savedLoc.mkoa_id, wilaya_id: savedLoc.wilaya_id, kata_id: savedLoc.kata_id }}
+              onChange={handleSaveLocation}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
