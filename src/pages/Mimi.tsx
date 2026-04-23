@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck } from "lucide-react";
+import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin } from "lucide-react";
 import { mockReports } from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useFollowedList } from "@/hooks/useFollowOfficial";
 import { toast } from "sonner";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import LocationPicker, { type LocationLabels } from "@/components/LocationPicker";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
@@ -15,6 +18,54 @@ export default function Mimi() {
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [sending, setSending] = useState(false);
+  const [locOpen, setLocOpen] = useState(false);
+  const [savedLoc, setSavedLoc] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null; label: string }>({
+    mkoa_id: null, wilaya_id: null, kata_id: null, label: "",
+  });
+
+  // Load saved location
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("profiles")
+      .select("mkoa_id, wilaya_id, kata_id")
+      .eq("user_id", user.id)
+      .maybeSingle()
+      .then(async ({ data }) => {
+        if (!data) return;
+        const ids = { mkoa_id: data.mkoa_id, wilaya_id: data.wilaya_id, kata_id: data.kata_id };
+        // resolve labels
+        const labels: string[] = [];
+        if (ids.mkoa_id) {
+          const { data: m } = await supabase.from("mikoa").select("jina").eq("id", ids.mkoa_id).maybeSingle();
+          if (m) labels.push(m.jina);
+        }
+        if (ids.wilaya_id) {
+          const { data: w } = await supabase.from("wilaya").select("jina").eq("id", ids.wilaya_id).maybeSingle();
+          if (w) labels.push(w.jina);
+        }
+        if (ids.kata_id) {
+          const { data: k } = await supabase.from("kata").select("jina").eq("id", ids.kata_id).maybeSingle();
+          if (k) labels.push(k.jina);
+        }
+        setSavedLoc({ ...ids, label: labels.join(" › ") });
+      });
+  }, [user]);
+
+  const handleSaveLocation = async (mkoa_id: number | null, wilaya_id: number | null, kata_id: number | null, labels: LocationLabels) => {
+    if (!user) return;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ mkoa_id, wilaya_id, kata_id })
+      .eq("user_id", user.id);
+    if (error) {
+      toast.error("Imeshindikana kuhifadhi");
+      return;
+    }
+    const label = [labels.mkoa_jina, labels.wilaya_jina, labels.kata_jina].filter(Boolean).join(" › ");
+    setSavedLoc({ mkoa_id, wilaya_id, kata_id, label });
+    if (mkoa_id) toast.success("Eneo limehifadhiwa");
+  };
 
   const handleSendOTP = async () => {
     if (!phone.trim()) return;
@@ -208,6 +259,20 @@ export default function Mimi() {
         ))}
 
         <button
+          onClick={() => setLocOpen(true)}
+          className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
+        >
+          <MapPin className="w-5 h-5 text-primary" strokeWidth={1.75} />
+          <span className="flex-1 text-[14px] text-ink">Eneo Langu</span>
+          {savedLoc.label ? (
+            <span className="text-[12px] text-text-secondary truncate max-w-[140px]">{savedLoc.label}</span>
+          ) : (
+            <span className="text-[12px] text-text-secondary">Weka</span>
+          )}
+          <ChevronRight className="w-4 h-4 text-text-secondary" />
+        </button>
+
+        <button
           onClick={handleToggleLang}
           className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
         >
@@ -227,6 +292,20 @@ export default function Mimi() {
           <ChevronRight className="w-4 h-4 text-text-secondary" />
         </button>
       </nav>
+
+      <Sheet open={locOpen} onOpenChange={setLocOpen}>
+        <SheetContent side="bottom" className="rounded-t-2xl">
+          <SheetHeader>
+            <SheetTitle className="font-serif-display text-[20px]">Eneo Langu</SheetTitle>
+          </SheetHeader>
+          <div className="mt-4">
+            <LocationPicker
+              initial={{ mkoa_id: savedLoc.mkoa_id, wilaya_id: savedLoc.wilaya_id, kata_id: savedLoc.kata_id }}
+              onChange={handleSaveLocation}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

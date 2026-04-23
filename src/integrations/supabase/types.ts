@@ -71,6 +71,87 @@ export type Database = {
         }
         Relationships: []
       }
+      kata: {
+        Row: {
+          created_at: string
+          id: number
+          jina: string
+          lat: number | null
+          lng: number | null
+          mkoa_id: number | null
+          pcode: string
+          wilaya_id: number | null
+          wilaya_pcode: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          jina: string
+          lat?: number | null
+          lng?: number | null
+          mkoa_id?: number | null
+          pcode: string
+          wilaya_id?: number | null
+          wilaya_pcode?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          jina?: string
+          lat?: number | null
+          lng?: number | null
+          mkoa_id?: number | null
+          pcode?: string
+          wilaya_id?: number | null
+          wilaya_pcode?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kata_mkoa_id_fkey"
+            columns: ["mkoa_id"]
+            isOneToOne: false
+            referencedRelation: "mikoa"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kata_wilaya_id_fkey"
+            columns: ["wilaya_id"]
+            isOneToOne: false
+            referencedRelation: "wilaya"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mikoa: {
+        Row: {
+          created_at: string
+          id: number
+          jina: string
+          jina_sw: string | null
+          lat: number | null
+          lng: number | null
+          pcode: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          jina: string
+          jina_sw?: string | null
+          lat?: number | null
+          lng?: number | null
+          pcode: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          jina?: string
+          jina_sw?: string | null
+          lat?: number | null
+          lng?: number | null
+          pcode?: string
+        }
+        Relationships: []
+      }
       petition_signatures: {
         Row: {
           created_at: string
@@ -146,10 +227,13 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          kata_id: number | null
           language: string
+          mkoa_id: number | null
           phone: string | null
           updated_at: string
           user_id: string
+          wilaya_id: number | null
         }
         Insert: {
           anonymous_mode?: boolean
@@ -157,10 +241,13 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          kata_id?: number | null
           language?: string
+          mkoa_id?: number | null
           phone?: string | null
           updated_at?: string
           user_id: string
+          wilaya_id?: number | null
         }
         Update: {
           anonymous_mode?: boolean
@@ -168,12 +255,37 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          kata_id?: number | null
           language?: string
+          mkoa_id?: number | null
           phone?: string | null
           updated_at?: string
           user_id?: string
+          wilaya_id?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_kata_id_fkey"
+            columns: ["kata_id"]
+            isOneToOne: false
+            referencedRelation: "kata"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_mkoa_id_fkey"
+            columns: ["mkoa_id"]
+            isOneToOne: false
+            referencedRelation: "mikoa"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_wilaya_id_fkey"
+            columns: ["wilaya_id"]
+            isOneToOne: false
+            referencedRelation: "wilaya"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       reports: {
         Row: {
@@ -182,11 +294,14 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          kata_id: number | null
           location: string
+          mkoa_id: number | null
           status: string
           title: string
           updated_at: string
           user_id: string | null
+          wilaya_id: number | null
         }
         Insert: {
           anonymous?: boolean
@@ -194,11 +309,14 @@ export type Database = {
           created_at?: string
           description: string
           id?: string
+          kata_id?: number | null
           location: string
+          mkoa_id?: number | null
           status?: string
           title: string
           updated_at?: string
           user_id?: string | null
+          wilaya_id?: number | null
         }
         Update: {
           anonymous?: boolean
@@ -206,20 +324,129 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          kata_id?: number | null
           location?: string
+          mkoa_id?: number | null
           status?: string
           title?: string
           updated_at?: string
           user_id?: string | null
+          wilaya_id?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "reports_kata_id_fkey"
+            columns: ["kata_id"]
+            isOneToOne: false
+            referencedRelation: "kata"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_mkoa_id_fkey"
+            columns: ["mkoa_id"]
+            isOneToOne: false
+            referencedRelation: "mikoa"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_wilaya_id_fkey"
+            columns: ["wilaya_id"]
+            isOneToOne: false
+            referencedRelation: "wilaya"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vijiji: {
+        Row: {
+          created_at: string
+          id: number
+          jina: string
+          kata_id: number | null
+          lat: number | null
+          lng: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          jina: string
+          kata_id?: number | null
+          lat?: number | null
+          lng?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          jina?: string
+          kata_id?: number | null
+          lat?: number | null
+          lng?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vijiji_kata_id_fkey"
+            columns: ["kata_id"]
+            isOneToOne: false
+            referencedRelation: "kata"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wilaya: {
+        Row: {
+          created_at: string
+          id: number
+          jina: string
+          lat: number | null
+          lng: number | null
+          mkoa_id: number | null
+          mkoa_pcode: string | null
+          pcode: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          jina: string
+          lat?: number | null
+          lng?: number | null
+          mkoa_id?: number | null
+          mkoa_pcode?: string | null
+          pcode: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          jina?: string
+          lat?: number | null
+          lng?: number | null
+          mkoa_id?: number | null
+          mkoa_pcode?: string | null
+          pcode?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wilaya_mkoa_id_fkey"
+            columns: ["mkoa_id"]
+            isOneToOne: false
+            referencedRelation: "mikoa"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_hierarchy_by_name: {
+        Args: { search_district?: string; search_region: string }
+        Returns: {
+          mkoa_id: number
+          mkoa_jina: string
+          wilaya_id: number
+          wilaya_jina: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

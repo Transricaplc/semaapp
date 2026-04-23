@@ -11,6 +11,7 @@ import { getFireStationsByRegion, getFireStationsByDistrict, type FireStation } 
 import { getAgenciesForRegion, type Agency, type ZonalOffice } from "@/data/agencies";
 import OfficialCard from "@/components/OfficialCard";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const ZANZIBAR_REGIONS = ["Mjini Magharibi", "Kaskazini Unguja", "Kusini Unguja", "Kaskazini Pemba", "Kusini Pemba"];
 
@@ -23,6 +24,7 @@ export default function ConstituencyFinder() {
   const [nearbyAgencies, setNearbyAgencies] = useState<{ agency: Agency; office: ZonalOffice }[]>([]);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [gpsLoading, setGpsLoading] = useState(false);
+  const [resolvedHierarchy, setResolvedHierarchy] = useState<string>("");
 
   const availableDistricts = region ? districtsByRegion[region] || [] : [];
 
@@ -49,18 +51,67 @@ export default function ConstituencyFinder() {
       return;
     }
     setGpsLoading(true);
+    setResolvedHierarchy("");
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const lat = +pos.coords.latitude.toFixed(5);
         const lng = +pos.coords.longitude.toFixed(5);
         setCoords({ lat, lng });
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`,
+            { headers: { "Accept-Language": "sw,en" } },
+          );
+          const geo = await res.json();
+          const regionRaw = geo.address?.state || geo.address?.region || "";
+          const districtRaw = geo.address?.county || geo.address?.district || "";
+          const wardRaw = geo.address?.suburb || geo.address?.ward || geo.address?.neighbourhood || "";
+
+          const cleanRegion = regionRaw.replace(/region/i, "").trim();
+          const cleanDistrict = districtRaw.replace(/district/i, "").trim();
+
+          let mkoaJina = "", wilayaJina = "", kataJina = "";
+          if (cleanRegion) {
+            const { data: mkoa } = await supabase
+              .from("mikoa").select("id, jina")
+              .ilike("jina", `%${cleanRegion}%`).limit(1).maybeSingle();
+            if (mkoa) {
+              mkoaJina = mkoa.jina;
+              setRegion(mkoa.jina);
+              if (cleanDistrict) {
+                const { data: wil } = await supabase
+                  .from("wilaya").select("id, jina")
+                  .eq("mkoa_id", mkoa.id)
+                  .ilike("jina", `%${cleanDistrict}%`).limit(1).maybeSingle();
+                if (wil) {
+                  wilayaJina = wil.jina;
+                  if (wardRaw) {
+                    const { data: kt } = await supabase
+                      .from("kata").select("jina")
+                      .eq("wilaya_id", wil.id)
+                      .ilike("jina", `%${wardRaw.trim()}%`).limit(1).maybeSingle();
+                    if (kt) kataJina = kt.jina;
+                  }
+                }
+              }
+            }
+          }
+          const breadcrumb = [mkoaJina, wilayaJina, kataJina].filter(Boolean).join(" › ");
+          if (breadcrumb) {
+            setResolvedHierarchy(breadcrumb);
+            toast.success(`Eneo: ${breadcrumb}`);
+          } else {
+            toast.success(`Eneo: ${lat}, ${lng}`);
+          }
+        } catch {
+          toast.success(`Eneo: ${lat}, ${lng}`);
+        }
         setGpsLoading(false);
-        toast.success(`Eneo lako: ${lat}, ${lng} — Chagua mkoa wako hapa chini ili kupata viongozi wa karibu`);
       },
       () => {
         setGpsLoading(false);
         toast.error("Haiwezi kupata mahali pako");
-      }
+      },
     );
   };
 
@@ -93,7 +144,13 @@ export default function ConstituencyFinder() {
       {coords && (
         <div className="mb-4 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20 text-meta font-body text-foreground flex items-center gap-2">
           <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-          <span>Eneo lako: <span className="font-mono">{coords.lat}, {coords.lng}</span> — chagua mkoa & wilaya hapa chini</span>
+          <span>
+            {resolvedHierarchy ? (
+              <>📍 <span className="font-heading text-h3 text-primary">{resolvedHierarchy}</span></>
+            ) : (
+              <>Eneo lako: <span className="font-mono">{coords.lat}, {coords.lng}</span> — chagua mkoa & wilaya hapa chini</>
+            )}
+          </span>
         </div>
       )}
 

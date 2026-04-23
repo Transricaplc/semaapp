@@ -22,6 +22,7 @@ import { politicalParties, searchParties } from "@/data/vyama";
 import OfficialCard from "@/components/OfficialCard";
 import { PanelGroup } from "@/components/Panel";
 import LocalGovPanel from "@/components/LocalGovPanel";
+import LocationFilterChip from "@/components/LocationFilterChip";
 
 // ── Adapter: synthesize a minimal Official from any directory entry ──
 function makeOfficial(input: {
@@ -215,6 +216,10 @@ export default function SerikaliDirectory() {
             </button>
           ))}
         </div>
+        <LocationFilterChip
+          currentRegion={selectedRegion}
+          onRegionLabelChange={(region) => setSelectedRegion(region)}
+        />
       </header>
 
       {/* Sort sheet (global to page) */}
