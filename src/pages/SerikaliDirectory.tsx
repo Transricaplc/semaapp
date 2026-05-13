@@ -255,20 +255,25 @@ export default function SerikaliDirectory() {
           </span>
         </div>
         <div className="px-4 pb-3">
+          <label htmlFor="dir-search" className="sr-only">Tafuta jina, wizara, au mkoa</label>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
+            <Search aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary" />
             <input
+              id="dir-search"
+              type="search"
               placeholder="Tafuta jina, wizara, au mkoa..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-10 h-11 bg-cream border border-gazette-border rounded-xl text-[14px] focus:border-primary focus:outline-none placeholder:text-text-secondary"
+              className="w-full pl-10 pr-10 h-11 bg-cream border border-gazette-border rounded-xl text-[14px] focus:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary placeholder:text-text-secondary"
             />
             {search && (
               <button
+                type="button"
+                aria-label="Futa utafutaji"
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary active:opacity-65"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary active:opacity-65 min-h-[24px] min-w-[24px] flex items-center justify-center"
               >
-                <X className="w-4 h-4" />
+                <X aria-hidden="true" className="w-4 h-4" />
               </button>
             )}
           </div>
@@ -278,31 +283,45 @@ export default function SerikaliDirectory() {
           <button
             type="button"
             onClick={() => setSortOpen(true)}
-            className="inline-flex items-center gap-1.5 bg-surface border border-gazette-border rounded-full px-3 py-1.5 text-[12px] font-medium text-ink active:opacity-65 transition-opacity"
+            aria-label={`Panga matokeo: ${sortLabel(sortBy)}`}
+            className="inline-flex items-center gap-1.5 bg-surface border border-gazette-border rounded-full px-3 py-1.5 text-[12px] font-medium text-ink active:opacity-65 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            <ArrowUpDown className="w-3.5 h-3.5 text-text-secondary" />
+            <ArrowUpDown aria-hidden="true" className="w-3.5 h-3.5 text-text-secondary" />
             <span className="truncate max-w-[140px]">{sortLabel(sortBy)}</span>
-            <ChevronDown className="w-3.5 h-3.5 text-text-secondary" />
+            <ChevronDown aria-hidden="true" className="w-3.5 h-3.5 text-text-secondary" />
           </button>
-          {activeFilterCount > 0 && (
-            <span className="bg-accent text-ink rounded-full px-3 py-1 text-[11px] font-semibold">
-              Filters Hai · {activeFilterCount}
-            </span>
-          )}
+          <div className="flex items-center gap-2">
+            {activeFilterCount > 0 && (
+              <span className="bg-accent text-ink rounded-full px-3 py-1 text-[11px] font-semibold">
+                Filters Hai · {activeFilterCount}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={handleExportCsv}
+              aria-label="Pakua orodha kama CSV"
+              className="inline-flex items-center gap-1.5 bg-surface border border-gazette-border rounded-full px-3 py-1.5 text-[12px] font-medium text-ink active:opacity-65 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <Download aria-hidden="true" className="w-3.5 h-3.5 text-text-secondary" />
+              <span>Pakua CSV</span>
+            </button>
+          </div>
         </div>
         {/* Filter chips */}
-        <div className="flex gap-2 overflow-x-auto pb-3 px-4 no-scrollbar">
+        <div role="tablist" aria-label="Aina ya orodha" className="flex gap-2 overflow-x-auto pb-3 px-4 no-scrollbar">
           {tabs.map((tab) => (
             <button
               key={tab.value}
+              role="tab"
+              aria-selected={activeTab === tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`shrink-0 inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] border min-h-[36px] transition-colors ${
+              className={`shrink-0 inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] border min-h-[36px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                 activeTab === tab.value
                   ? "bg-primary text-primary-foreground border-transparent"
                   : "bg-surface text-ink border-gazette-border"
               }`}
             >
-              <tab.icon className="w-3.5 h-3.5" />
+              <tab.icon aria-hidden="true" className="w-3.5 h-3.5" />
               {tab.label}
             </button>
           ))}
