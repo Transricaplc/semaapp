@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
 import {
   Search, MapPin, Landmark, Building2, Scale, Banknote, BookOpen,
-  GraduationCap, Heart, X, BadgeCheck, Phone, Users, ArrowUpDown, ChevronDown,
+  GraduationCap, Heart, X, BadgeCheck, Phone, Users, ArrowUpDown, ChevronDown, Download,
 } from "lucide-react";
 import SortSheet from "@/components/SortSheet";
+import { downloadCsv } from "@/lib/exportCsv";
 import EmergencyStrip from "@/components/EmergencyStrip";
 import {
   useSortFilter, applySort, groupBySort, sortLabel, type SortKey,
