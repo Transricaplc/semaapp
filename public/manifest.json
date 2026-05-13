@@ -3,10 +3,12 @@
   "short_name": "Sema",
   "description": "Citizen advocacy platform for Tanzania. Report issues, start petitions, hold leaders accountable.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#3D2A1A",
-  "theme_color": "#E30613",
+  "background_color": "#1C1C1E",
+  "theme_color": "#F5C500",
   "orientation": "portrait-primary",
+  "lang": "sw-TZ",
   "icons": [
     {
       "src": "/favicon.ico",
@@ -14,5 +16,10 @@
       "type": "image/x-icon"
     }
   ],
-  "categories": ["government", "social", "news"]
+  "categories": ["government", "social", "news"],
+  "shortcuts": [
+    { "name": "Ripoti", "short_name": "Ripoti", "url": "/sauti", "description": "Tuma ripoti mpya" },
+    { "name": "Saka Viongozi", "short_name": "Saraka", "url": "/saka-viongozi", "description": "Tafuta kiongozi" },
+    { "name": "Ramani", "short_name": "Ramani", "url": "/ramani", "description": "Fungua ramani" }
+  ]
 }
