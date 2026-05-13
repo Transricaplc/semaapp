@@ -150,6 +150,96 @@ export default function SerikaliDirectory() {
   const filteredEdu = useMemo(() => search ? searchEdu(search) : eduInstitutions, [search]);
   const filteredParties = useMemo(() => searchParties(search), [search]);
 
+  // ── CSV export for the currently visible tab ──
+  const handleExportCsv = () => {
+    const ts = new Date().toISOString().slice(0, 10);
+    const officialRows = (list: Official[]) =>
+      list.map((o) => ({
+        jina: o.full_name,
+        wadhifa: o.role_title,
+        aina: roleTypeLabels[o.role_type] ?? o.role_type,
+        wizara: o.institution.ministry,
+        mkoa: o.location.region,
+        wilaya: o.location.district,
+        kata: o.location.ward,
+        jimbo: o.location.constituency,
+        chama: o.party,
+        simu: o.contacts.find((c) => c.type === "phone")?.value ?? "",
+        barua_pepe: o.contacts.find((c) => c.type === "email")?.value ?? "",
+        ofisi: o.institution.office_address,
+        hali: o.verified_status,
+      }));
+
+    switch (activeTab) {
+      case "mikoa":
+        downloadCsv(`sema-mikoa-${ts}`, officialRows(regionalCommissioners));
+        break;
+      case "bunge":
+        downloadCsv(`sema-bunge-${ts}`, officialRows(filteredOfficials));
+        break;
+      case "hospitali":
+        downloadCsv(
+          `sema-hospitali-${ts}`,
+          filteredHospitals.map((h: any) => ({
+            jina: h.name, aina: hospitalTypeLabels[h.type as HospitalType] ?? h.type,
+            mkoa: h.region ?? "", wilaya: h.district ?? "",
+            simu: h.phone ?? "", barua_pepe: h.email ?? "", anwani: h.address ?? "",
+          })),
+        );
+        break;
+      case "wakala":
+        downloadCsv(
+          `sema-wakala-${ts}`,
+          filteredAgencies.map((a: any) => ({
+            jina: a.name, aina: a.type ?? "", wizara: a.ministry ?? "",
+            simu: a.phone ?? "", barua_pepe: a.email ?? "", tovuti: a.website ?? "",
+          })),
+        );
+        break;
+      case "benki":
+        downloadCsv(
+          `sema-benki-${ts}`,
+          [
+            ...filteredBanking.map((b: any) => ({ kategoria: "Mtendaji Mkuu", jina: b.name ?? b.ceo ?? "", taasisi: b.bank ?? b.institution ?? "", simu: b.phone ?? "", barua_pepe: b.email ?? "" })),
+            ...filteredBotBanks.map((b: any) => ({ kategoria: "Benki BoT", jina: b.name ?? "", taasisi: "BoT", simu: b.phone ?? "", barua_pepe: b.email ?? "" })),
+            ...filteredBureaux.map((b: any) => ({ kategoria: "Bureau de Change", jina: b.name ?? "", taasisi: b.region ?? "", simu: b.phone ?? "", barua_pepe: b.email ?? "" })),
+          ],
+        );
+        break;
+      case "mahakama":
+        downloadCsv(
+          `sema-mahakama-${ts}`,
+          filteredCourts.map((c: any) => ({
+            jina: c.name, ngazi: courtLevelLabels[c.level] ?? c.level,
+            mkoa: c.region ?? "", wilaya: c.district ?? "",
+            simu: c.phone ?? "", anwani: c.address ?? "",
+          })),
+        );
+        break;
+      case "elimu":
+        downloadCsv(
+          `sema-elimu-${ts}`,
+          filteredEdu.map((e: any) => ({
+            jina: e.name, aina: elimuTypeLabels[e.type] ?? e.type,
+            mkoa: e.region ?? "", wilaya: e.district ?? "",
+            simu: e.phone ?? "", tovuti: e.website ?? "",
+          })),
+        );
+        break;
+      case "vyama":
+        downloadCsv(
+          `sema-vyama-${ts}`,
+          filteredParties.map((p: any) => ({
+            jina: p.name, kifupi: p.acronym ?? "", kiongozi: p.leader ?? "",
+            simu: p.phone ?? "", barua_pepe: p.email ?? "", tovuti: p.website ?? "",
+          })),
+        );
+        break;
+      default:
+        downloadCsv(`sema-${activeTab}-${ts}`, officialRows(filteredOfficials));
+    }
+  };
+
   return (
     <div className="font-ui animate-fade-in">
       {/* ── Sticky Header — gazette ── */}
