@@ -151,9 +151,11 @@ export default function AdminSeed() {
         setKataProgress(Math.round((inserted / data.length) * 100));
       }
       setSeedKataResult(`Imefanikiwa: kata ${inserted} zimejazwa`);
+      await logAudit("seed.kata", "kata", { inserted });
       await refreshCounts();
     } catch (e: any) {
       setSeedKataResult(`Hitilafu: ${e.message ?? e}`);
+      await logAudit("seed.kata.error", "kata", { message: String(e?.message ?? e) });
     }
     setSeedingKata(false);
   }
