@@ -20,9 +20,9 @@ export default {
       fontFamily: {
         sans: ["'DM Sans'", "system-ui", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
-        display: ["'Cormorant Garamond'", "Georgia", "serif"],
-        heading: ["'Cormorant Garamond'", "Georgia", "serif"],
-        serif: ["'Cormorant Garamond'", "Georgia", "serif"],
+        display: ["'Sora'", "system-ui", "sans-serif"],
+        heading: ["'Sora'", "system-ui", "sans-serif"],
+        serif: ["'Sora'", "system-ui", "sans-serif"],
         body: ["'DM Sans'", "system-ui", "sans-serif"],
         ui: ["'DM Sans'", "system-ui", "sans-serif"],
         code: ["'JetBrains Mono'", "monospace"],
