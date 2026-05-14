@@ -87,9 +87,11 @@ export default function AdminSeed() {
         inserted += chunk.length;
       }
       setSeedWilayaResult(`Imefanikiwa: wilaya ${inserted} zimejazwa`);
+      await logAudit("seed.wilaya", "wilaya", { inserted });
       await refreshCounts();
     } catch (e: any) {
       setSeedWilayaResult(`Hitilafu: ${e.message ?? e}`);
+      await logAudit("seed.wilaya.error", "wilaya", { message: String(e?.message ?? e) });
     }
     setSeedingWilaya(false);
   }
