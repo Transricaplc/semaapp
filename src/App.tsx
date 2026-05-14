@@ -13,6 +13,7 @@ import Sauti from "./pages/Sauti";
 import Mimi from "./pages/Mimi";
 import OfficialProfile from "./pages/OfficialProfile";
 import AdminSeed from "./pages/AdminSeed";
+import RequireAdmin from "@/components/RequireAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
