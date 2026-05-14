@@ -13,6 +13,7 @@ import Sauti from "./pages/Sauti";
 import Mimi from "./pages/Mimi";
 import OfficialProfile from "./pages/OfficialProfile";
 import AdminSeed from "./pages/AdminSeed";
+import RequireAdmin from "@/components/RequireAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,7 +35,7 @@ const App = () => (
             <Route path="/sauti" element={<Sauti />} />
             <Route path="/mimi" element={<Mimi />} />
             <Route path="/kiongozi/:id" element={<OfficialProfile />} />
-            <Route path="/admin/seed" element={<AdminSeed />} />
+            <Route path="/admin/seed" element={<RequireAdmin><AdminSeed /></RequireAdmin>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

@@ -217,6 +217,12 @@ export const translations = {
   // ── Footer ──
   "footer.brand": { sw: "Sema — Sauti ya Mwananchi", en: "Sema — The Citizen's Voice" },
   "footer.tagline": { sw: "Kuwezesha Uwazi & Uwajibikaji Tanzania", en: "Empowering Transparency & Accountability in Tanzania" },
+
+  // ── Admin ──
+  "admin.seedTitle": { sw: "Jaza Data ya Kijiografia", en: "Seed Geographic Data" },
+  "admin.seedSource": { sw: "Chanzo: NBS Tanzania + Kijacode", en: "Source: NBS Tanzania + Kijacode" },
+  "admin.deniedTitle": { sw: "Hauruhusiwi", en: "Access denied" },
+  "admin.deniedDesc": { sw: "Ukurasa huu ni wa wasimamizi tu.", en: "This page is restricted to administrators." },
 } as const;
 
 export type TranslationKey = keyof typeof translations;

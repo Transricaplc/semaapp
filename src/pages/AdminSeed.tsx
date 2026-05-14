@@ -3,10 +3,13 @@ import { Database, Download, CheckCircle2, AlertTriangle, Loader2 } from "lucide
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { logAudit } from "@/lib/audit";
 
 type Counts = { mikoa: number; wilaya: number; kata: number };
 
 export default function AdminSeed() {
+  const { t } = useLanguage();
   const [counts, setCounts] = useState<Counts>({ mikoa: 0, wilaya: 0, kata: 0 });
   const [loadingCounts, setLoadingCounts] = useState(true);
 
@@ -84,9 +87,11 @@ export default function AdminSeed() {
         inserted += chunk.length;
       }
       setSeedWilayaResult(`Imefanikiwa: wilaya ${inserted} zimejazwa`);
+      await logAudit("seed.wilaya", "wilaya", { inserted });
       await refreshCounts();
     } catch (e: any) {
       setSeedWilayaResult(`Hitilafu: ${e.message ?? e}`);
+      await logAudit("seed.wilaya.error", "wilaya", { message: String(e?.message ?? e) });
     }
     setSeedingWilaya(false);
   }
@@ -146,9 +151,11 @@ export default function AdminSeed() {
         setKataProgress(Math.round((inserted / data.length) * 100));
       }
       setSeedKataResult(`Imefanikiwa: kata ${inserted} zimejazwa`);
+      await logAudit("seed.kata", "kata", { inserted });
       await refreshCounts();
     } catch (e: any) {
       setSeedKataResult(`Hitilafu: ${e.message ?? e}`);
+      await logAudit("seed.kata.error", "kata", { message: String(e?.message ?? e) });
     }
     setSeedingKata(false);
   }
@@ -156,9 +163,9 @@ export default function AdminSeed() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="px-4 pt-6 pb-4 border-b border-border">
-        <h1 className="font-heading text-h1 text-foreground">Jaza Data ya Kijiografia</h1>
+        <h1 className="font-heading text-h1 text-foreground">{t("admin.seedTitle")}</h1>
         <p className="text-meta font-body text-muted-foreground mt-1">
-          Chanzo: NBS Tanzania + Kijacode
+          {t("admin.seedSource")}
         </p>
       </div>
 
