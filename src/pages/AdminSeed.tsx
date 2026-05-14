@@ -163,9 +163,9 @@ export default function AdminSeed() {
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="px-4 pt-6 pb-4 border-b border-border">
-        <h1 className="font-heading text-h1 text-foreground">Jaza Data ya Kijiografia</h1>
+        <h1 className="font-heading text-h1 text-foreground">{t("admin.seedTitle")}</h1>
         <p className="text-meta font-body text-muted-foreground mt-1">
-          Chanzo: NBS Tanzania + Kijacode
+          {t("admin.seedSource")}
         </p>
       </div>
 
