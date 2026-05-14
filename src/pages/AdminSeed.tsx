@@ -3,6 +3,8 @@ import { Database, Download, CheckCircle2, AlertTriangle, Loader2 } from "lucide
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { logAudit } from "@/lib/audit";
 
 type Counts = { mikoa: number; wilaya: number; kata: number };
 
