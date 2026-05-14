@@ -30,6 +30,7 @@ const App = () => (
             <Route path="/saka-viongozi" element={<SerikaliDirectory />} />
             <Route path="/directory" element={<Navigate to="/saka-viongozi" replace />} />
             <Route path="/report" element={<Report />} />
+            <Route path="/ripoti" element={<Report />} />
             <Route path="/tracker" element={<Tracker />} />
             <Route path="/ramani" element={<Ramani />} />
             <Route path="/sauti" element={<Sauti />} />

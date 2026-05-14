@@ -4,107 +4,110 @@
 
 @layer base {
   :root {
-    /* ── SEMA "GAZETTE" DESIGN TOKENS ── */
-    /* Page surfaces */
-    --background: 48 33% 97%;          /* #F9F8F4 cream parchment */
-    --foreground: 0 0% 10%;            /* #1A1A1A ink */
+    /* ── SEMA REDESIGN — Citizen Yellow Book ── */
+    --background: 0 0% 96%;            /* #F5F5F5 */
+    --foreground: 240 3% 11%;          /* #1C1C1E charcoal */
 
-    --surface: 0 0% 100%;              /* #FFFFFF cards */
+    --surface: 0 0% 100%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 240 3% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 240 3% 11%;
 
-    /* ── PRIMARY: deep Tanzania forest green ── */
-    --primary: 158 70% 14%;            /* #0B3D2E */
-    --primary-foreground: 0 0% 100%;
+    /* PRIMARY: Sema Yellow */
+    --primary: 48 100% 48%;            /* #F5C500 */
+    --primary-foreground: 240 3% 11%;
 
-    /* ── ACCENT: brand gold (Tanzania flag yellow) ── */
-    --accent: 48 100% 48%;             /* #F5C500 */
-    --accent-foreground: 0 0% 10%;
+    --accent: 48 100% 48%;
+    --accent-foreground: 240 3% 11%;
 
-    /* ── SECONDARY: soft green tint ── */
-    --secondary: 156 38% 93%;          /* #E8F5F0 */
-    --secondary-foreground: 158 70% 14%;
+    --secondary: 54 100% 93%;          /* #FFF8DC */
+    --secondary-foreground: 240 3% 11%;
 
-    /* ── MUTED — soft green for low-emphasis surfaces ── */
-    --muted: 156 38% 93%;
-    --muted-foreground: 220 9% 46%;    /* #6B7280 textSecondary */
+    --muted: 0 0% 96%;
+    --muted-foreground: 240 2% 43%;    /* #6C6C70 */
 
-    /* ── DESTRUCTIVE / ALERT ── */
-    --destructive: 0 99% 38%;          /* #BE0202 */
+    --destructive: 4 100% 59%;         /* #FF3B30 */
     --destructive-foreground: 0 0% 100%;
 
-    /* ── BORDERS & INPUTS ── */
-    --border: 48 13% 87%;              /* #E2E0DA */
-    --input: 48 13% 87%;
-    --ring: 158 70% 14%;
+    --border: 240 6% 91%;              /* #E5E5EA */
+    --input: 240 6% 91%;
+    --ring: 48 100% 48%;
 
     --radius: 0.75rem;
 
-    /* ── EXTENDED PALETTE (compat shims for legacy classes) ── */
+    /* ── SEMA SEMANTIC TOKENS ── */
+    --yellow: 48 100% 48%;
+    --yellow-light: 54 100% 93%;
+    --yellow-dark: 48 100% 38%;        /* #C49B00 */
+    --charcoal: 240 3% 11%;
+    --charcoal-mid: 240 2% 23%;
+    --charcoal-light: 240 2% 43%;
+    --verified-green: 142 71% 49%;     /* #34C759 */
+    --unverified-red: 4 100% 59%;
+    --gov-blue: 211 100% 50%;          /* #007AFF */
+    --map-bg: 36 17% 92%;              /* #F0EDE8 */
+
+    /* COMPAT shims (legacy yb-* / tz-*) */
     --yb-yellow: 48 100% 48%;
-    --yb-yellow-deep: 45 100% 42%;
-    --yb-yellow-soft: 48 100% 93%;
+    --yb-yellow-deep: 48 100% 38%;
+    --yb-yellow-soft: 54 100% 93%;
     --yb-yellow-stripe: 48 100% 48%;
 
-    /* Tanzania flag tricolor reference */
-    --tz-green: 158 70% 14%;
+    --tz-green: 142 71% 30%;
     --tz-yellow: 48 100% 48%;
-    --tz-black: 0 0% 10%;
-    --tz-blue: 201 82% 48%;
+    --tz-black: 240 3% 11%;
+    --tz-blue: 211 100% 50%;
 
-    /* Dark surfaces (compat) */
-    --yb-charcoal: 0 0% 10%;
-    --yb-charcoal-dark: 0 0% 6%;
-    --yb-charcoal-mid: 158 30% 18%;
-    --yb-charcoal-soft: 158 18% 28%;
-    --yb-charcoal-muted: 220 9% 60%;
+    --yb-charcoal: 240 3% 11%;
+    --yb-charcoal-dark: 240 3% 7%;
+    --yb-charcoal-mid: 240 2% 23%;
+    --yb-charcoal-soft: 240 2% 33%;
+    --yb-charcoal-muted: 240 2% 60%;
 
-    --yb-offwhite: 48 33% 97%;
-    --yb-parchment: 48 33% 95%;
+    --yb-offwhite: 0 0% 96%;
+    --yb-parchment: 0 0% 98%;
     --yb-white: 0 0% 100%;
-    --yb-gray: 220 12% 93%;
+    --yb-gray: 240 6% 91%;
 
-    /* Status */
-    --yb-verified: 158 70% 30%;
+    --yb-verified: 142 71% 39%;
     --yb-pending: 37 100% 52%;
-    --yb-outdated: 0 99% 38%;
-    --yb-info: 201 82% 48%;
+    --yb-outdated: 4 100% 59%;
+    --yb-info: 211 100% 50%;
 
     --gold: 48 100% 48%;
-    --warning: 37 90% 50%;
+    --warning: 37 100% 52%;
 
-    --sidebar-background: 0 0% 6%;
-    --sidebar-foreground: 48 33% 97%;
+    --sidebar-background: 240 3% 7%;
+    --sidebar-foreground: 0 0% 96%;
     --sidebar-primary: 48 100% 48%;
-    --sidebar-primary-foreground: 0 0% 10%;
-    --sidebar-accent: 158 30% 18%;
-    --sidebar-accent-foreground: 48 33% 97%;
-    --sidebar-border: 158 18% 28%;
+    --sidebar-primary-foreground: 240 3% 11%;
+    --sidebar-accent: 240 2% 23%;
+    --sidebar-accent-foreground: 0 0% 96%;
+    --sidebar-border: 240 2% 33%;
     --sidebar-ring: 48 100% 48%;
   }
 
   .dark {
-    --background: 0 0% 10%;
-    --foreground: 48 33% 97%;
-    --card: 158 30% 14%;
-    --card-foreground: 48 33% 97%;
-    --popover: 158 30% 14%;
-    --popover-foreground: 48 33% 97%;
+    --background: 240 3% 7%;
+    --foreground: 0 0% 96%;
+    --card: 240 3% 11%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 3% 11%;
+    --popover-foreground: 0 0% 96%;
     --primary: 48 100% 48%;
-    --primary-foreground: 0 0% 10%;
-    --secondary: 158 30% 18%;
-    --secondary-foreground: 48 33% 97%;
-    --muted: 158 30% 18%;
-    --muted-foreground: 220 9% 60%;
+    --primary-foreground: 240 3% 11%;
+    --secondary: 240 2% 23%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 2% 23%;
+    --muted-foreground: 240 2% 60%;
     --accent: 48 100% 48%;
-    --accent-foreground: 0 0% 10%;
-    --destructive: 0 99% 38%;
+    --accent-foreground: 240 3% 11%;
+    --destructive: 4 100% 59%;
     --destructive-foreground: 0 0% 100%;
-    --border: 158 18% 28%;
-    --input: 158 18% 28%;
+    --border: 240 2% 23%;
+    --input: 240 2% 23%;
     --ring: 48 100% 48%;
   }
 }
@@ -130,7 +133,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Sora', system-ui, sans-serif;
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: -0.005em;
@@ -164,7 +167,7 @@
   }
 
   /* ── GAZETTE TYPE HELPERS ── */
-  .font-serif-display { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500; }
+  .font-serif-display { font-family: 'Sora', system-ui, sans-serif; font-weight: 500; }
   .font-ui            { font-family: 'DM Sans', system-ui, sans-serif; }
   .font-code          { font-family: 'JetBrains Mono', monospace; font-weight: 400; }
 
@@ -260,7 +263,7 @@
   /* ── NAV ── */
   .nav-link {
     @apply text-sm font-medium transition-colors px-3 py-2 rounded-lg;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Sora', system-ui, sans-serif;
   }
   .nav-link-active { @apply text-primary; }
 
@@ -316,7 +319,7 @@
 
   /* ── ROLE BADGE ── */
   .badge-role {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Sora', system-ui, sans-serif;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 10px;
@@ -394,7 +397,7 @@
            bg-transparent border border-border text-foreground font-medium text-[15px]
            transition-all duration-200 min-h-[48px]
            hover:bg-secondary hover:border-primary/30 active:scale-[0.98];
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Sora', system-ui, sans-serif;
   }
 }
 

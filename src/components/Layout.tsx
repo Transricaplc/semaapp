@@ -5,11 +5,11 @@ import EmergencyDrawer from "@/components/EmergencyDrawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const NAV_TABS = [
-  { path: "/", label: "Nyumbani", icon: Home },
-  { path: "/saka-viongozi", label: "Saka", icon: Search },
-  { path: "/ramani", label: "Ramani", icon: Map },
-  { path: "/sauti", label: "Sauti", icon: Mic },
-  { path: "/mimi", label: "Mimi", icon: User },
+  { path: "/", label: "Tafuta", sub: "Search", icon: Search },
+  { path: "/saka-viongozi", label: "Orodha", sub: "Directory", icon: Home },
+  { path: "/ramani", label: "Ramani", sub: "Map", icon: Map },
+  { path: "/ripoti", label: "Ripoti", sub: "Report", icon: Mic },
+  { path: "/mimi", label: "Mimi", sub: "Profile", icon: User },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
