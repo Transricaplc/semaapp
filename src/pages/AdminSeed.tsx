@@ -9,6 +9,7 @@ import { logAudit } from "@/lib/audit";
 type Counts = { mikoa: number; wilaya: number; kata: number };
 
 export default function AdminSeed() {
+  const { t } = useLanguage();
   const [counts, setCounts] = useState<Counts>({ mikoa: 0, wilaya: 0, kata: 0 });
   const [loadingCounts, setLoadingCounts] = useState(true);
 
