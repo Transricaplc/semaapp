@@ -103,10 +103,12 @@ export type Database = {
           created_at: string
           id: number
           jina: string
+          jina_sw: string | null
           lat: number | null
           lng: number | null
           mkoa_id: number | null
           pcode: string
+          post_code: string | null
           wilaya_id: number | null
           wilaya_pcode: string | null
         }
@@ -114,10 +116,12 @@ export type Database = {
           created_at?: string
           id?: number
           jina: string
+          jina_sw?: string | null
           lat?: number | null
           lng?: number | null
           mkoa_id?: number | null
           pcode: string
+          post_code?: string | null
           wilaya_id?: number | null
           wilaya_pcode?: string | null
         }
@@ -125,10 +129,12 @@ export type Database = {
           created_at?: string
           id?: number
           jina?: string
+          jina_sw?: string | null
           lat?: number | null
           lng?: number | null
           mkoa_id?: number | null
           pcode?: string
+          post_code?: string | null
           wilaya_id?: number | null
           wilaya_pcode?: string | null
         }
@@ -178,6 +184,115 @@ export type Database = {
           pcode?: string
         }
         Relationships: []
+      }
+      officials: {
+        Row: {
+          accountability_score: number | null
+          created_at: string
+          data_source: string | null
+          department: string | null
+          email: string | null
+          full_name: string
+          id: string
+          kata_id: number | null
+          lat: number | null
+          lng: number | null
+          map_category: string | null
+          mhimili: string | null
+          mkoa_id: number | null
+          ngazi: string | null
+          office_address: string | null
+          party: string | null
+          phone: string | null
+          picha_url: string | null
+          role_title: string
+          role_title_sw: string | null
+          source_url: string | null
+          updated_at: string
+          verified_at: string | null
+          verified_by: string | null
+          whatsapp: string | null
+          wilaya_id: number | null
+        }
+        Insert: {
+          accountability_score?: number | null
+          created_at?: string
+          data_source?: string | null
+          department?: string | null
+          email?: string | null
+          full_name: string
+          id?: string
+          kata_id?: number | null
+          lat?: number | null
+          lng?: number | null
+          map_category?: string | null
+          mhimili?: string | null
+          mkoa_id?: number | null
+          ngazi?: string | null
+          office_address?: string | null
+          party?: string | null
+          phone?: string | null
+          picha_url?: string | null
+          role_title: string
+          role_title_sw?: string | null
+          source_url?: string | null
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          whatsapp?: string | null
+          wilaya_id?: number | null
+        }
+        Update: {
+          accountability_score?: number | null
+          created_at?: string
+          data_source?: string | null
+          department?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string
+          kata_id?: number | null
+          lat?: number | null
+          lng?: number | null
+          map_category?: string | null
+          mhimili?: string | null
+          mkoa_id?: number | null
+          ngazi?: string | null
+          office_address?: string | null
+          party?: string | null
+          phone?: string | null
+          picha_url?: string | null
+          role_title?: string
+          role_title_sw?: string | null
+          source_url?: string | null
+          updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          whatsapp?: string | null
+          wilaya_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "officials_kata_id_fkey"
+            columns: ["kata_id"]
+            isOneToOne: false
+            referencedRelation: "kata"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "officials_mkoa_id_fkey"
+            columns: ["mkoa_id"]
+            isOneToOne: false
+            referencedRelation: "mikoa"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "officials_wilaya_id_fkey"
+            columns: ["wilaya_id"]
+            isOneToOne: false
+            referencedRelation: "wilaya"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       petition_signatures: {
         Row: {
@@ -384,6 +499,33 @@ export type Database = {
           },
         ]
       }
+      saved_contacts: {
+        Row: {
+          created_at: string
+          external_official_id: string | null
+          id: string
+          official_id: string | null
+          official_name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          external_official_id?: string | null
+          id?: string
+          official_id?: string | null
+          official_name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          external_official_id?: string | null
+          id?: string
+          official_id?: string | null
+          official_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -445,6 +587,7 @@ export type Database = {
           created_at: string
           id: number
           jina: string
+          jina_sw: string | null
           lat: number | null
           lng: number | null
           mkoa_id: number | null
@@ -455,6 +598,7 @@ export type Database = {
           created_at?: string
           id?: number
           jina: string
+          jina_sw?: string | null
           lat?: number | null
           lng?: number | null
           mkoa_id?: number | null
@@ -465,6 +609,7 @@ export type Database = {
           created_at?: string
           id?: number
           jina?: string
+          jina_sw?: string | null
           lat?: number | null
           lng?: number | null
           mkoa_id?: number | null
