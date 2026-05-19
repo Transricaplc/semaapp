@@ -115,7 +115,7 @@ export default function Orodha() {
 
       {/* Body */}
       {!loading && view === "regions" && (
-        <RegionGrid regions={store.allRegions} onSelect={goRegion} />
+        <RegionGrid regions={sortedRegions} onSelect={goRegion} />
       )}
 
       {!loading && view === "districts" && (
