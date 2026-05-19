@@ -20,8 +20,11 @@ export default function Directory() {
   const [showFilters, setShowFilters] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
 
-  const availableDistricts = selectedRegion ? districtsByRegion[selectedRegion] || [] : [];
-  const availableConstituencies = selectedDistrict ? constituenciesByDistrict[selectedDistrict] || [] : [];
+  const availableDistricts = selectedRegion ? sortPlaceNames(districtsByRegion[selectedRegion] || []) : [];
+  const availableConstituencies = selectedDistrict ? sortPlaceNames(constituenciesByDistrict[selectedDistrict] || []) : [];
+  const sortedRegions = useMemo(() => sortPlaceNames(allRegions), []);
+  const sortedParties = useMemo(() => [...allParties].sort((a, b) => a.localeCompare(b, "sw", { sensitivity: "base" })), []);
+  const sortedRoles = useMemo(() => [...allRoles].sort((a, b) => a.localeCompare(b, "sw", { sensitivity: "base" })), []);
 
   const handleRegionChange = (val: string) => { setSelectedRegion(val); setSelectedDistrict(""); setSelectedConstituency(""); };
   const handleDistrictChange = (val: string) => { setSelectedDistrict(val); setSelectedConstituency(""); };
