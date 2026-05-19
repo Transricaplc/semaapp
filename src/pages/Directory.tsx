@@ -8,6 +8,7 @@ import {
   allOfficials, allRegions, districtsByRegion, constituenciesByDistrict,
   allParties, allRoles, meta, type OfficialContact,
 } from "@/data/contacts";
+import { comparePlaceNames, sortPlaceNames, sortByPlaceKey } from "@/lib/placeSort";
 
 export default function Directory() {
   const [search, setSearch] = useState("");
