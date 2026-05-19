@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { localGovData, localGovStats, type LocalRegion, type LocalDistrict, type Ward } from "@/data/local_gov";
+import { sortByPlaceKey } from "@/lib/placeSort";
 
 export default function LocalGovPanel() {
   const [search, setSearch] = useState("");
