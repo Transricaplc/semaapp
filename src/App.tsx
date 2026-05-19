@@ -15,6 +15,7 @@ import OfficialProfile from "./pages/OfficialProfile";
 import AdminSeed from "./pages/AdminSeed";
 import RequireAdmin from "@/components/RequireAdmin";
 import NotFound from "./pages/NotFound";
+import LocationsApiBootstrap from "@/components/LocationsApiBootstrap";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <LocationsApiBootstrap />
       <BrowserRouter>
         <Layout>
           <Routes>
