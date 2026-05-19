@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, Search, Map, Mic, User, Phone } from "lucide-react";
 import { useState } from "react";
 import EmergencyDrawer from "@/components/EmergencyDrawer";
+import LocationsOfflineBanner from "@/components/LocationsOfflineBanner";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const NAV_TABS = [
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="page-shell">
       <div className="page-shell-inner">
+        <LocationsOfflineBanner />
         <main>{children}</main>
 
         {/* ── Pill Bottom Nav — visible on every viewport, lives inside the 430px column ── */}
