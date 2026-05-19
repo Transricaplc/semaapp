@@ -10,6 +10,7 @@ import {
 import { useLocationStore } from "@/store/locationStore";
 import LocationBreadcrumb from "@/components/LocationBreadcrumb";
 import { useOfficialsByLocation } from "@/hooks/useOfficialsByLocation";
+import { sortByPlaceName } from "@/lib/placeSort";
 
 type View = "regions" | "districts" | "wards" | "officials";
 
