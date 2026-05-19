@@ -191,6 +191,7 @@ export type Database = {
           created_at: string
           data_source: string | null
           department: string | null
+          district_code: string | null
           email: string | null
           full_name: string
           id: string
@@ -205,12 +206,15 @@ export type Database = {
           party: string | null
           phone: string | null
           picha_url: string | null
+          place_name: string | null
+          region_code: string | null
           role_title: string
           role_title_sw: string | null
           source_url: string | null
           updated_at: string
           verified_at: string | null
           verified_by: string | null
+          ward_code: string | null
           whatsapp: string | null
           wilaya_id: number | null
         }
@@ -219,6 +223,7 @@ export type Database = {
           created_at?: string
           data_source?: string | null
           department?: string | null
+          district_code?: string | null
           email?: string | null
           full_name: string
           id?: string
@@ -233,12 +238,15 @@ export type Database = {
           party?: string | null
           phone?: string | null
           picha_url?: string | null
+          place_name?: string | null
+          region_code?: string | null
           role_title: string
           role_title_sw?: string | null
           source_url?: string | null
           updated_at?: string
           verified_at?: string | null
           verified_by?: string | null
+          ward_code?: string | null
           whatsapp?: string | null
           wilaya_id?: number | null
         }
@@ -247,6 +255,7 @@ export type Database = {
           created_at?: string
           data_source?: string | null
           department?: string | null
+          district_code?: string | null
           email?: string | null
           full_name?: string
           id?: string
@@ -261,12 +270,15 @@ export type Database = {
           party?: string | null
           phone?: string | null
           picha_url?: string | null
+          place_name?: string | null
+          region_code?: string | null
           role_title?: string
           role_title_sw?: string | null
           source_url?: string | null
           updated_at?: string
           verified_at?: string | null
           verified_by?: string | null
+          ward_code?: string | null
           whatsapp?: string | null
           wilaya_id?: number | null
         }
