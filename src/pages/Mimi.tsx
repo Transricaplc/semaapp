@@ -313,7 +313,25 @@ export default function Mimi() {
           )}
           <ChevronRight className="w-4 h-4 text-text-secondary" />
         </button>
+        <button
+          onClick={() => setHomeApiOpen(true)}
+          className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
+        >
+          <Home className="w-5 h-5 text-primary" strokeWidth={1.75} />
+          <span className="flex-1 text-[14px] text-ink">
+            {lang === "sw" ? "Nyumbani (API)" : "Home (API)"}
+          </span>
+          {locStore.homeWardCode || locStore.homeDistrictCode || locStore.homeRegionCode ? (
+            <span className="font-code text-[11px] text-text-secondary truncate max-w-[140px]">
+              {[locStore.homeRegionCode, locStore.homeDistrictCode, locStore.homeWardCode].filter(Boolean).join(" › ")}
+            </span>
+          ) : (
+            <span className="text-[12px] text-text-secondary">{lang === "sw" ? "Weka" : "Set"}</span>
+          )}
+          <ChevronRight className="w-4 h-4 text-text-secondary" />
+        </button>
 
+        
         <button
           onClick={handleToggleLang}
           className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
