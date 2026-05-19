@@ -30,16 +30,13 @@ export default function Orodha() {
     else setView("officials");
   }, [store.selectedRegion, store.selectedDistrict, store.selectedWard]);
 
-  const byName = <T extends { name: string }>(a: T, b: T) =>
-    a.name.localeCompare(b.name, "sw", { sensitivity: "base", numeric: true });
-
   const goRegion = async (r: Region) => {
     store.setSelectedRegion(r);
     setLoading(true);
     setError(null);
     try {
       const res = await locationsApi.getRegionDistricts(r.regionCode);
-      setDistricts([...res.data].sort(byName));
+      setDistricts(sortByPlaceName(res.data));
       setView("districts");
     } catch (e) {
       setError(e instanceof Error ? e.message : "API error");
@@ -54,7 +51,7 @@ export default function Orodha() {
     setError(null);
     try {
       const res = await locationsApi.getDistrictWards(d.districtCode);
-      setWards([...res.data].sort(byName));
+      setWards(sortByPlaceName(res.data));
       setView("wards");
     } catch (e) {
       setError(e instanceof Error ? e.message : "API error");
@@ -68,11 +65,8 @@ export default function Orodha() {
     setView("officials");
   };
 
-  // Regions sorted alphabetically (Swahili locale, case-insensitive).
-  const sortedRegions = useMemo(
-    () => [...store.allRegions].sort(byName),
-    [store.allRegions],
-  );
+  // Regions sorted alphabetically (Swahili-aware, prefix-stripped).
+  const sortedRegions = useMemo(() => sortByPlaceName(store.allRegions), [store.allRegions]);
 
   return (
     <div className="font-body animate-fade-in pb-24">
