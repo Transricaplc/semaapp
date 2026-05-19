@@ -16,6 +16,8 @@ import AdminSeed from "./pages/AdminSeed";
 import RequireAdmin from "@/components/RequireAdmin";
 import NotFound from "./pages/NotFound";
 import LocationsApiBootstrap from "@/components/LocationsApiBootstrap";
+import Tafuta from "./pages/Tafuta";
+import Orodha from "./pages/Orodha";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,8 @@ const App = () => (
         <Layout>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/tafuta" element={<Tafuta />} />
+            <Route path="/orodha" element={<Orodha />} />
             <Route path="/saka-viongozi" element={<SerikaliDirectory />} />
             <Route path="/directory" element={<Navigate to="/saka-viongozi" replace />} />
             <Route path="/report" element={<Report />} />

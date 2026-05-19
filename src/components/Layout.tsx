@@ -5,8 +5,8 @@ import EmergencyDrawer from "@/components/EmergencyDrawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const NAV_TABS = [
-  { path: "/", label: "Tafuta", sub: "Search", icon: Search },
-  { path: "/saka-viongozi", label: "Orodha", sub: "Directory", icon: Home },
+  { path: "/tafuta", label: "Tafuta", sub: "Search", icon: Search },
+  { path: "/orodha", label: "Orodha", sub: "Directory", icon: Home },
   { path: "/ramani", label: "Ramani", sub: "Map", icon: Map },
   { path: "/ripoti", label: "Ripoti", sub: "Report", icon: Mic },
   { path: "/mimi", label: "Mimi", sub: "Profile", icon: User },
