@@ -12,6 +12,7 @@ import { getAgenciesForRegion, type Agency, type ZonalOffice } from "@/data/agen
 import OfficialCard from "@/components/OfficialCard";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { sortPlaceNames } from "@/lib/placeSort";
 
 const ZANZIBAR_REGIONS = ["Mjini Magharibi", "Kaskazini Unguja", "Kusini Unguja", "Kaskazini Pemba", "Kusini Pemba"];
 
