@@ -18,14 +18,38 @@ export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
   const { user, signInWithPhone, verifyOTP, signInAnonymously, signOut, isAnonymous } = useAuth();
   const { items: followed } = useFollowedList();
+  const locStore = useLocationStore();
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [sending, setSending] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
+  const [homeApiOpen, setHomeApiOpen] = useState(false);
   const [savedLoc, setSavedLoc] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null; label: string }>({
     mkoa_id: null, wilaya_id: null, kata_id: null, label: "",
   });
+
+  const exportFollowedVCard = (officialId: string, fallbackName: string) => {
+    const o = unifiedOfficials.find((x) => x.id === officialId);
+    if (!o) {
+      downloadVCard({ fullName: fallbackName });
+      toast.success(lang === "sw" ? "Mawasiliano yamehifadhiwa" : "Contact saved");
+      return;
+    }
+    const phoneContact = o.contacts?.find((c) => c.type === "phone")?.value;
+    const emailContact = o.contacts?.find((c) => c.type === "email")?.value;
+    const addressContact = o.contacts?.find((c) => c.type === "office_address")?.value;
+    downloadVCard({
+      fullName: o.full_name,
+      title: o.role_title,
+      org: o.department || o.ministry || "Government of Tanzania",
+      phone: phoneContact,
+      email: emailContact,
+      address: addressContact,
+      note: o.party ? `Party: ${o.party}` : undefined,
+    });
+    toast.success(lang === "sw" ? "Mawasiliano yamehifadhiwa" : "Contact saved");
+  };
 
   // Load saved location
   useEffect(() => {
