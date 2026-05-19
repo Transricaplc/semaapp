@@ -29,13 +29,16 @@ export default function Orodha() {
     else setView("officials");
   }, [store.selectedRegion, store.selectedDistrict, store.selectedWard]);
 
+  const byName = <T extends { name: string }>(a: T, b: T) =>
+    a.name.localeCompare(b.name, "sw", { sensitivity: "base", numeric: true });
+
   const goRegion = async (r: Region) => {
     store.setSelectedRegion(r);
     setLoading(true);
     setError(null);
     try {
       const res = await locationsApi.getRegionDistricts(r.regionCode);
-      setDistricts(res.data);
+      setDistricts([...res.data].sort(byName));
       setView("districts");
     } catch (e) {
       setError(e instanceof Error ? e.message : "API error");
@@ -50,7 +53,7 @@ export default function Orodha() {
     setError(null);
     try {
       const res = await locationsApi.getDistrictWards(d.districtCode);
-      setWards(res.data);
+      setWards([...res.data].sort(byName));
       setView("wards");
     } catch (e) {
       setError(e instanceof Error ? e.message : "API error");
@@ -63,6 +66,12 @@ export default function Orodha() {
     store.setSelectedWard(w);
     setView("officials");
   };
+
+  // Regions sorted alphabetically (Swahili locale, case-insensitive).
+  const sortedRegions = useMemo(
+    () => [...store.allRegions].sort(byName),
+    [store.allRegions],
+  );
 
   return (
     <div className="font-body animate-fade-in pb-24">
@@ -106,7 +115,7 @@ export default function Orodha() {
 
       {/* Body */}
       {!loading && view === "regions" && (
-        <RegionGrid regions={store.allRegions} onSelect={goRegion} />
+        <RegionGrid regions={sortedRegions} onSelect={goRegion} />
       )}
 
       {!loading && view === "districts" && (
