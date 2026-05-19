@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin } from "lucide-react";
+import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin, Download, Home } from "lucide-react";
 import { mockReports } from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -8,20 +8,48 @@ import { useFollowedList } from "@/hooks/useFollowOfficial";
 import { toast } from "sonner";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import LocationPicker, { type LocationLabels } from "@/components/LocationPicker";
+import { LocationSelectorApi } from "@/components/LocationSelectorApi";
+import { useLocationStore } from "@/store/locationStore";
+import { officials as unifiedOfficials } from "@/data/unified_officials";
+import { downloadVCard } from "@/lib/vcard";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
   const { user, signInWithPhone, verifyOTP, signInAnonymously, signOut, isAnonymous } = useAuth();
   const { items: followed } = useFollowedList();
+  const locStore = useLocationStore();
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [sending, setSending] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
+  const [homeApiOpen, setHomeApiOpen] = useState(false);
   const [savedLoc, setSavedLoc] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null; label: string }>({
     mkoa_id: null, wilaya_id: null, kata_id: null, label: "",
   });
+
+  const exportFollowedVCard = (officialId: string, fallbackName: string) => {
+    const o = unifiedOfficials.find((x) => x.id === officialId);
+    if (!o) {
+      downloadVCard({ fullName: fallbackName });
+      toast.success(lang === "sw" ? "Mawasiliano yamehifadhiwa" : "Contact saved");
+      return;
+    }
+    const phoneContact = o.contacts?.find((c) => c.type === "phone")?.value;
+    const emailContact = o.contacts?.find((c) => c.type === "email")?.value;
+    const addressContact = o.contacts?.find((c) => c.type === "office_address")?.value;
+    downloadVCard({
+      fullName: o.full_name,
+      title: o.role_title,
+      org: (o as { ministry?: string }).ministry || "Government of Tanzania",
+      phone: phoneContact,
+      email: emailContact,
+      address: addressContact,
+      note: o.party ? `Party: ${o.party}` : undefined,
+    });
+    toast.success(lang === "sw" ? "Mawasiliano yamehifadhiwa" : "Contact saved");
+  };
 
   // Load saved location
   useEffect(() => {
@@ -226,15 +254,29 @@ export default function Mimi() {
           <p className="label-eyebrow mb-2 px-1">Ninaowafuatilia</p>
           <div className="space-y-2">
             {followed.slice(0, 5).map((f) => (
-              <Link
+              <div
                 key={f.official_id}
-                to={`/kiongozi/${f.official_id}`}
-                className="gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors"
+                className="gazette-card flex items-center gap-2 px-3 py-2 min-h-[52px]"
               >
-                <BookmarkCheck className="w-5 h-5 text-primary" strokeWidth={1.75} />
-                <span className="flex-1 text-[14px] text-ink truncate">{f.official_name}</span>
-                <ChevronRight className="w-4 h-4 text-text-secondary" />
-              </Link>
+                <Link
+                  to={`/kiongozi/${f.official_id}`}
+                  className="flex items-center gap-3 flex-1 min-w-0 py-1 active:bg-secondary/40 transition-colors rounded-lg px-1"
+                >
+                  <BookmarkCheck className="w-5 h-5 text-primary shrink-0" strokeWidth={1.75} />
+                  <span className="flex-1 text-[14px] text-ink truncate">{f.official_name}</span>
+                </Link>
+                <button
+                  onClick={(e) => { e.preventDefault(); exportFollowedVCard(f.official_id, f.official_name); }}
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-primary active:bg-secondary/60 shrink-0"
+                  aria-label={lang === "sw" ? "Hifadhi mawasiliano" : "Save contact"}
+                  title={lang === "sw" ? "Hifadhi (.vcf)" : "Save (.vcf)"}
+                >
+                  <Download className="w-4 h-4" />
+                </button>
+                <Link to={`/kiongozi/${f.official_id}`} className="w-7 flex items-center justify-center text-text-secondary shrink-0">
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
             ))}
           </div>
         </section>
@@ -271,7 +313,25 @@ export default function Mimi() {
           )}
           <ChevronRight className="w-4 h-4 text-text-secondary" />
         </button>
+        <button
+          onClick={() => setHomeApiOpen(true)}
+          className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
+        >
+          <Home className="w-5 h-5 text-primary" strokeWidth={1.75} />
+          <span className="flex-1 text-[14px] text-ink">
+            {lang === "sw" ? "Nyumbani (API)" : "Home (API)"}
+          </span>
+          {locStore.homeWardCode || locStore.homeDistrictCode || locStore.homeRegionCode ? (
+            <span className="font-code text-[11px] text-text-secondary truncate max-w-[140px]">
+              {[locStore.homeRegionCode, locStore.homeDistrictCode, locStore.homeWardCode].filter(Boolean).join(" › ")}
+            </span>
+          ) : (
+            <span className="text-[12px] text-text-secondary">{lang === "sw" ? "Weka" : "Set"}</span>
+          )}
+          <ChevronRight className="w-4 h-4 text-text-secondary" />
+        </button>
 
+        
         <button
           onClick={handleToggleLang}
           className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
@@ -303,6 +363,48 @@ export default function Mimi() {
               initial={{ mkoa_id: savedLoc.mkoa_id, wilaya_id: savedLoc.wilaya_id, kata_id: savedLoc.kata_id }}
               onChange={handleSaveLocation}
             />
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={homeApiOpen} onOpenChange={setHomeApiOpen}>
+        <SheetContent side="bottom" className="rounded-t-2xl">
+          <SheetHeader>
+            <SheetTitle className="font-serif-display text-[20px]">
+              {lang === "sw" ? "Eneo la Nyumbani" : "Home Location"}
+            </SheetTitle>
+          </SheetHeader>
+          <div className="mt-4 space-y-3">
+            <LocationSelectorApi
+              onSelectionChange={(sel) => {
+                if (sel.region) {
+                  locStore.setHomeLocation(
+                    sel.region.regionCode,
+                    sel.district?.districtCode,
+                    sel.ward?.wardCode,
+                  );
+                }
+              }}
+            />
+            <button
+              onClick={() => {
+                const { selectedRegion, selectedDistrict, selectedWard } = locStore;
+                if (!selectedRegion) {
+                  toast.error(lang === "sw" ? "Chagua mkoa kwanza" : "Pick a region first");
+                  return;
+                }
+                locStore.setHomeLocation(
+                  selectedRegion.regionCode,
+                  selectedDistrict?.districtCode,
+                  selectedWard?.wardCode,
+                );
+                toast.success(lang === "sw" ? "Eneo limehifadhiwa" : "Home saved");
+                setHomeApiOpen(false);
+              }}
+              className="w-full bg-primary text-primary-foreground rounded-xl px-5 py-3 font-ui text-[14px] font-medium min-h-[44px]"
+            >
+              {lang === "sw" ? "Hifadhi" : "Save"}
+            </button>
           </div>
         </SheetContent>
       </Sheet>

@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import LocationsApiBootstrap from "@/components/LocationsApiBootstrap";
 import Tafuta from "./pages/Tafuta";
 import Orodha from "./pages/Orodha";
+import Ripoti from "./pages/Ripoti";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +37,7 @@ const App = () => (
             <Route path="/saka-viongozi" element={<SerikaliDirectory />} />
             <Route path="/directory" element={<Navigate to="/saka-viongozi" replace />} />
             <Route path="/report" element={<Report />} />
-            <Route path="/ripoti" element={<Report />} />
+            <Route path="/ripoti" element={<Ripoti />} />
             <Route path="/tracker" element={<Tracker />} />
             <Route path="/ramani" element={<Ramani />} />
             <Route path="/sauti" element={<Sauti />} />
