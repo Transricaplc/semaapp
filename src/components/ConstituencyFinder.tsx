@@ -12,6 +12,7 @@ import { getAgenciesForRegion, type Agency, type ZonalOffice } from "@/data/agen
 import OfficialCard from "@/components/OfficialCard";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { sortPlaceNames } from "@/lib/placeSort";
 
 const ZANZIBAR_REGIONS = ["Mjini Magharibi", "Kaskazini Unguja", "Kusini Unguja", "Kaskazini Pemba", "Kusini Pemba"];
 
@@ -26,7 +27,7 @@ export default function ConstituencyFinder() {
   const [gpsLoading, setGpsLoading] = useState(false);
   const [resolvedHierarchy, setResolvedHierarchy] = useState<string>("");
 
-  const availableDistricts = region ? districtsByRegion[region] || [] : [];
+  const availableDistricts = region ? sortPlaceNames(districtsByRegion[region] || []) : [];
 
   const handleSearch = () => {
     if (!region) return;
@@ -161,10 +162,10 @@ export default function ConstituencyFinder() {
             className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-3 text-body font-body min-h-[48px]">
             <option value="">— All Regions —</option>
             <optgroup label="MAINLAND TANZANIA">
-              {allRegionNames.filter((m) => !ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+              {sortPlaceNames(allRegionNames.filter((m) => !ZANZIBAR_REGIONS.includes(m))).map((m) => <option key={m} value={m}>{m}</option>)}
             </optgroup>
             <optgroup label="ZANZIBAR">
-              {allRegionNames.filter((m) => ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+              {sortPlaceNames(allRegionNames.filter((m) => ZANZIBAR_REGIONS.includes(m))).map((m) => <option key={m} value={m}>{m}</option>)}
             </optgroup>
           </select>
         </div>

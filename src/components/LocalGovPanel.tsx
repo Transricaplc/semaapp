@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { localGovData, localGovStats, type LocalRegion, type LocalDistrict, type Ward } from "@/data/local_gov";
+import { sortByPlaceKey } from "@/lib/placeSort";
 
 export default function LocalGovPanel() {
   const [search, setSearch] = useState("");
@@ -28,8 +29,17 @@ export default function LocalGovPanel() {
         return null;
       }).filter(Boolean) as LocalRegion[];
     }
-    return data;
+    // Swahili-aware sort: regions → districts → wards.
+    return sortByPlaceKey(data, (r) => r.region_en).map((region) => ({
+      ...region,
+      districts: sortByPlaceKey(region.districts, (d) => d.district_en).map((district) => ({
+        ...district,
+        wards: sortByPlaceKey(district.wards, (w) => w.ward_en),
+      })),
+    }));
   }, [search, selectedRegion]);
+
+  const sortedRegionOptions = useMemo(() => sortByPlaceKey(localGovData, (r) => r.region_en), []);
 
   const totalDistricts = filtered.reduce((n, r) => n + r.districts.length, 0);
   const totalWards = filtered.reduce((n, r) => n + r.districts.reduce((m, d) => m + d.wards.length, 0), 0);
@@ -52,7 +62,7 @@ export default function LocalGovPanel() {
         <select value={selectedRegion} onChange={(e) => setSelectedRegion(e.target.value)}
           className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-3 text-body font-body min-h-[48px]">
           <option value="">All Regions ({localGovData.length})</option>
-          {localGovData.map((r) => <option key={r.region_en} value={r.region_en}>{r.region_en}</option>)}
+          {sortedRegionOptions.map((r) => <option key={r.region_en} value={r.region_en}>{r.region_en}</option>)}
         </select>
       </div>
 

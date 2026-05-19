@@ -71,3 +71,13 @@ export function comparePlaceNames(a: string, b: string): number {
 export function sortByPlaceName<T extends { name: string }>(items: T[]): T[] {
   return [...items].sort((a, b) => comparePlaceNames(a.name, b.name));
 }
+
+/** Sort an array of raw strings by the Swahili-aware place-name comparator. */
+export function sortPlaceNames(items: string[]): string[] {
+  return [...items].sort(comparePlaceNames);
+}
+
+/** Sort by an arbitrary place-name accessor (e.g. region_en, district_en, ward_en). */
+export function sortByPlaceKey<T>(items: T[], get: (item: T) => string): T[] {
+  return [...items].sort((a, b) => comparePlaceNames(get(a), get(b)));
+}

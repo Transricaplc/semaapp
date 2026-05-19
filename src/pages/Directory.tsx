@@ -8,6 +8,7 @@ import {
   allOfficials, allRegions, districtsByRegion, constituenciesByDistrict,
   allParties, allRoles, meta, type OfficialContact,
 } from "@/data/contacts";
+import { comparePlaceNames, sortPlaceNames, sortByPlaceKey } from "@/lib/placeSort";
 
 export default function Directory() {
   const [search, setSearch] = useState("");
@@ -19,8 +20,11 @@ export default function Directory() {
   const [showFilters, setShowFilters] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
 
-  const availableDistricts = selectedRegion ? districtsByRegion[selectedRegion] || [] : [];
-  const availableConstituencies = selectedDistrict ? constituenciesByDistrict[selectedDistrict] || [] : [];
+  const availableDistricts = selectedRegion ? sortPlaceNames(districtsByRegion[selectedRegion] || []) : [];
+  const availableConstituencies = selectedDistrict ? sortPlaceNames(constituenciesByDistrict[selectedDistrict] || []) : [];
+  const sortedRegions = useMemo(() => sortPlaceNames(allRegions), []);
+  const sortedParties = useMemo(() => [...allParties].sort((a, b) => a.localeCompare(b, "sw", { sensitivity: "base" })), []);
+  const sortedRoles = useMemo(() => [...allRoles].sort((a, b) => a.localeCompare(b, "sw", { sensitivity: "base" })), []);
 
   const handleRegionChange = (val: string) => { setSelectedRegion(val); setSelectedDistrict(""); setSelectedConstituency(""); };
   const handleDistrictChange = (val: string) => { setSelectedDistrict(val); setSelectedConstituency(""); };
@@ -43,6 +47,9 @@ export default function Directory() {
   const groupedByRegion = useMemo(() => {
     const groups: Record<string, OfficialContact[]> = {};
     filtered.forEach((o) => { if (!groups[o.region]) groups[o.region] = []; groups[o.region].push(o); });
+    Object.keys(groups).forEach((r) => {
+      groups[r] = sortByPlaceKey(groups[r], (o) => `${o.district} ${o.constituency} ${o.name}`);
+    });
     return groups;
   }, [filtered]);
 
@@ -121,11 +128,11 @@ export default function Directory() {
           <div className="yb-card p-4 md:p-5 mb-6 animate-fade-in">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               {[
-                { label: "Region", value: selectedRegion, onChange: handleRegionChange, options: allRegions, placeholder: "All Regions" },
+                { label: "Region", value: selectedRegion, onChange: handleRegionChange, options: sortedRegions, placeholder: "All Regions" },
                 { label: "District", value: selectedDistrict, onChange: handleDistrictChange, options: availableDistricts, placeholder: selectedRegion ? "All Districts" : "Select region first", disabled: !selectedRegion },
                 { label: "Constituency", value: selectedConstituency, onChange: setSelectedConstituency, options: availableConstituencies, placeholder: selectedDistrict ? "All Constituencies" : "Select district first", disabled: !selectedDistrict },
-                { label: "Party", value: selectedParty, onChange: setSelectedParty, options: allParties, placeholder: "All Parties" },
-                { label: "Role", value: selectedRole, onChange: setSelectedRole, options: allRoles, placeholder: "All Roles" },
+                { label: "Party", value: selectedParty, onChange: setSelectedParty, options: sortedParties, placeholder: "All Parties" },
+                { label: "Role", value: selectedRole, onChange: setSelectedRole, options: sortedRoles, placeholder: "All Roles" },
               ].map((f) => (
                 <div key={f.label}>
                   <label className="text-meta font-body font-medium text-muted-foreground mb-1.5 block">{f.label}</label>
@@ -149,7 +156,7 @@ export default function Directory() {
             <p className="text-meta font-body mt-1">Try adjusting your search or filters</p>
           </div>
         ) : (
-          Object.entries(groupedByRegion).sort(([a], [b]) => a.localeCompare(b)).map(([region, items]) => (
+          Object.entries(groupedByRegion).sort(([a], [b]) => comparePlaceNames(a, b)).map(([region, items]) => (
             <div key={region} className="mb-8">
               <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
                 <MapPin className="w-4 h-4" />
