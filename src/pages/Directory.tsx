@@ -47,6 +47,9 @@ export default function Directory() {
   const groupedByRegion = useMemo(() => {
     const groups: Record<string, OfficialContact[]> = {};
     filtered.forEach((o) => { if (!groups[o.region]) groups[o.region] = []; groups[o.region].push(o); });
+    Object.keys(groups).forEach((r) => {
+      groups[r] = sortByPlaceKey(groups[r], (o) => `${o.district} ${o.constituency} ${o.name}`);
+    });
     return groups;
   }, [filtered]);
 
