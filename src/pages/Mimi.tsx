@@ -42,7 +42,7 @@ export default function Mimi() {
     downloadVCard({
       fullName: o.full_name,
       title: o.role_title,
-      org: o.department || o.ministry || "Government of Tanzania",
+      org: (o as { ministry?: string }).ministry || "Government of Tanzania",
       phone: phoneContact,
       email: emailContact,
       address: addressContact,
