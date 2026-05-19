@@ -21,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="page-shell">
       <div className="page-shell-inner">
+        <LocationsOfflineBanner />
         <main>{children}</main>
 
         {/* ── Pill Bottom Nav — visible on every viewport, lives inside the 430px column ── */}
