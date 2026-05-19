@@ -254,15 +254,29 @@ export default function Mimi() {
           <p className="label-eyebrow mb-2 px-1">Ninaowafuatilia</p>
           <div className="space-y-2">
             {followed.slice(0, 5).map((f) => (
-              <Link
+              <div
                 key={f.official_id}
-                to={`/kiongozi/${f.official_id}`}
-                className="gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors"
+                className="gazette-card flex items-center gap-2 px-3 py-2 min-h-[52px]"
               >
-                <BookmarkCheck className="w-5 h-5 text-primary" strokeWidth={1.75} />
-                <span className="flex-1 text-[14px] text-ink truncate">{f.official_name}</span>
-                <ChevronRight className="w-4 h-4 text-text-secondary" />
-              </Link>
+                <Link
+                  to={`/kiongozi/${f.official_id}`}
+                  className="flex items-center gap-3 flex-1 min-w-0 py-1 active:bg-secondary/40 transition-colors rounded-lg px-1"
+                >
+                  <BookmarkCheck className="w-5 h-5 text-primary shrink-0" strokeWidth={1.75} />
+                  <span className="flex-1 text-[14px] text-ink truncate">{f.official_name}</span>
+                </Link>
+                <button
+                  onClick={(e) => { e.preventDefault(); exportFollowedVCard(f.official_id, f.official_name); }}
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-primary active:bg-secondary/60 shrink-0"
+                  aria-label={lang === "sw" ? "Hifadhi mawasiliano" : "Save contact"}
+                  title={lang === "sw" ? "Hifadhi (.vcf)" : "Save (.vcf)"}
+                >
+                  <Download className="w-4 h-4" />
+                </button>
+                <Link to={`/kiongozi/${f.official_id}`} className="w-7 flex items-center justify-center text-text-secondary shrink-0">
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
             ))}
           </div>
         </section>
