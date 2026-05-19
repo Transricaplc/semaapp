@@ -27,7 +27,7 @@ export default function ConstituencyFinder() {
   const [gpsLoading, setGpsLoading] = useState(false);
   const [resolvedHierarchy, setResolvedHierarchy] = useState<string>("");
 
-  const availableDistricts = region ? districtsByRegion[region] || [] : [];
+  const availableDistricts = region ? sortPlaceNames(districtsByRegion[region] || []) : [];
 
   const handleSearch = () => {
     if (!region) return;
