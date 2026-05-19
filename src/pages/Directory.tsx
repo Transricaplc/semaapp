@@ -128,11 +128,11 @@ export default function Directory() {
           <div className="yb-card p-4 md:p-5 mb-6 animate-fade-in">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               {[
-                { label: "Region", value: selectedRegion, onChange: handleRegionChange, options: allRegions, placeholder: "All Regions" },
+                { label: "Region", value: selectedRegion, onChange: handleRegionChange, options: sortedRegions, placeholder: "All Regions" },
                 { label: "District", value: selectedDistrict, onChange: handleDistrictChange, options: availableDistricts, placeholder: selectedRegion ? "All Districts" : "Select region first", disabled: !selectedRegion },
                 { label: "Constituency", value: selectedConstituency, onChange: setSelectedConstituency, options: availableConstituencies, placeholder: selectedDistrict ? "All Constituencies" : "Select district first", disabled: !selectedDistrict },
-                { label: "Party", value: selectedParty, onChange: setSelectedParty, options: allParties, placeholder: "All Parties" },
-                { label: "Role", value: selectedRole, onChange: setSelectedRole, options: allRoles, placeholder: "All Roles" },
+                { label: "Party", value: selectedParty, onChange: setSelectedParty, options: sortedParties, placeholder: "All Parties" },
+                { label: "Role", value: selectedRole, onChange: setSelectedRole, options: sortedRoles, placeholder: "All Roles" },
               ].map((f) => (
                 <div key={f.label}>
                   <label className="text-meta font-body font-medium text-muted-foreground mb-1.5 block">{f.label}</label>
