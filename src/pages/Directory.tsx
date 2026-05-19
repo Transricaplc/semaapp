@@ -156,7 +156,7 @@ export default function Directory() {
             <p className="text-meta font-body mt-1">Try adjusting your search or filters</p>
           </div>
         ) : (
-          Object.entries(groupedByRegion).sort(([a], [b]) => a.localeCompare(b)).map(([region, items]) => (
+          Object.entries(groupedByRegion).sort(([a], [b]) => comparePlaceNames(a, b)).map(([region, items]) => (
             <div key={region} className="mb-8">
               <div className="bg-yb-charcoal text-primary px-4 py-3 rounded-lg mb-3 flex items-center gap-2 yb-divider">
                 <MapPin className="w-4 h-4" />
