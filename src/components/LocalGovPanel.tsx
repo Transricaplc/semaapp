@@ -29,8 +29,17 @@ export default function LocalGovPanel() {
         return null;
       }).filter(Boolean) as LocalRegion[];
     }
-    return data;
+    // Swahili-aware sort: regions → districts → wards.
+    return sortByPlaceKey(data, (r) => r.region_en).map((region) => ({
+      ...region,
+      districts: sortByPlaceKey(region.districts, (d) => d.district_en).map((district) => ({
+        ...district,
+        wards: sortByPlaceKey(district.wards, (w) => w.ward_en),
+      })),
+    }));
   }, [search, selectedRegion]);
+
+  const sortedRegionOptions = useMemo(() => sortByPlaceKey(localGovData, (r) => r.region_en), []);
 
   const totalDistricts = filtered.reduce((n, r) => n + r.districts.length, 0);
   const totalWards = filtered.reduce((n, r) => n + r.districts.reduce((m, d) => m + d.wards.length, 0), 0);
