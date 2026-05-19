@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import LocationsApiBootstrap from "@/components/LocationsApiBootstrap";
 import Tafuta from "./pages/Tafuta";
 import Orodha from "./pages/Orodha";
+import Ripoti from "./pages/Ripoti";
 
 const queryClient = new QueryClient();
 
