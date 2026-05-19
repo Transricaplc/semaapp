@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { locationsApi, type Region, type District, type Ward, type Place } from "@/lib/locationsApi";
 import { useLocationStore } from "@/store/locationStore";
+import { sortByPlaceName } from "@/lib/placeSort";
 
 interface Props {
   showPlaces?: boolean;
@@ -26,7 +27,7 @@ export function LocationSelectorApi({ showPlaces = false, onSelectionChange, pla
     setLoading((l) => ({ ...l, districts: true }));
     locationsApi
       .getRegionDistricts(store.selectedRegion.regionCode)
-      .then((res) => setDistricts(res.data))
+      .then((res) => setDistricts(sortByPlaceName(res.data)))
       .catch(() => setDistricts([]))
       .finally(() => setLoading((l) => ({ ...l, districts: false })));
   }, [store.selectedRegion?.regionCode]);
@@ -36,7 +37,7 @@ export function LocationSelectorApi({ showPlaces = false, onSelectionChange, pla
     setLoading((l) => ({ ...l, wards: true }));
     locationsApi
       .getDistrictWards(store.selectedDistrict.districtCode)
-      .then((res) => setWards(res.data))
+      .then((res) => setWards(sortByPlaceName(res.data)))
       .catch(() => setWards([]))
       .finally(() => setLoading((l) => ({ ...l, wards: false })));
   }, [store.selectedDistrict?.districtCode]);
@@ -46,7 +47,7 @@ export function LocationSelectorApi({ showPlaces = false, onSelectionChange, pla
     setLoading((l) => ({ ...l, places: true }));
     locationsApi
       .getWardPlaces(store.selectedWard.wardCode)
-      .then((res) => setPlaces(res.data))
+      .then((res) => setPlaces(sortByPlaceName(res.data)))
       .catch(() => setPlaces([]))
       .finally(() => setLoading((l) => ({ ...l, places: false })));
   }, [store.selectedWard?.wardCode, showPlaces]);
