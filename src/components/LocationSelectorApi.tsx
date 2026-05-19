@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { locationsApi, type Region, type District, type Ward, type Place } from "@/lib/locationsApi";
 import { useLocationStore } from "@/store/locationStore";
+import { sortByPlaceName } from "@/lib/placeSort";
 
 interface Props {
   showPlaces?: boolean;
