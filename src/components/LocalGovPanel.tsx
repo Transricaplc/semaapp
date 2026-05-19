@@ -62,7 +62,7 @@ export default function LocalGovPanel() {
         <select value={selectedRegion} onChange={(e) => setSelectedRegion(e.target.value)}
           className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-3 text-body font-body min-h-[48px]">
           <option value="">All Regions ({localGovData.length})</option>
-          {localGovData.map((r) => <option key={r.region_en} value={r.region_en}>{r.region_en}</option>)}
+          {sortedRegionOptions.map((r) => <option key={r.region_en} value={r.region_en}>{r.region_en}</option>)}
         </select>
       </div>
 
