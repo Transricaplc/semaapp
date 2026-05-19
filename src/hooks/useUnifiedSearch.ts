@@ -23,7 +23,18 @@ export function useUnifiedSearch(query: string, debounceMs = 350) {
         supabase
           .from("officials")
           .select("*")
-          .or(`full_name.ilike.%${q}%,role_title.ilike.%${q}%,department.ilike.%${q}%`)
+          .or(
+            [
+              `full_name.ilike.%${q}%`,
+              `role_title.ilike.%${q}%`,
+              `role_title_sw.ilike.%${q}%`,
+              `department.ilike.%${q}%`,
+              `place_name.ilike.%${q}%`,
+              `region_code.ilike.%${q}%`,
+              `district_code.ilike.%${q}%`,
+              `ward_code.ilike.%${q}%`,
+            ].join(","),
+          )
           .limit(8),
         locationsApi.search(q),
       ]);

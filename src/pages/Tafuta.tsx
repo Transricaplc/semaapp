@@ -4,6 +4,7 @@ import { Search, Loader2, MapPin, User, X } from "lucide-react";
 import { useUnifiedSearch } from "@/hooks/useUnifiedSearch";
 import { useLocationStore } from "@/store/locationStore";
 import type { SearchResult } from "@/lib/locationsApi";
+import { resolveAndSelectLocation } from "@/lib/resolveLocation";
 
 const TYPE_LABEL: Record<SearchResult["type"], { sw: string; color: string }> = {
   region:   { sw: "Mkoa",  color: "bg-primary/15 text-foreground" },
@@ -15,15 +16,20 @@ const TYPE_LABEL: Record<SearchResult["type"], { sw: string; color: string }> = 
 export default function Tafuta() {
   const [q, setQ] = useState("");
   const { officialResults, locationResults, loading } = useUnifiedSearch(q);
-  const store = useLocationStore();
+  const [resolving, setResolving] = useState<string | null>(null);
   const navigate = useNavigate();
+  // Subscribe so the component re-renders if the store updates mid-resolve.
+  useLocationStore((s) => s.selectedRegion);
 
-  const handleLocationSelect = (r: SearchResult) => {
-    if (r.type === "region") {
-      const region = store.allRegions.find((x) => x.regionCode === r.code);
-      if (region) store.setSelectedRegion(region);
+  const handleLocationSelect = async (r: SearchResult) => {
+    const key = `${r.type}-${r.id}`;
+    setResolving(key);
+    try {
+      await resolveAndSelectLocation(r);
+      navigate("/orodha");
+    } finally {
+      setResolving(null);
     }
-    navigate("/orodha");
   };
 
   return (
@@ -149,11 +155,13 @@ export default function Tafuta() {
                       {r.breadcrumb}
                     </p>
                   </div>
-                  {r.code && (
+                  {resolving === `${r.type}-${r.id}` ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground" />
+                  ) : r.code ? (
                     <code className="font-mono text-[10px] text-muted-foreground px-1.5 py-0.5 rounded bg-secondary">
                       {r.code}
                     </code>
-                  )}
+                  ) : null}
                 </button>
               );
             })}
