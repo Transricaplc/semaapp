@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Home, Search, Map, Mic, User, Phone } from "lucide-react";
 import { useState } from "react";
 import EmergencyDrawer from "@/components/EmergencyDrawer";
+import LocationsOfflineBanner from "@/components/LocationsOfflineBanner";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const NAV_TABS = [
