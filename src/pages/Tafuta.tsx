@@ -155,11 +155,13 @@ export default function Tafuta() {
                       {r.breadcrumb}
                     </p>
                   </div>
-                  {r.code && (
+                  {resolving === `${r.type}-${r.id}` ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-muted-foreground" />
+                  ) : r.code ? (
                     <code className="font-mono text-[10px] text-muted-foreground px-1.5 py-0.5 rounded bg-secondary">
                       {r.code}
                     </code>
-                  )}
+                  ) : null}
                 </button>
               );
             })}
