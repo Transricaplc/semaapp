@@ -366,6 +366,48 @@ export default function Mimi() {
           </div>
         </SheetContent>
       </Sheet>
+
+      <Sheet open={homeApiOpen} onOpenChange={setHomeApiOpen}>
+        <SheetContent side="bottom" className="rounded-t-2xl">
+          <SheetHeader>
+            <SheetTitle className="font-serif-display text-[20px]">
+              {lang === "sw" ? "Eneo la Nyumbani" : "Home Location"}
+            </SheetTitle>
+          </SheetHeader>
+          <div className="mt-4 space-y-3">
+            <LocationSelectorApi
+              onSelectionChange={(sel) => {
+                if (sel.region) {
+                  locStore.setHomeLocation(
+                    sel.region.regionCode,
+                    sel.district?.districtCode,
+                    sel.ward?.wardCode,
+                  );
+                }
+              }}
+            />
+            <button
+              onClick={() => {
+                const { selectedRegion, selectedDistrict, selectedWard } = locStore;
+                if (!selectedRegion) {
+                  toast.error(lang === "sw" ? "Chagua mkoa kwanza" : "Pick a region first");
+                  return;
+                }
+                locStore.setHomeLocation(
+                  selectedRegion.regionCode,
+                  selectedDistrict?.districtCode,
+                  selectedWard?.wardCode,
+                );
+                toast.success(lang === "sw" ? "Eneo limehifadhiwa" : "Home saved");
+                setHomeApiOpen(false);
+              }}
+              className="w-full bg-primary text-primary-foreground rounded-xl px-5 py-3 font-ui text-[14px] font-medium min-h-[44px]"
+            >
+              {lang === "sw" ? "Hifadhi" : "Save"}
+            </button>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
