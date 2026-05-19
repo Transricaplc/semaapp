@@ -162,10 +162,10 @@ export default function ConstituencyFinder() {
             className="w-full rounded-lg border border-border bg-card text-foreground px-3 py-3 text-body font-body min-h-[48px]">
             <option value="">— All Regions —</option>
             <optgroup label="MAINLAND TANZANIA">
-              {allRegionNames.filter((m) => !ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+              {sortPlaceNames(allRegionNames.filter((m) => !ZANZIBAR_REGIONS.includes(m))).map((m) => <option key={m} value={m}>{m}</option>)}
             </optgroup>
             <optgroup label="ZANZIBAR">
-              {allRegionNames.filter((m) => ZANZIBAR_REGIONS.includes(m)).map((m) => <option key={m} value={m}>{m}</option>)}
+              {sortPlaceNames(allRegionNames.filter((m) => ZANZIBAR_REGIONS.includes(m))).map((m) => <option key={m} value={m}>{m}</option>)}
             </optgroup>
           </select>
         </div>
