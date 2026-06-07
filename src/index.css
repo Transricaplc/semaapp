@@ -492,3 +492,7 @@
   .yb-card { padding: 12px !important; }
 }
 
+
+/* Hide scrollbar for category chip rows */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
