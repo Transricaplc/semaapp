@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin, Download, Home } from "lucide-react";
+import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin, Download, Home, Accessibility } from "lucide-react";
 import { mockReports } from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
