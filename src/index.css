@@ -496,3 +496,26 @@
 /* Hide scrollbar for category chip rows */
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ── ACCESSIBILITY MODES (Feature 11) ── */
+html.mode-large-text { font-size: 18px; line-height: 1.7; }
+html.mode-large-text .text-\[10px\],
+html.mode-large-text .text-\[11px\] { font-size: 13px !important; }
+html.mode-large-text .text-\[12px\],
+html.mode-large-text .text-\[13px\] { font-size: 15px !important; }
+
+html.mode-high-contrast {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --muted: 0 0% 94%;
+  --muted-foreground: 0 0% 25%;
+  --border: 0 0% 40%;
+  --primary: 48 100% 38%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 0 0% 94%;
+}
+html.mode-high-contrast .border-l-primary { border-left-width: 6px; }
+
+html.mode-screen-reader :focus-visible { outline: 3px solid hsl(var(--primary)); outline-offset: 2px; }

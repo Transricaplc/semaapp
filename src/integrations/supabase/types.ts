@@ -192,9 +192,11 @@ export type Database = {
           data_source: string | null
           department: string | null
           district_code: string | null
+          duty_roster: Json | null
           email: string | null
           full_name: string
           id: string
+          is_open_24h: boolean | null
           kata_id: number | null
           lat: number | null
           lng: number | null
@@ -203,6 +205,7 @@ export type Database = {
           mkoa_id: number | null
           ngazi: string | null
           office_address: string | null
+          office_hours: Json | null
           party: string | null
           phone: string | null
           picha_url: string | null
@@ -224,9 +227,11 @@ export type Database = {
           data_source?: string | null
           department?: string | null
           district_code?: string | null
+          duty_roster?: Json | null
           email?: string | null
           full_name: string
           id?: string
+          is_open_24h?: boolean | null
           kata_id?: number | null
           lat?: number | null
           lng?: number | null
@@ -235,6 +240,7 @@ export type Database = {
           mkoa_id?: number | null
           ngazi?: string | null
           office_address?: string | null
+          office_hours?: Json | null
           party?: string | null
           phone?: string | null
           picha_url?: string | null
@@ -256,9 +262,11 @@ export type Database = {
           data_source?: string | null
           department?: string | null
           district_code?: string | null
+          duty_roster?: Json | null
           email?: string | null
           full_name?: string
           id?: string
+          is_open_24h?: boolean | null
           kata_id?: number | null
           lat?: number | null
           lng?: number | null
@@ -267,6 +275,7 @@ export type Database = {
           mkoa_id?: number | null
           ngazi?: string | null
           office_address?: string | null
+          office_hours?: Json | null
           party?: string | null
           phone?: string | null
           picha_url?: string | null

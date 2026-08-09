@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin, Download, Home } from "lucide-react";
+import { ChevronLeft, Settings, ChevronRight, FileText, Users, Sliders, Globe, LogOut, EyeOff, BookmarkCheck, MapPin, Download, Home, Accessibility } from "lucide-react";
 import { mockReports } from "@/data/reports";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -13,6 +13,8 @@ import { useLocationStore } from "@/store/locationStore";
 import { officials as unifiedOfficials } from "@/data/unified_officials";
 import { downloadVCard } from "@/lib/vcard";
 import { supabase } from "@/integrations/supabase/client";
+import { getAccessibilityModes, toggleAccessibilityMode, type AccessibilityMode } from "@/lib/accessibility";
+
 
 export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
@@ -25,7 +27,10 @@ export default function Mimi() {
   const [sending, setSending] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
   const [homeApiOpen, setHomeApiOpen] = useState(false);
+  const [a11yOpen, setA11yOpen] = useState(false);
+  const [a11yModes, setA11yModes] = useState<AccessibilityMode[]>(() => getAccessibilityModes());
   const [savedLoc, setSavedLoc] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null; label: string }>({
+
     mkoa_id: null, wilaya_id: null, kata_id: null, label: "",
   });
 
@@ -331,7 +336,21 @@ export default function Mimi() {
           <ChevronRight className="w-4 h-4 text-text-secondary" />
         </button>
 
-        
+        <button
+          onClick={() => setA11yOpen(true)}
+          className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
+        >
+          <Accessibility className="w-5 h-5 text-primary" strokeWidth={1.75} />
+          <span className="flex-1 text-[14px] text-ink">
+            {lang === "sw" ? "Ufikivu" : "Accessibility"}
+          </span>
+          <span className="text-[12px] text-text-secondary">
+            {a11yModes.length ? `${a11yModes.length}` : lang === "sw" ? "Kawaida" : "Default"}
+          </span>
+          <ChevronRight className="w-4 h-4 text-text-secondary" />
+        </button>
+
+
         <button
           onClick={handleToggleLang}
           className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
@@ -352,6 +371,46 @@ export default function Mimi() {
           <ChevronRight className="w-4 h-4 text-text-secondary" />
         </button>
       </nav>
+
+      <Sheet open={a11yOpen} onOpenChange={setA11yOpen}>
+        <SheetContent side="bottom" className="rounded-t-2xl">
+          <SheetHeader>
+            <SheetTitle className="font-serif-display text-[20px]">
+              {lang === "sw" ? "Ufikivu" : "Accessibility"}
+            </SheetTitle>
+          </SheetHeader>
+          <div className="mt-4 space-y-2 pb-4">
+            {([
+              { mode: "large-text" as const, sw: "Maandishi makubwa", en: "Large text" },
+              { mode: "high-contrast" as const, sw: "Utofautishaji mkubwa", en: "High contrast" },
+              { mode: "screen-reader" as const, sw: "Msaada wa kisomaji skrini", en: "Screen reader aid" },
+            ]).map((opt) => {
+              const active = a11yModes.includes(opt.mode);
+              return (
+                <button
+                  key={opt.mode}
+                  onClick={() => setA11yModes(toggleAccessibilityMode(opt.mode))}
+                  aria-pressed={active}
+                  className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] text-left active:bg-secondary/40"
+                >
+                  <span className="flex-1 text-[14px] text-ink">
+                    {lang === "sw" ? opt.sw : opt.en}
+                  </span>
+                  <span
+                    className={`w-10 h-6 rounded-full flex items-center px-0.5 transition-colors ${
+                      active ? "bg-primary justify-end" : "bg-muted justify-start"
+                    }`}
+                  >
+                    <span className="w-5 h-5 rounded-full bg-card shadow" />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+
 
       <Sheet open={locOpen} onOpenChange={setLocOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl">
