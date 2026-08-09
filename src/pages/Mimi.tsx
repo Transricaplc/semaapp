@@ -13,6 +13,8 @@ import { useLocationStore } from "@/store/locationStore";
 import { officials as unifiedOfficials } from "@/data/unified_officials";
 import { downloadVCard } from "@/lib/vcard";
 import { supabase } from "@/integrations/supabase/client";
+import { getAccessibilityModes, toggleAccessibilityMode, type AccessibilityMode } from "@/lib/accessibility";
+
 
 export default function Mimi() {
   const { t, lang, setLang } = useLanguage();
