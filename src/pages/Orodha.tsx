@@ -258,6 +258,11 @@ function OfficialsForWard() {
                 {o.phone && (
                   <p className="font-mono text-[11px] text-muted-foreground mt-1">{o.phone}</p>
                 )}
+                <div className="mt-1">
+                  <OfficeHoursBadge official={o} />
+                </div>
+                <DutyRosterBadge official={o} />
+
               </div>
               <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 mt-1" />
             </div>
