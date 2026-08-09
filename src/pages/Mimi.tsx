@@ -336,7 +336,21 @@ export default function Mimi() {
           <ChevronRight className="w-4 h-4 text-text-secondary" />
         </button>
 
-        
+        <button
+          onClick={() => setA11yOpen(true)}
+          className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
+        >
+          <Accessibility className="w-5 h-5 text-primary" strokeWidth={1.75} />
+          <span className="flex-1 text-[14px] text-ink">
+            {lang === "sw" ? "Ufikivu" : "Accessibility"}
+          </span>
+          <span className="text-[12px] text-text-secondary">
+            {a11yModes.length ? `${a11yModes.length}` : lang === "sw" ? "Kawaida" : "Default"}
+          </span>
+          <ChevronRight className="w-4 h-4 text-text-secondary" />
+        </button>
+
+
         <button
           onClick={handleToggleLang}
           className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] active:bg-secondary/40 transition-colors text-left"
