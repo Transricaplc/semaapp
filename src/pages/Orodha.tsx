@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronRight, Loader2, MapPin, WifiOff, Users } from "lucide-react";
+import { ChevronRight, Loader2, MapPin, WifiOff, Users, Printer } from "lucide-react";
 import {
   locationsApi,
   type District,
