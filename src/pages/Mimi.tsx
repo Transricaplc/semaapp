@@ -372,6 +372,46 @@ export default function Mimi() {
         </button>
       </nav>
 
+      <Sheet open={a11yOpen} onOpenChange={setA11yOpen}>
+        <SheetContent side="bottom" className="rounded-t-2xl">
+          <SheetHeader>
+            <SheetTitle className="font-serif-display text-[20px]">
+              {lang === "sw" ? "Ufikivu" : "Accessibility"}
+            </SheetTitle>
+          </SheetHeader>
+          <div className="mt-4 space-y-2 pb-4">
+            {([
+              { mode: "large-text" as const, sw: "Maandishi makubwa", en: "Large text" },
+              { mode: "high-contrast" as const, sw: "Utofautishaji mkubwa", en: "High contrast" },
+              { mode: "screen-reader" as const, sw: "Msaada wa kisomaji skrini", en: "Screen reader aid" },
+            ]).map((opt) => {
+              const active = a11yModes.includes(opt.mode);
+              return (
+                <button
+                  key={opt.mode}
+                  onClick={() => setA11yModes(toggleAccessibilityMode(opt.mode))}
+                  aria-pressed={active}
+                  className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] text-left active:bg-secondary/40"
+                >
+                  <span className="flex-1 text-[14px] text-ink">
+                    {lang === "sw" ? opt.sw : opt.en}
+                  </span>
+                  <span
+                    className={`w-10 h-6 rounded-full flex items-center px-0.5 transition-colors ${
+                      active ? "bg-primary justify-end" : "bg-muted justify-start"
+                    }`}
+                  >
+                    <span className="w-5 h-5 rounded-full bg-card shadow" />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+
+
       <Sheet open={locOpen} onOpenChange={setLocOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl">
           <SheetHeader>
