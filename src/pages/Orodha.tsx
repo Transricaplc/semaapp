@@ -11,6 +11,9 @@ import { useLocationStore } from "@/store/locationStore";
 import LocationBreadcrumb from "@/components/LocationBreadcrumb";
 import { useOfficialsByLocation } from "@/hooks/useOfficialsByLocation";
 import { sortByPlaceName } from "@/lib/placeSort";
+import { OfficeHoursBadge, DutyRosterBadge } from "@/components/OfficeHoursBadge";
+import { printWardDirectory } from "@/lib/printWardDirectory";
+
 
 type View = "regions" | "districts" | "wards" | "officials";
 
