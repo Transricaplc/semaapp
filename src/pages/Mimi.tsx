@@ -27,7 +27,10 @@ export default function Mimi() {
   const [sending, setSending] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
   const [homeApiOpen, setHomeApiOpen] = useState(false);
+  const [a11yOpen, setA11yOpen] = useState(false);
+  const [a11yModes, setA11yModes] = useState<AccessibilityMode[]>(() => getAccessibilityModes());
   const [savedLoc, setSavedLoc] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null; label: string }>({
+
     mkoa_id: null, wilaya_id: null, kata_id: null, label: "",
   });
 
