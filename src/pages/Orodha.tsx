@@ -208,11 +208,25 @@ function OfficialsForWard() {
             {ward?.name}
           </p>
         </div>
-        {ward?.wardCode && (
-          <code className="font-mono text-[12px] font-semibold text-foreground px-2 py-1 rounded bg-secondary border border-primary/40">
-            {ward.wardCode}
-          </code>
-        )}
+        <div className="flex items-center gap-2">
+          {officials.length > 0 && (
+            <button
+              onClick={() =>
+                printWardDirectory(officials as any, ward?.name ?? "", ward?.wardCode ?? "")
+              }
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border text-[12px] text-foreground active:opacity-60"
+              aria-label="Pakua orodha ya kata (PDF)"
+            >
+              <Printer className="w-3.5 h-3.5" /> PDF
+            </button>
+          )}
+          {ward?.wardCode && (
+            <code className="font-mono text-[12px] font-semibold text-foreground px-2 py-1 rounded bg-secondary border border-primary/40">
+              {ward.wardCode}
+            </code>
+          )}
+        </div>
+
       </div>
 
       {isLoading && (
