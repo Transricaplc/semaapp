@@ -5,9 +5,10 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { registerServiceWorker } from "@/lib/registerSW";
 import { loadAnalytics } from "@/lib/analytics";
-import { applyAccessibilityModes } from "@/lib/accessibility";
+import { initAccessibilitySync } from "@/lib/accessibility";
 
-applyAccessibilityModes();
+initAccessibilitySync();
+
 
 
 createRoot(document.getElementById("root")!).render(

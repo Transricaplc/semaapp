@@ -13,7 +13,7 @@ import { useLocationStore } from "@/store/locationStore";
 import { officials as unifiedOfficials } from "@/data/unified_officials";
 import { downloadVCard } from "@/lib/vcard";
 import { supabase } from "@/integrations/supabase/client";
-import { getAccessibilityModes, toggleAccessibilityMode, type AccessibilityMode } from "@/lib/accessibility";
+import { useAccessibilityModes } from "@/hooks/useAccessibilityModes";
 
 
 export default function Mimi() {
@@ -28,7 +28,8 @@ export default function Mimi() {
   const [locOpen, setLocOpen] = useState(false);
   const [homeApiOpen, setHomeApiOpen] = useState(false);
   const [a11yOpen, setA11yOpen] = useState(false);
-  const [a11yModes, setA11yModes] = useState<AccessibilityMode[]>(() => getAccessibilityModes());
+  const { modes: a11yModes, isActive: a11yActive, toggle: toggleA11y } = useAccessibilityModes();
+
   const [savedLoc, setSavedLoc] = useState<{ mkoa_id: number | null; wilaya_id: number | null; kata_id: number | null; label: string }>({
 
     mkoa_id: null, wilaya_id: null, kata_id: null, label: "",
@@ -385,12 +386,13 @@ export default function Mimi() {
               { mode: "high-contrast" as const, sw: "Utofautishaji mkubwa", en: "High contrast" },
               { mode: "screen-reader" as const, sw: "Msaada wa kisomaji skrini", en: "Screen reader aid" },
             ]).map((opt) => {
-              const active = a11yModes.includes(opt.mode);
+              const active = a11yActive(opt.mode);
               return (
                 <button
                   key={opt.mode}
-                  onClick={() => setA11yModes(toggleAccessibilityMode(opt.mode))}
+                  onClick={() => toggleA11y(opt.mode)}
                   aria-pressed={active}
+
                   className="w-full gazette-card flex items-center gap-3 px-4 py-3 min-h-[52px] text-left active:bg-secondary/40"
                 >
                   <span className="flex-1 text-[14px] text-ink">
